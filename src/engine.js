@@ -1,5 +1,5 @@
 /* Offline MathStudio v0.1 core, no eval/new Function/network. UMD for Node and file://. */
-(function(root,factory){let deps=typeof module==='object'&&module.exports?{skills:require('./skills.js'),grader:require('./expression_grader.js'),expanded:require('./extended_questions.js')}:{skills:root.MathSkills,grader:root.MathStudioGrader,expanded:root.MathExtendedQuestions};const v=factory(deps);if(typeof module==='object'&&module.exports)module.exports=v;else root.MathEngine=v;})(typeof globalThis==='object'?globalThis:this,function({skills:catalog,grader,expanded}){
+(function(root,factory){let deps=typeof module==='object'&&module.exports?{skills:require('./skills.js'),grader:require('./expression_grader.js'),expanded:require('./extended_questions.js'),advanced:require('./advanced_questions.js')}:{skills:root.MathSkills,grader:root.MathStudioGrader,expanded:root.MathExtendedQuestions,advanced:root.MathAdvancedQuestions};const v=factory(deps);if(typeof module==='object'&&module.exports)module.exports=v;else root.MathEngine=v;})(typeof globalThis==='object'?globalThis:this,function({skills:catalog,grader,expanded,advanced}){
 const rand=(a,b,r=Math.random)=>Math.floor(r()*(b-a+1))+a,choose=(a,r=Math.random)=>a[rand(0,a.length-1,r)];
 const gcd=(a,b)=>b?gcd(b,a%b):Math.abs(a),lcm=(a,b)=>a*b/gcd(a,b);
 const fstr=(n,d)=>{const g=gcd(n,d);return d/g===1?String(n/g):`${n/g}/${d/g}`;};
@@ -12,10 +12,10 @@ function makeQuestion(skill,category='basic',r=Math.random){
  if(!item)throw Error('Unknown skill: '+skill);
  const k=item.kind;
  if(k==='extended')return expanded.makeQuestion(item,category,r);
+ if(k==='advanced')return advanced.makeQuestion(item,category,r);
  const a=rand(2,9,r),b=rand(2,9,r),c=rand(2,8,r),mode=category;
  let x,y,z,answer,prompt,unit='',formula=null,params=null,allowed_constants=[],hint='数量の関係を確認しよう。';
- // Generated question uses independent source quantities for symbolic word grading wherever possible.
- function finish(answer_,prompt_,extra={}){answer=answer_;prompt=prompt_;Object.assign(extra,{answer,prompt});return extra;}
+ // Generated question uses independent source quantities for symbolic word grading wherever possible. function finish(answer_,prompt_,extra={}){answer=answer_;prompt=prompt_;Object.assign(extra,{answer,prompt});return extra;}
  let obj={};
  if(['add1','addcarry','add2'].includes(k)){
   if(k==='add1'){x=rand(1,8,r);y=rand(1,9-x,r);}
@@ -60,13 +60,16 @@ function makeQuestion(skill,category='basic',r=Math.random){
  return out;
 }
 function scoreAnswer(q,input){const t=String(input||'').trim();if(!t)return{status:'incorrect',detail:'未回答'};
+ if(q.inputMode==='choice'){
+    const answer=Number(t);return Number.isInteger(answer)&&answer===q.answer?{status:'correct',detail:'正解'}:{status:'incorrect',detail:'選択が違います'};
+ }
  if(q.inputMode==='formula'){
     if(!grader||!grader.grade)return{status:'needs_review',detail:'数式判定が利用できません'};
     const res=grader.grade({params:q.params,formula:q.formula,allowed_constants:q.allowed_constants},t);
     return res;
  }
  const n=val(t);if(!Number.isFinite(n))return{status:'incorrect',detail:'数値・分数として読み取れません'};
- return Math.abs(n-q.answer)<=1e-9*Math.max(1,Math.abs(q.answer))?{status:'correct',detail:'正解'}:{status:'incorrect',detail:'答えが違います'};
+ return Math.abs(n-q.answer)<=(Number.isInteger(q.answer)?1e-9:1e-6)?{status:'correct',detail:'正解'}:{status:'incorrect',detail:'答えが違います'};
 }
 // Estimated seconds, only prototype heuristics, NOT measured or empirically calibrated.
 function secFor(skill,cat){const g=typeof skill==='string'?catalog.byId[skill].grade:skill.grade;const base={basic:[35,45,55,70],application:[70,85,100,120],word:[110,130,150,180]};return base[cat][Math.min(3,g-1)];}
@@ -74,14 +77,24 @@ function buildTest(skill,seed=Math.random){skill=typeof skill==='string'?catalog
  const cats=['basic','application','word'];const n={basic:5,application:4,word:4};const budget=25*60,spare=120;
  const time=()=>cats.reduce((t,c)=>t+n[c]*secFor(skill,c),spare);
  let loops=0;while(time()<22*60&&loops++<30){const c=cats[loops%3];if(time()+secFor(skill,c)>30*60)break;n[c]++;}
- let questions=[],seen=new Set();
+ let questions=[],seen=new Set(),exhausted=[];
  for(const cat of cats)for(let i=0;i<n[cat];i++){
-  let q,tries=0;do{q=makeQuestion(skill,cat,seed);}while(seen.has(cat+q.prompt)&&++tries<30);
+  let q=null;
+  for(let tries=0;tries<80;tries++){
+   const candidate=makeQuestion(skill,cat,seed);
+   if(!seen.has(cat+candidate.prompt)){q=candidate;break;}
+  }
+  // A fixed definition question must not be repeated just to fill a nominal
+  // 25-minute slot. Record a limited bank and use the actual smaller test.
+  if(!q){exhausted.push(cat);break;}
   seen.add(cat+q.prompt);questions.push(q);
  }
  // Shuffle deterministic for injected pseudo-random testing.
  for(let i=questions.length-1;i>0;i--){const j=rand(0,i,seed);[questions[i],questions[j]]=[questions[j],questions[i]];}
- return {mode:'master',skillId:skill.id,questions,targetSeconds:time(),estimatedSeconds:time()-spare,createdAt:Date.now()};
+ const estimated=questions.reduce((sum,q)=>sum+secFor(skill,q.category),0);
+ const seconds=Math.min(30*60,Math.max(90,estimated+spare));
+ return {mode:'master',skillId:skill.id,questions,targetSeconds:seconds,estimatedSeconds:estimated,
+   limitedQuestionBank:exhausted.length>0,createdAt:Date.now()};
 }
 function gradeTest(test,answers,elapsedSeconds){const results=test.questions.map((q,i)=>scoreAnswer(q,answers[i]||''));
  const n={basic:0,application:0,word:0},ok={basic:0,application:0,word:0};
