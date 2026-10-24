@@ -11,7 +11,7 @@ async def main():
   await page.set_content('<html><head><meta charset="utf-8"></head><body><div id="app"></div></body></html>')
   await page.add_style_tag(content=(R/'src/style.css').read_text())
   await page.evaluate("""() => {const data={};Object.defineProperty(window,'localStorage',{configurable:true,value:{getItem:k=>data[k]||null,setItem:(k,v)=>{data[k]=v},removeItem:k=>delete data[k]}})}""")
-  for f in ['skills.js','expression_grader.js','engine.js','catalog.js','tech_tree.js','app.js']:
+  for f in ['skills.js','expression_grader.js','engine.js','catalog.js','dependency_path.js','tech_tree.js','app.js']:
    await page.add_script_tag(content=(R/'src'/f).read_text())
   await page.locator('[data-act=begin]').click()
   for i in range(60):
