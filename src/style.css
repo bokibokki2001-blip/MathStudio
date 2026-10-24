@@ -115,3 +115,92 @@ html.math-tree-page,html.math-tree-page body{height:100%;overflow:hidden}
 .skill-dialog .req-button{border:1px solid #c5d6ed;background:#f3f7fe;color:#344a6e;cursor:pointer;font:inherit;font-size:.76rem;text-align:left;padding:5px 9px;border-radius:8px}
 .skill-dialog .req-button:hover{background:#dfeafc}
 .skill-dialog .status.planned{background:#ebedf3;color:#63728a}
+
+/* v0.1.5 — Give the tree its viewport, and the edges their own gutters. */
+html.math-tree-page,html.math-tree-page body{height:100%;overflow:hidden}
+.shell.shell-tree{
+  width:100%;max-width:none;height:100dvh;margin:0;padding:5px 8px 7px;gap:5px;
+  display:grid;grid-template-columns:minmax(185px,1fr) auto minmax(190px,1fr);
+  grid-template-rows:40px minmax(0,1fr);overflow:hidden;
+}
+.shell-tree>.topbar{grid-column:1;grid-row:1;margin:0;min-width:0;min-height:0;gap:4px;justify-content:flex-start}
+.shell-tree .logo{height:31px;width:31px;border-radius:9px;font-size:17px;box-shadow:none}
+.shell-tree .brand{gap:7px}
+.shell-tree .brand strong{font-size:.99rem;line-height:1.05}
+.shell-tree .brand small{display:none}
+.shell-tree .top-actions{margin-left:auto;gap:3px}
+.shell-tree .top-actions .pill{display:none}
+.shell-tree .top-actions .btn{padding:4px 7px;font-size:.66rem}
+.shell-tree>.tree-overview{grid-column:3;grid-row:1;min-width:0;min-height:0;justify-content:flex-end;gap:4px}
+.shell-tree .tree-overview>div:first-child{display:none!important}
+.shell-tree .tree-summary{gap:4px;flex-wrap:nowrap}
+.shell-tree .tree-summary .pill{padding:3px 7px;font-size:.68rem}
+.shell-tree .tree-summary .pill:first-child,.shell-tree .tree-summary .pill:nth-child(4){display:none}
+.shell-tree .tree-summary .btn{padding:5px 8px;font-size:.7rem;white-space:nowrap}
+.shell-tree>.nav{grid-column:2;grid-row:1;margin:0;align-self:center;padding:2px;min-width:0;min-height:0;gap:2px}
+.shell-tree .nav button{padding:6px 9px;font-size:.76rem;white-space:nowrap}
+.shell-tree>.tech-wrap{grid-column:1/-1;grid-row:2;min-width:0;min-height:0;height:100%;border-radius:10px;margin:0;box-shadow:none;display:flex;flex-direction:column}
+.shell-tree .tech-toolbar{position:relative;z-index:12;display:flex;align-items:center;flex-wrap:nowrap;min-height:38px;height:38px;padding:4px 8px;gap:7px;flex:0 0 auto;background:#f2f6fd}
+.shell-tree .tech-tooltitle{display:block;font-size:.81rem;color:#3a5178;font-weight:900;white-space:nowrap}
+.shell-tree .tech-range-label{display:none}
+.shell-tree .tech-range-select{min-width:135px;max-width:185px;height:29px;padding:3px 7px;font-size:.72rem}
+.shell-tree .tech-search{flex:1 1 120px;min-width:85px;max-width:340px;display:flex;gap:3px}
+.shell-tree .tech-search input{height:29px;min-width:0;width:100%;font-size:.76rem}
+.shell-tree .tech-search .btn{padding:4px 7px;font-size:.71rem}
+.shell-tree .tech-controls{margin-left:auto;flex:0 0 auto;gap:3px}
+.shell-tree .tech-controls .btn{padding:4px 8px;min-height:28px;height:28px;border-radius:7px;font-size:.74rem}
+.shell-tree .tech-controls .map-zoom-value{min-width:35px;font-size:.75rem}
+.shell-tree .tech-legend{position:relative;flex:0 0 auto;z-index:15;display:block;overflow:visible;padding:0;border:0;background:transparent;font-size:.73rem;min-height:0}
+.shell-tree .tech-legend summary{list-style:none;white-space:nowrap;border:1px solid #c7d5e8;background:#fff;color:#546b8a;border-radius:7px;padding:4px 8px;cursor:pointer}
+.shell-tree .tech-legend summary::-webkit-details-marker{display:none}
+.shell-tree .tech-legend[open] .tech-legend-content{position:absolute;top:calc(100% + 8px);right:0;min-width:176px;padding:10px;display:flex;flex-direction:column;align-items:flex-start;gap:7px;border:1px solid #ccd8e9;background:#fff;box-shadow:0 7px 25px #273b5860;border-radius:10px;white-space:nowrap}
+.shell-tree .tech-legend-content>span{display:inline-flex;align-items:center;gap:6px}
+.shell-tree .tech-map-viewport{flex:1 1 auto;min-height:0;overflow:hidden}
+.shell-tree .tech-grade-overlay{flex:0 0 43px;height:43px;box-shadow:0 2px 5px #263c5940}
+.shell-tree .tech-grade-strip{height:43px!important}
+.shell-tree .grade-fixed{height:43px;gap:0}
+.shell-tree .grade-fixed span{font-size:.48rem;line-height:1}
+.shell-tree .grade-fixed strong{font-size:.84rem;line-height:1.15}
+.shell-tree .grade-fixed small{font-size:.56rem;line-height:1.15}
+.shell-tree .tech-map-scroll{background:#f3f6fc;overflow:auto;scrollbar-gutter:stable;scrollbar-width:thin}
+.tech-canvas .tech-node{border-left-width:5px;padding:8px 10px 6px;border-radius:10px;gap:2px}
+.tech-canvas .tech-node-name{font-size:.86rem;line-height:1.25;font-weight:800;min-height:28px;-webkit-line-clamp:2;overflow:hidden}
+.tech-canvas .tech-node-meta{font-size:.65rem;max-width:124px}
+.tech-canvas .tech-status{font-size:.58rem;max-width:91px;padding:2px 5px}
+.tech-canvas .tech-node-bottom{gap:6px;min-height:13px}
+.tech-canvas .tech-gem{height:14px;width:12px}
+.tech-canvas .tech-gems{gap:5px}
+.tech-canvas .tech-reason{font-size:.57rem}
+.tech-canvas .tech-link{stroke:#91a3bb;stroke-width:1.8;opacity:.38;stroke-linejoin:round;stroke-linecap:round}
+.tech-canvas .tech-link.cross-lane{stroke-dasharray:none}
+.tech-canvas .tech-link.highlight{stroke:#ce791f;stroke-width:3.25;opacity:1;stroke-dasharray:none}
+.shell-tree .tech-map-foot{display:none}
+.shell-tree .footer{display:none}
+@media(max-width:1050px){
+ .shell.shell-tree{grid-template-columns:minmax(150px,1fr) auto;grid-template-rows:35px 32px minmax(0,1fr);gap:4px}
+ .shell-tree>.topbar{grid-row:1;grid-column:1}
+ .shell-tree>.tree-overview{grid-row:1;grid-column:2}
+ .shell-tree>.nav{grid-column:1/-1;grid-row:2;justify-self:start}
+ .shell-tree>.tech-wrap{grid-column:1/-1;grid-row:3}
+ .shell-tree .tree-overview .btn{display:none}
+}
+@media(max-width:650px){
+ .shell.shell-tree{padding:4px;gap:3px}
+ .shell-tree .tech-tooltitle{display:none}
+ .shell-tree .tech-range-select{min-width:102px;max-width:125px}
+ .shell-tree .tech-search .btn{display:none}
+ .shell-tree .tech-toolbar{gap:3px;padding:3px 4px}
+ .shell-tree .tech-controls .btn{padding:3px 6px}
+ .shell-tree .tech-controls .btn[data-act="map-fit"]{display:none}
+ .shell-tree .tech-legend{display:none}
+ .shell-tree .tree-overview .pill:nth-child(3){display:none}
+}
+
+/* Keep controls on one line even when the search box takes the spare width. */
+.shell-tree .tech-search .btn{flex:0 0 auto;white-space:nowrap;min-width:42px}
+.shell-tree .tech-search input{flex:1 1 0;width:auto}
+.shell-tree .tech-controls .btn{white-space:nowrap}
+@media(max-width:950px){.shell-tree .tech-tooltitle{display:none}.shell-tree .tech-range-select{min-width:106px;max-width:147px}}
+
+/* A pointer preview clarifies dependencies without opening a dialog. */
+.tech-canvas .tech-link.hover{stroke:#2672cb;stroke-width:3.25;opacity:1;stroke-dasharray:none}
