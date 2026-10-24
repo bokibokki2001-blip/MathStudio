@@ -1,4 +1,4 @@
-# TESTING — MathStudio v0.1.4
+# TESTING — MathStudio v0.1.5
 
 ## 通過済
 - `node tests/run.js`：15技能×3分類×150回、計6,750件の問題生成・採点、11スイート。前提連鎖、4宝石、速度、旧文章題の誤判定修正を含む。
