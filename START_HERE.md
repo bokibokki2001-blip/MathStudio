@@ -1,4 +1,4 @@
-# MathStudio v0.1.4 — 最初に読む
+# MathStudio v0.1.5 — 最初に読む
 
 自宅PCのChrome/Edgeで単独HTML版を開いて使用します。学校管理Chromebookやi-Filterの利用制限を迂回する変更はありません。
 
