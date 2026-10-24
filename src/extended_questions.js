@@ -1,4 +1,4 @@
-/* MathStudio v0.1.8 — hand-authored families for the new curriculum skills.
+/* MathStudio v0.1.9 — hand-authored families for the new curriculum skills.
    A template is NOT considered reliable without the dedicated test battery.
    All numbers and answers remain generated locally, with no network/API calls. */
 (function(root,factory){const v=factory();if(typeof module==='object'&&module.exports)module.exports=v;else root.MathExtendedQuestions=v;})(typeof globalThis==='object'?globalThis:this,function(){
