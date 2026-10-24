@@ -1,0 +1,881 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><title>MathStudio v0.1.6 — 単独ファイル版</title><style>:root{--ink:#20304a;--muted:#65758b;--blue:#365ed6;--line:#dce5ef;--bg:#f4f6fd;--white:#fff;--green:#15805e;--shadow:0 12px 36px rgba(28,55,112,.07);font-family:system-ui,-apple-system,'Noto Sans JP','Yu Gothic',sans-serif;color:var(--ink);background:var(--bg);line-height:1.55}*{box-sizing:border-box}body{margin:0}button,input,select,textarea{font:inherit}button{cursor:pointer}button:disabled{cursor:not-allowed;opacity:.45}button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid #91abff;outline-offset:2px}h1,h2,h3,p{margin-top:0}h1{font-size:1.35rem;letter-spacing:-.03em}h2{font-size:1.13rem}h3{font-size:1rem;margin-bottom:8px}p{line-height:1.7}.shell{max-width:1180px;padding:22px 22px 54px;margin:auto}.topbar{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-bottom:20px}.brand{display:flex;align-items:center;gap:12px;cursor:pointer}.logo{width:45px;height:45px;display:grid;place-items:center;border-radius:14px;background:linear-gradient(130deg,#2f5be3,#b77bdb);color:white;font-weight:900;font-size:24px;box-shadow:0 7px 18px #6480cc55}.brand strong{font-size:1.24rem;letter-spacing:-.03em}.brand small{display:block;color:var(--muted);font-size:.74rem}.top-actions{display:flex;gap:8px;flex-wrap:wrap}.pill{font-size:.75rem;color:#5f6d84;background:#eaf0f8;border-radius:100px;padding:5px 11px}.btn{background:var(--blue);border:1px solid var(--blue);color:white;font-weight:700;padding:11px 17px;border-radius:12px;box-shadow:0 4px 11px #4a64b322}.btn:hover{filter:brightness(.96)}.btn.secondary{color:#354769;background:white;border-color:var(--line);box-shadow:none}.btn.soft{color:#3157a6;background:#e9eeff;border-color:#e1e8ff;box-shadow:none}.btn.danger{color:#a93445;border:1px solid #ecc4cb;background:#fff5f6;box-shadow:none}.btn.small{font-size:.83rem;padding:7px 12px;border-radius:9px}.page-title{display:flex;align-items:end;justify-content:space-between;gap:15px;flex-wrap:wrap;margin-bottom:18px}.subtitle,.muted{color:var(--muted)}.subtitle{font-size:.9rem}.card{background:white;border:1px solid var(--line);border-radius:19px;box-shadow:var(--shadow);padding:22px}.card+.card{margin-top:15px}.grid2{display:grid;grid-template-columns:1.14fr .86fr;gap:18px}.grid2.equal{grid-template-columns:1fr 1fr}.flex{display:flex;align-items:center;gap:10px}.between{justify-content:space-between}.stack{display:grid;gap:13px}.notice{font-size:.86rem;padding:11px 14px;border-radius:12px;background:#edf4ff;border:1px solid #d4e2ff;color:#36548a}.notice.warn{background:#fff9e9;border-color:#f6e5b0;color:#806529}.notice.good{background:#eaf8f2;border-color:#bce8d6;color:#1a7355}.kicker{letter-spacing:.11em;text-transform:uppercase;font-size:.7rem;font-weight:800;color:#5a75b6}.hero{background:linear-gradient(135deg,#eaf0ff 0%,#ffffff 75%);border:1px solid #dbe5ff;border-radius:20px;padding:24px;margin-bottom:20px}.hero h1{font-size:1.7rem;margin-bottom:6px}.hero p{margin-bottom:0}.statgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{background:#f5f8fd;padding:16px;border-radius:14px}.stat strong{font-size:1.65rem;display:block;font-variant-numeric:tabular-nums}.stat small{color:var(--muted)}.nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:17px}.nav button{border:0;background:#e8edf6;color:#465977;padding:10px 16px;border-radius:11px;font-weight:700}.nav button.active{background:#344f9e;color:white}.track{margin-top:24px}.track-header{display:flex;align-items:center;gap:10px;font-weight:800;margin-bottom:10px}.track-header span{width:33px;height:33px;border-radius:10px;display:grid;place-items:center;background:#eaf0ff;color:#4462bc;font-size:1.3rem}.skill-strip{display:flex;gap:13px;overflow-x:auto;padding:4px 5px 16px}.skill-card{min-width:207px;max-width:207px;text-align:left;border-radius:15px;background:white;border:1px solid #dce5ef;padding:15px;box-shadow:0 5px 16px #2d4e7a0b;position:relative;flex-shrink:0;color:var(--ink)}.skill-card:before{content:'→';position:absolute;top:48%;right:-14px;color:#a4b5c9;font-size:17px;z-index:1}.skill-card:last-child:before{display:none}.skill-card:hover{border-color:#819be9}.skill-card.locked{opacity:.63;background:#f5f7f9}.skill-card.master{background:#f0fcf7;border-color:#87d4b0}.skill-card.pending{background:#fffaf1;border-color:#dfc991}.skill-card.licensed{border-color:#8eabe9}.skill-grade{color:#7584a0;font-size:.72rem}.skill-name{font-weight:800;font-size:.9rem;min-height:44px;margin-top:3px}.skill-foot{font-size:.72rem;margin-top:9px;color:var(--muted)}.gems{display:flex;align-items:center;gap:9px;flex-wrap:wrap}.gem-box{text-align:center;min-width:44px}.gem{--gem:#97a1b4;width:29px;height:33px;display:block;margin:auto;position:relative;clip-path:polygon(25% 0%,75% 0%,100% 28%,85% 80%,50% 100%,15% 80%,0 28%);background:linear-gradient(130deg,#fff8,var(--gem) 32%,#091a2855 72%,var(--gem));border:0;filter:drop-shadow(0 1px 2px #51607133)}.gem:after{content:'';position:absolute;inset:5px 8px 10px 7px;background:#ffffff70;clip-path:polygon(0 0,100% 0,35% 100%)}.gem.gray{filter:grayscale(1);opacity:.29}.gem.bright{filter:drop-shadow(0 0 5px var(--gem)) saturate(1.4)}.gem-box label{display:block;margin-top:5px;font-size:.63rem;color:var(--muted)}.gem-box b{font-size:.72rem}.gem.small{width:17px;height:19px}.seal{width:47px;height:47px;display:grid;place-items:center;flex-shrink:0;border:2px solid #b3c1d7;border-radius:50%;font-weight:900;color:#b1bece;background:#fff;box-shadow:inset 0 0 0 3px #f3f6fb}.seal.master{border-color:#d6ac48;color:#9c6410;background:radial-gradient(circle,#fff9d9,#f5dfa3);box-shadow:0 0 15px #ffdd785c,inset 0 0 0 3px #fff3cd}.seal.pending{border-color:#d6af70;background:#fff8e9;color:#ab8749}.seal.license{color:#4c72ae;border-color:#adc2e6;background:#f1f6ff}.status{font-size:.77rem;font-weight:800;border-radius:25px;padding:4px 9px;background:#f0f3f8;color:#64758a;white-space:nowrap}.status.master{background:#e1f6ec;color:#087c55}.status.pending{background:#fff0d6;color:#985f22}.status.licensed{background:#e7efff;color:#3359a4}.skill-detail{display:grid;gap:14px}.requirements{font-size:.86rem;color:#65758a}.req-links{display:flex;flex-wrap:wrap;gap:6px}.req{font-size:.79rem;padding:7px 9px;background:#f0f4fa;border-radius:8px}.progress{height:9px;background:#e8edf4;border-radius:20px;overflow:hidden;margin:5px 0}.progress>div{height:100%;background:linear-gradient(90deg,#819ae2,#466ddd);border-radius:20px}.metricrow{display:grid;grid-template-columns:80px 1fr 46px;align-items:center;gap:11px;font-size:.83rem;padding:7px 0}.field{display:grid;gap:6px;margin:0 0 14px}.field label{font-weight:800;font-size:.86rem}.field input,.field select,.answer-input{width:100%;border:1px solid #cbd8e8;padding:12px;border-radius:12px;background:white;color:#24354d}.answer-input{font-size:1.16rem}.answer-input.formula{min-height:112px;resize:vertical;font-family:ui-monospace,Consolas,monospace}.hint{font-size:.81rem;color:var(--muted)}.question{background:#f7f9fd;border:1px solid #e6ebf5;border-radius:17px;padding:22px;margin:16px 0}.question p{font-size:1.21rem;font-weight:750;margin-bottom:0;line-height:1.8}.tag{border-radius:100px;font-size:.74rem;padding:4px 10px;background:#e6edff;color:#4764af;font-weight:800}.counter{color:var(--muted);font-size:.85rem}.qnav{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;margin:16px 0}.qnav button{width:33px;height:33px;border:1px solid #d5deec;background:white;border-radius:10px;color:#59708a;font-size:.76rem}.qnav button.filled{background:#e9f0ff;border-color:#99b3fa}.qnav button.current{background:#385fcd;color:white;border-color:#385fcd}.timer{font-variant-numeric:tabular-nums;font-weight:900;font-size:1.55rem}.divider{height:1px;background:var(--line);margin:20px 0}.result-line{padding:12px 0;border-bottom:1px solid #e9eef6}.result-line:last-child{border:0}.result-line.ok{border-left:3px solid #29a67b;padding-left:12px}.result-line.bad{border-left:3px solid #d9686e;padding-left:12px}.result-line.review{border-left:3px solid #d6a94d;padding-left:12px}.result-prompt{font-size:.89rem;font-weight:700}.result-detail{font-size:.82rem;color:var(--muted)}.history-chart{width:100%;max-height:250px}.tabular{font-variant-numeric:tabular-nums}.footer{text-align:center;margin-top:32px;font-size:.76rem;color:#8290a1}.smallnote{font-size:.74rem;color:#8995a6}.diag-dots{display:flex;gap:8px;flex-wrap:wrap}.diag-dots span{padding:6px 10px;border-radius:20px;background:#eef2f8;font-size:.77rem}.diag-dots span.active{background:#dce8ff;color:#355fba;font-weight:800}.diag-dots span.done{background:#e1f5eb;color:#12815e}.loading{padding:50px;text-align:center}input[type=file]{width:100%}@media(max-width:760px){.shell{padding:13px 12px 30px}.grid2,.grid2.equal{grid-template-columns:1fr}.card{padding:16px}.hero{padding:18px}.topbar{align-items:flex-start}.top-actions{justify-content:flex-end}.stat strong{font-size:1.26rem}.stat{padding:10px}.skill-card{min-width:188px;max-width:188px}.question{padding:18px}.question p{font-size:1.08rem}.gem-box{min-width:37px}}
+/* Prevent long horizontal skill strips from collapsing the detail panel. */
+.grid2{grid-template-columns:minmax(0,1.14fr) minmax(310px,.86fr)}.grid2.equal{grid-template-columns:repeat(2,minmax(0,1fr))}.grid2>*{min-width:0}.skill-strip{max-width:100%}
+@media(max-width:760px){.grid2,.grid2.equal{grid-template-columns:minmax(0,1fr)}}
+/* v0.1.2: Civ-inspired, factual prerequisite DAG; eras represent school grades. */
+.tech-wrap{margin-top:18px;background:#fff;border:1px solid #d6e1ee;border-radius:19px;box-shadow:var(--shadow);overflow:hidden}
+.tech-toolbar{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;padding:16px 20px 10px;background:#eef3fc}
+.tech-tooltitle{display:grid;gap:2px}.tech-tooltitle strong{color:#283e64;font-size:1.04rem}.tech-tooltitle span{font-size:.79rem;color:#627590}
+.tech-controls{display:flex;gap:6px;align-items:center}.map-zoom-value{min-width:40px;text-align:center;font-weight:800;font-size:.81rem;color:#4a5e7b}
+.tech-legend{display:flex;align-items:center;gap:15px;flex-wrap:wrap;padding:11px 20px;font-size:.74rem;color:#677993;background:#f9fbfe;border-bottom:1px solid #dee6f0}
+.tech-legend>span{display:inline-flex;align-items:center;gap:5px}.legend-dot{display:inline-block;width:10px;height:10px;border-radius:50%;background:#e5eaf2;border:1px solid #b8c6d9}.legend-dot.master{background:#28a77c;border-color:#229b71}.legend-dot.licensed{background:#5084e5;border-color:#3474df}.legend-dot.open{background:#fff5da;border-color:#d9aa53}.legend-dot.locked{background:#d7dde7;border-color:#a7b2c5}.legend-line{display:inline-block;width:24px;border-top:3px solid #9db0c7}
+.tech-map-scroll{height:min(65vh,720px);min-height:460px;overflow:auto;overscroll-behavior:contain;background:#f3f6fc;scrollbar-width:thin;scrollbar-color:#abbcda #e5ebf4}
+.tech-map-scroll:focus-visible{outline:3px solid #5878df;outline-offset:-4px}
+.tech-canvas{position:relative;isolation:isolate;font-family:system-ui,-apple-system,'Noto Sans JP','Yu Gothic',sans-serif}
+.era-band{position:absolute;top:0;z-index:-3;border-right:2px solid #d6dfec}.era-even{background:#ecf1f8}.era-odd{background:#f6f8fc}.era-future{background:repeating-linear-gradient(135deg,#f0f3f7,#f0f3f7 16px,#e9eff6 16px,#e9eff6 32px)}
+.era-head{height:80px;display:grid;justify-items:center;align-content:center;border-bottom:2px solid #cbd7e7;background:linear-gradient(180deg,#dce7fb,#edf3fc);color:#334e79}.era-head strong{font-size:1.23rem}.era-head small{font-size:.68rem;color:#7385a1}.era-index{font-size:.55rem;font-weight:900;letter-spacing:.17em;color:#627ca7}.era-future .era-head{background:linear-gradient(180deg,#e8edf5,#f3f5f8);color:#8490a2}
+.tech-lane{position:absolute;left:0;border-bottom:2px dashed #cad6e9;pointer-events:none}.lane-label{position:absolute;left:7px;top:18px;width:99px;display:grid;justify-items:center;gap:7px;font-size:.82rem;color:#435f8a;font-weight:900;text-align:center;line-height:1.25}.lane-label strong{display:grid;place-items:center;width:40px;height:40px;background:#e0eafa;border-radius:13px;color:#3d67c1;font-size:1.35rem}
+.tech-edges{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;overflow:visible}.tech-link{fill:none;stroke:#9eafc7;stroke-width:2.2;opacity:.9;stroke-linecap:round}.tech-link.cross-lane{stroke-dasharray:8 5}.tech-link.complete{stroke:#64bb99}.tech-link.highlight{stroke:#d78d37;stroke-width:3.8;opacity:1;stroke-dasharray:none}
+.tech-node{position:absolute;z-index:1;border:1.5px solid #bed0e6;border-left:6px solid #7395ca;border-radius:13px;padding:11px 11px 9px;text-align:left;display:flex;flex-direction:column;justify-content:space-between;background:#fff;box-shadow:0 5px 16px #3d568126;color:#2b3f5c;transition:box-shadow .15s,border-color .15s,transform .15s}.tech-node:hover{z-index:2;transform:translateY(-2px);box-shadow:0 10px 24px #47619e4a}.tech-node:focus-visible{z-index:3;outline:3px solid #3463d1;outline-offset:3px}.tech-node.selected{border-color:#d78d37;box-shadow:0 0 0 4px #f6cf8266,0 8px 23px #2d4f7540;z-index:2}.tech-node.master{background:#e8fbf3;border-left-color:#24a878}.tech-node.licensed{background:#edf3ff;border-left-color:#477fdb}.tech-node.pending{background:#fff8ea;border-left-color:#d8a75e}.tech-node.locked{background:#f4f5f9;border-left-color:#acb9c7;color:#79859a}.tech-node-top,.tech-node-bottom{display:flex;justify-content:space-between;align-items:center;gap:5px}.tech-node-meta{font-size:.66rem;color:#8292ab}.tech-node-name{font-size:.91rem;font-weight:900;line-height:1.3;min-height:37px;display:flex;align-items:center}.tech-status{font-size:.64rem;font-weight:850;color:#4e6686;background:#e8eef7;padding:2px 6px;border-radius:99px;white-space:nowrap}.tech-status.master{background:#b9efd6;color:#167759}.tech-status.licensed{background:#c9daff;color:#315cb0}.tech-status.pending{background:#ffedc6;color:#875e1e}.tech-status.locked{background:#e2e5ed;color:#798398}.tech-gems{display:inline-flex;gap:6px;align-items:center}.tech-gem{display:inline-block;height:17px;width:14px;background:var(--stone);clip-path:polygon(50% 0,100% 40%,82% 86%,50% 100%,18% 86%,0 40%);filter:saturate(.7);opacity:.78}.tech-gem.empty{background:#bfc9d6;opacity:.4}.tech-gem.bright{filter:drop-shadow(0 0 5px var(--stone)) saturate(1.3);opacity:1}.tech-reason{font-size:.59rem;color:#8b99ad;white-space:nowrap}
+.tech-map-foot{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:10px 19px;font-size:.72rem;color:#657b9b;background:#f3f7fd;border-top:1px solid #dce5f1}
+#detail-pane{margin-top:17px;max-width:100%}
+@media(max-width:760px){.tech-toolbar{padding:11px}.tech-legend{gap:8px;padding:10px}.tech-map-scroll{height:58vh}.tech-map-foot{padding:8px 11px}}
+/* v0.1.3: desktop learning-map viewport; no page-level vertical scrolling. */
+html.math-tree-page,html.math-tree-page body{height:100%;overflow:hidden}
+.shell.shell-tree{height:100dvh;max-width:none;width:100%;margin:0;padding:10px 14px 11px;display:flex;flex-direction:column;gap:9px;overflow:hidden}
+.shell-tree>.topbar{margin:0;flex:0 0 auto;min-height:42px}
+.shell-tree .logo{height:39px;width:39px;border-radius:11px;font-size:20px}
+.shell-tree .brand strong{font-size:1.13rem}
+.shell-tree .nav{margin:0;flex:0 0 auto;padding:3px 4px;border-radius:13px;gap:3px}
+.shell-tree .nav button{padding:7px 16px;font-size:.82rem}
+.tree-overview{display:flex;justify-content:space-between;align-items:center;gap:12px;flex:0 0 auto;min-height:32px}
+.tree-overview h1{font-size:1.12rem;margin:0;white-space:nowrap}
+.tree-overview .tree-subtitle{font-size:.75rem;color:var(--muted);margin-left:10px}
+.tree-overview .tree-summary{display:flex;gap:7px;align-items:center;justify-content:flex-end;flex-wrap:wrap}
+.tree-overview .tree-summary .pill{white-space:nowrap;font-size:.72rem;padding:4px 9px}
+.tree-overview .btn{padding:6px 12px}
+.shell-tree .footer{display:none}
+.shell-tree .tech-wrap{flex:1 1 auto;min-height:0;margin:0;display:flex;flex-direction:column;overflow:hidden;border-radius:14px}
+.shell-tree .tech-toolbar{flex:0 0 auto;padding:6px 12px;gap:8px;min-height:40px}
+.shell-tree .tech-tooltitle{display:flex;align-items:baseline;gap:12px;white-space:nowrap}
+.shell-tree .tech-tooltitle strong{font-size:.94rem}
+.shell-tree .tech-tooltitle span{font-size:.72rem}
+.shell-tree .tech-controls .btn{padding:4px 11px;border-radius:9px;min-height:29px}
+.shell-tree .tech-legend{flex:0 0 auto;padding:5px 13px;min-height:28px;gap:12px;font-size:.7rem}
+.tech-track-legend{display:inline-flex;align-items:center;gap:4px}
+.tech-track-legend i{display:inline-block;height:10px;width:5px;border-radius:3px}
+.tech-map-viewport{position:relative;flex:1 1 auto;min-height:0;overflow:hidden;background:#f3f6fc}
+.tech-map-viewport .tech-map-scroll{position:absolute;inset:0;height:100%;min-height:0;max-height:none;overflow:auto;scroll-padding-top:72px}
+.tech-grade-overlay{position:absolute;z-index:8;top:0;left:0;right:0;height:61px;overflow:hidden;pointer-events:none;border-bottom:2px solid #b7c9e1;background:linear-gradient(180deg,#d7e4f7,#eef4fc);box-shadow:0 3px 9px #294e7a25}
+.tech-grade-strip{position:relative;will-change:transform;height:100%}
+.grade-fixed{position:absolute;top:0;height:61px;display:flex;justify-content:center;align-items:center;flex-direction:column;gap:0;border-right:1px solid #c3d3e8;color:#2d4c7a;white-space:nowrap}
+.grade-fixed span{font-size:.58rem;letter-spacing:.13em;color:#7187a8;font-weight:900;line-height:1.25}
+.grade-fixed strong{font-size:1rem;line-height:1.35}
+.grade-fixed small{font-size:.62rem;line-height:1.25;color:#8a98ae}
+.grade-fixed.grade-future{background:repeating-linear-gradient(135deg,#edf1f7,#edf1f7 14px,#e3eaf4 14px,#e3eaf4 28px);color:#8d99ab}
+.tech-canvas .era-band{top:0;z-index:-2}
+.tech-canvas .tech-edges{z-index:0}
+.tech-canvas .tech-node{z-index:1;border-left:6px solid var(--track-color);padding:7px 9px 6px;border-radius:11px}
+.tech-canvas .tech-node.locked{border-left-color:var(--track-color);opacity:.78}
+.tech-canvas .tech-node-name{font-size:.87rem;min-height:24px}
+.tech-canvas .tech-node-meta{font-size:.7rem;color:#6a7898;font-weight:700}
+.tech-canvas .tech-node-bottom{gap:5px}
+.tech-canvas .tech-gem{height:15px;width:13px}
+.tech-canvas .tech-status{font-size:.59rem}
+.shell-tree .tech-map-foot{flex:0 0 auto;padding:5px 12px;min-height:24px}
+.skill-dialog{border:1px solid #cad9ed;border-radius:19px;padding:0;box-shadow:0 25px 100px #132c5270;width:min(610px,calc(100vw - 30px));max-height:min(86dvh,780px);overflow:auto;color:var(--ink);background:#fff}
+.skill-dialog::backdrop{background:rgba(18,31,54,.6);backdrop-filter:blur(2px)}
+.skill-dialog-titlebar{position:sticky;top:0;z-index:4;display:flex;justify-content:space-between;align-items:center;background:#eef3fc;border-bottom:1px solid #d8e3f0;padding:9px 16px;font-size:.85rem;font-weight:800}
+.skill-dialog-close{min-width:34px;min-height:32px;padding:4px 11px;border:1px solid #bacce7;background:#fff;border-radius:9px;font-size:1rem;cursor:pointer}
+.skill-dialog .skill-detail{border:0;box-shadow:none;border-radius:0;padding:18px 22px 22px;margin:0}
+.skill-dialog .skill-detail .divider{margin:6px 0}
+.skill-dialog .skill-detail h3{margin:2px 0 4px}
+.skill-dialog .skill-detail .hint{line-height:1.5}
+@media(max-width:820px){.tree-overview{align-items:flex-start}.tree-overview .tree-subtitle{display:none}.tree-overview .tree-summary{gap:3px}.shell.shell-tree{padding:7px;gap:6px}.shell-tree .tech-tooltitle span{display:none}.shell-tree .tech-legend{gap:6px;font-size:.65rem}.tech-grade-overlay,.grade-fixed{height:56px}.skill-dialog .skill-detail{padding:13px}}
+@media(max-height:650px){.shell-tree .brand small{display:none}.shell-tree .tech-map-foot{display:none}.shell-tree .tech-legend{padding:2px 10px}.shell.shell-tree{gap:5px}.shell-tree .topbar{min-height:36px}.shell-tree .logo{height:34px;width:34px}.skill-dialog{max-height:92dvh}}
+/* v0.1.4: the grade header is an independent flex row, never layered over skill cards. */
+.tech-map-viewport{display:flex;flex-direction:column;min-height:0}
+.tech-grade-overlay{position:relative;top:auto;left:auto;right:auto;flex:0 0 57px;height:57px;overflow:hidden;z-index:8}
+.tech-grade-strip{height:57px}
+.grade-fixed{height:57px;gap:0}
+.grade-fixed strong{font-size:.88rem;line-height:1.15}
+.grade-fixed span{font-size:.5rem}
+.grade-fixed small{font-size:.59rem}
+.tech-map-viewport .tech-map-scroll{position:relative;inset:auto;flex:1 1 auto;height:auto;min-height:0;max-height:none;scroll-padding-top:0;overflow:auto}
+.tech-canvas .tech-node{padding:4px 6px 3px;border-radius:8px;border-left-width:4px;gap:1px}
+.tech-canvas .tech-node-name{font-size:.72rem;font-weight:800;line-height:1.1;min-height:0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;word-break:break-word}
+.tech-canvas .tech-node-meta{font-size:.57rem;max-width:85px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.tech-canvas .tech-status{font-size:.52rem;max-width:74px;padding:1px 3px}
+.tech-canvas .tech-node-bottom{justify-content:space-between;min-height:10px}
+.tech-canvas .tech-gem{height:10px;width:9px}
+.tech-canvas .tech-gems{gap:3px}
+.tech-canvas .tech-reason{font-size:.5rem}
+.tech-plan-note{font-size:.55rem;color:#677892}
+.tech-node.planned{background:#f9fafc;color:#68768b;border-color:#d5dbe5}
+.tech-node.planned .tech-status{background:#edf0f4;color:#7b889b}
+.tech-node.planned.related{background:#fff9ee}
+.tech-node.planned.selected{border-color:#d78d37}
+.tech-legend .legend-dot.planned{background:#f0f1f5;border-color:#b8c5d7}
+.tech-canvas .tech-link{stroke-width:1.25;opacity:.35}
+.tech-canvas .tech-link.highlight{stroke-width:3.6;opacity:1}
+.tech-toolbar{min-height:44px}
+.tech-range-label{font-size:.72rem;color:#61738d;white-space:nowrap}
+.tech-range-select{max-width:190px;font-size:.76rem;border:1px solid #bccbe2;background:white;padding:5px 6px;border-radius:8px}
+.tech-search{position:relative;display:flex;align-items:center;gap:4px}
+.tech-search input{width:min(230px,22vw);min-width:125px;height:28px;background:white;border-radius:8px;padding:3px 8px;border:1px solid #bccbe2;font-size:.73rem}
+.tech-search-results{position:absolute;top:calc(100% + 4px);left:0;z-index:30;background:#fff;border:1px solid #bac9e1;box-shadow:0 9px 25px #223b6250;border-radius:10px;max-height:min(350px,55vh);overflow:auto;width:min(450px,80vw);padding:6px}
+.tech-search-results button{display:block;width:100%;text-align:left;border:0;border-radius:7px;background:white;padding:9px;color:#243b59;font-size:.74rem;cursor:pointer}
+.tech-search-results button:hover,.tech-search-results button:focus{background:#e9f1ff}
+.tech-search-results .search-message{font-size:.75rem;padding:7px;color:#536887}
+.tech-legend{overflow:visible;position:relative;z-index:10}
+@media(max-width:1100px){.tech-tooltitle span,.tech-range-label{display:none}.shell-tree .tech-legend{gap:7px}.shell-tree .tech-toolbar{gap:4px}.tech-search input{min-width:110px}}
+@media(max-width:700px){.tech-range-select{max-width:120px}.tech-search input{width:105px;min-width:75px}.shell-tree .tech-legend>span:nth-last-child(-n+3){display:none}.tech-controls{gap:2px}}
+
+/* Inspect canonical prerequisites from the skill details without starting unavailable lessons. */
+.skill-dialog .req-button{border:1px solid #c5d6ed;background:#f3f7fe;color:#344a6e;cursor:pointer;font:inherit;font-size:.76rem;text-align:left;padding:5px 9px;border-radius:8px}
+.skill-dialog .req-button:hover{background:#dfeafc}
+.skill-dialog .status.planned{background:#ebedf3;color:#63728a}
+
+/* v0.1.5 — Give the tree its viewport, and the edges their own gutters. */
+html.math-tree-page,html.math-tree-page body{height:100%;overflow:hidden}
+.shell.shell-tree{
+  width:100%;max-width:none;height:100dvh;margin:0;padding:5px 8px 7px;gap:5px;
+  display:grid;grid-template-columns:minmax(185px,1fr) auto minmax(190px,1fr);
+  grid-template-rows:40px minmax(0,1fr);overflow:hidden;
+}
+.shell-tree>.topbar{grid-column:1;grid-row:1;margin:0;min-width:0;min-height:0;gap:4px;justify-content:flex-start}
+.shell-tree .logo{height:31px;width:31px;border-radius:9px;font-size:17px;box-shadow:none}
+.shell-tree .brand{gap:7px}
+.shell-tree .brand strong{font-size:.99rem;line-height:1.05}
+.shell-tree .brand small{display:none}
+.shell-tree .top-actions{margin-left:auto;gap:3px}
+.shell-tree .top-actions .pill{display:none}
+.shell-tree .top-actions .btn{padding:4px 7px;font-size:.66rem}
+.shell-tree>.tree-overview{grid-column:3;grid-row:1;min-width:0;min-height:0;justify-content:flex-end;gap:4px}
+.shell-tree .tree-overview>div:first-child{display:none!important}
+.shell-tree .tree-summary{gap:4px;flex-wrap:nowrap}
+.shell-tree .tree-summary .pill{padding:3px 7px;font-size:.68rem}
+.shell-tree .tree-summary .pill:first-child,.shell-tree .tree-summary .pill:nth-child(4){display:none}
+.shell-tree .tree-summary .btn{padding:5px 8px;font-size:.7rem;white-space:nowrap}
+.shell-tree>.nav{grid-column:2;grid-row:1;margin:0;align-self:center;padding:2px;min-width:0;min-height:0;gap:2px}
+.shell-tree .nav button{padding:6px 9px;font-size:.76rem;white-space:nowrap}
+.shell-tree>.tech-wrap{grid-column:1/-1;grid-row:2;min-width:0;min-height:0;height:100%;border-radius:10px;margin:0;box-shadow:none;display:flex;flex-direction:column}
+.shell-tree .tech-toolbar{position:relative;z-index:12;display:flex;align-items:center;flex-wrap:nowrap;min-height:38px;height:38px;padding:4px 8px;gap:7px;flex:0 0 auto;background:#f2f6fd}
+.shell-tree .tech-tooltitle{display:block;font-size:.81rem;color:#3a5178;font-weight:900;white-space:nowrap}
+.shell-tree .tech-range-label{display:none}
+.shell-tree .tech-range-select{min-width:135px;max-width:185px;height:29px;padding:3px 7px;font-size:.72rem}
+.shell-tree .tech-search{flex:1 1 120px;min-width:85px;max-width:340px;display:flex;gap:3px}
+.shell-tree .tech-search input{height:29px;min-width:0;width:100%;font-size:.76rem}
+.shell-tree .tech-search .btn{padding:4px 7px;font-size:.71rem}
+.shell-tree .tech-controls{margin-left:auto;flex:0 0 auto;gap:3px}
+.shell-tree .tech-controls .btn{padding:4px 8px;min-height:28px;height:28px;border-radius:7px;font-size:.74rem}
+.shell-tree .tech-controls .map-zoom-value{min-width:35px;font-size:.75rem}
+.shell-tree .tech-legend{position:relative;flex:0 0 auto;z-index:15;display:block;overflow:visible;padding:0;border:0;background:transparent;font-size:.73rem;min-height:0}
+.shell-tree .tech-legend summary{list-style:none;white-space:nowrap;border:1px solid #c7d5e8;background:#fff;color:#546b8a;border-radius:7px;padding:4px 8px;cursor:pointer}
+.shell-tree .tech-legend summary::-webkit-details-marker{display:none}
+.shell-tree .tech-legend[open] .tech-legend-content{position:absolute;top:calc(100% + 8px);right:0;min-width:176px;padding:10px;display:flex;flex-direction:column;align-items:flex-start;gap:7px;border:1px solid #ccd8e9;background:#fff;box-shadow:0 7px 25px #273b5860;border-radius:10px;white-space:nowrap}
+.shell-tree .tech-legend-content>span{display:inline-flex;align-items:center;gap:6px}
+.shell-tree .tech-map-viewport{flex:1 1 auto;min-height:0;overflow:hidden}
+.shell-tree .tech-grade-overlay{flex:0 0 43px;height:43px;box-shadow:0 2px 5px #263c5940}
+.shell-tree .tech-grade-strip{height:43px!important}
+.shell-tree .grade-fixed{height:43px;gap:0}
+.shell-tree .grade-fixed span{font-size:.48rem;line-height:1}
+.shell-tree .grade-fixed strong{font-size:.84rem;line-height:1.15}
+.shell-tree .grade-fixed small{font-size:.56rem;line-height:1.15}
+.shell-tree .tech-map-scroll{background:#f3f6fc;overflow:auto;scrollbar-gutter:stable;scrollbar-width:thin}
+.tech-canvas .tech-node{border-left-width:5px;padding:8px 10px 6px;border-radius:10px;gap:2px}
+.tech-canvas .tech-node-name{font-size:.86rem;line-height:1.25;font-weight:800;min-height:28px;-webkit-line-clamp:2;overflow:hidden}
+.tech-canvas .tech-node-meta{font-size:.65rem;max-width:124px}
+.tech-canvas .tech-status{font-size:.58rem;max-width:91px;padding:2px 5px}
+.tech-canvas .tech-node-bottom{gap:6px;min-height:13px}
+.tech-canvas .tech-gem{height:14px;width:12px}
+.tech-canvas .tech-gems{gap:5px}
+.tech-canvas .tech-reason{font-size:.57rem}
+.tech-canvas .tech-link{stroke:#91a3bb;stroke-width:1.8;opacity:.38;stroke-linejoin:round;stroke-linecap:round}
+.tech-canvas .tech-link.cross-lane{stroke-dasharray:none}
+.tech-canvas .tech-link.highlight{stroke:#ce791f;stroke-width:3.25;opacity:1;stroke-dasharray:none}
+.shell-tree .tech-map-foot{display:none}
+.shell-tree .footer{display:none}
+@media(max-width:1050px){
+ .shell.shell-tree{grid-template-columns:minmax(150px,1fr) auto;grid-template-rows:35px 32px minmax(0,1fr);gap:4px}
+ .shell-tree>.topbar{grid-row:1;grid-column:1}
+ .shell-tree>.tree-overview{grid-row:1;grid-column:2}
+ .shell-tree>.nav{grid-column:1/-1;grid-row:2;justify-self:start}
+ .shell-tree>.tech-wrap{grid-column:1/-1;grid-row:3}
+ .shell-tree .tree-overview .btn{display:none}
+}
+@media(max-width:650px){
+ .shell.shell-tree{padding:4px;gap:3px}
+ .shell-tree .tech-tooltitle{display:none}
+ .shell-tree .tech-range-select{min-width:102px;max-width:125px}
+ .shell-tree .tech-search .btn{display:none}
+ .shell-tree .tech-toolbar{gap:3px;padding:3px 4px}
+ .shell-tree .tech-controls .btn{padding:3px 6px}
+ .shell-tree .tech-controls .btn[data-act="map-fit"]{display:none}
+ .shell-tree .tech-legend{display:none}
+ .shell-tree .tree-overview .pill:nth-child(3){display:none}
+}
+
+/* Keep controls on one line even when the search box takes the spare width. */
+.shell-tree .tech-search .btn{flex:0 0 auto;white-space:nowrap;min-width:42px}
+.shell-tree .tech-search input{flex:1 1 0;width:auto}
+.shell-tree .tech-controls .btn{white-space:nowrap}
+@media(max-width:950px){.shell-tree .tech-tooltitle{display:none}.shell-tree .tech-range-select{min-width:106px;max-width:147px}}
+
+/* A pointer preview clarifies dependencies without opening a dialog. */
+.tech-canvas .tech-link.hover{stroke:#2672cb;stroke-width:3.25;opacity:1;stroke-dasharray:none}
+</style></head><body><div id="app" aria-live="polite"><div class="loading">MathStudio を準備しています…</div></div><script>/* Working sample. IDs deliberately align with curriculum_285_v0.1.json; the links below are a prototype subgraph, NOT the complete 485-link DAG. */
+(function(root,factory){const v=factory();if(typeof module==='object'&&module.exports)module.exports=v;else root.MathSkills=v;})(typeof globalThis==='object'?globalThis:this,function(){
+const s=(id,title,grade,month,kind,track,prereq=[],note='')=>({id,title,grade,month,kind,track,prereq,note});
+const skills=[
+s('e1.number.add_single','1桁のたし算',1,6,'add1','add',[]),
+s('e1.number.add_carry','くり上がりのたし算',1,10,'addcarry','add',['e1.number.add_single']),
+s('e2.number.add_column','2桁のたし算',2,6,'add2','add',['e1.number.add_carry']),
+s('e2.number.mul_equal_groups','同じ数ずつのまとまり',2,9,'groups','mul',['e1.number.add_single']),
+s('e2.number.multiplication_table','九九',2,11,'table','mul',['e2.number.mul_equal_groups']),
+s('e2.number.mul_2digit_simple','2桁×1桁の暗算',2,2,'mul2simple','mul',['e2.number.multiplication_table']),
+s('e3.number.multiply_2by1','2桁×1桁の筆算',3,6,'mul21','mul',['e2.number.mul_2digit_simple']),
+s('e3.number.multiply_two_digit_by_two_digit','2桁×2桁の掛け算',3,11,'mul22','mul',['e3.number.multiply_2by1','e2.number.add_column']),
+s('e3.number.division_meaning','わり算の意味',3,5,'divMeaning','div',['e2.number.multiplication_table']),
+s('e3.number.divide_2by1','2桁÷1桁',3,9,'div21','div',['e3.number.division_meaning']),
+s('e4.number.long_division','2桁で割る筆算',4,7,'longdiv','div',['e3.number.divide_2by1','e3.number.multiply_two_digit_by_two_digit']),
+s('e2.number.simple_fraction','分数の意味',2,3,'fracConcept','frac',['e1.number.add_single']),
+s('e3.number.fraction_unit','分数の大きさ',3,1,'fracUnit','frac',['e2.number.simple_fraction']),
+s('e4.number.fraction_add_same','同分母の分数のたし算',4,10,'fracAdd','frac',['e3.number.fraction_unit']),
+s('e4.number.fraction_equivalence','等しい分数',4,12,'fracEqual','frac',['e3.number.fraction_unit'])
+];
+const tracks=[{id:'add',title:'たし算',icon:'＋'},{id:'mul',title:'かけ算',icon:'×'},{id:'div',title:'わり算',icon:'÷'},{id:'frac',title:'分数',icon:'½'}];
+function completedBefore(skill,g,m){if(skill.grade<g)return true;if(skill.grade>g)return false;const i=x=>x>=4?x-4:x+8;return i(skill.month)<i(m);}
+function startingIndex(track,grade,month){const list=skills.filter(s=>s.track===track);let idx=list.findIndex(s=>!completedBefore(s,grade,month));if(idx<0)return list.length-1;return Math.max(0,idx-1);}
+return {skills,tracks,byId:Object.fromEntries(skills.map(s=>[s.id,s])),completedBefore,startingIndex};});
+
+/* MathStudio: offline symbolic equivalence PoC v0.1.2. No eval / network / dependencies. */
+(function (root, factory) {
+  const api = factory();
+  if (typeof module !== 'undefined' && module.exports) module.exports = api;
+  else root.MathStudioGrader = api;
+})(typeof globalThis === 'object' ? globalThis : this, function () {
+  'use strict';
+  const MAX_INPUT = 1000, MAX_TOKENS = 300, MAX_TERMS = 2000, MAX_EXP = 16, MAX_DIGITS = 18;
+  const fail = (message, code='unsupported') => { const e=new Error(message); e.code=code; throw e; };
+  const norm = s => String(s).replace(/[０-９]/g,c=>String(c.charCodeAt(0)-65296))
+    .replace(/[＋]/g,'+').replace(/[－−]/g,'-').replace(/[×＊]/g,'*').replace(/[÷／]/g,'/').replace(/[（]/g,'(').replace(/[）]/g,')').replace(/[＝]/g,'=')
+    .replace(/\r/g,'').trim();
+  const numKey = s => {let t=String(s); if (!/^\d+(?:\.\d+)?$/.test(t)) fail('数字の形式が未対応');
+    if (t.replace(/\D/g,'').length>MAX_DIGITS) fail('数値が大きすぎます');
+    let [a,b='']=t.split('.'); a=a.replace(/^0+(?=\d)/,''); b=b.replace(/0+$/,''); return b ? a+'.'+b : a; };
+  function parse(src) {
+    src=norm(src); if (src.length>MAX_INPUT) fail('入力が長すぎます');
+    const toks=src.match(/\d+(?:\.\d+)?|[a-zA-Z_][a-zA-Z_0-9]*|[()+\-*/]|\S/g)||[];
+    if(toks.length>MAX_TOKENS) fail('式が長すぎます');
+    let i=0;
+    function primary(depth) {
+      if(depth>MAX_EXP) fail('式の入れ子が深すぎます');
+      const t=toks[i++];
+      if(t==='('){let a=add(depth+1); if(toks[i++]!==')') fail('閉じ括弧が必要です'); return a;}
+      if(t==='-') return {kind:'neg',a:primary(depth+1)};
+      if(t==='+') return primary(depth+1);
+      if(t&&/^\d/.test(t)) return {kind:'number',value:numKey(t)};
+      if(t&&/^[a-zA-Z_]/.test(t)) return {kind:'id',value:t};
+      fail('式の読み取りに失敗しました');
+    }
+    function mul(depth){let a=primary(depth); while(toks[i]==='*'||toks[i]==='/'){
+      const op=toks[i++]; a={kind:'op',op,a,b:primary(depth)}; }return a;}
+    function add(depth){let a=mul(depth); while(toks[i]==='+'||toks[i]==='-'){
+      const op=toks[i++]; a={kind:'op',op,a,b:mul(depth)};}return a;}
+    const ast=add(0); if(i!==toks.length) fail('未対応の文字または式の構造です'); return ast;
+  }
+  const C=n=>new Map(n===0n?[]:[['',n]]);
+  function monomialAdd(a,b) {const c={}; for(const s of [a,b])if(s)for(const p of s.split('|')){
+    const [v,e]=p.split(':');c[v]=(c[v]||0)+Number(e);}
+    return Object.keys(c).filter(k=>c[k]).sort().map(k=>k+':'+c[k]).join('|');}
+  function pa(a,b,minus=false){const out=new Map(a); for(const [k,v] of b){const r=(out.get(k)||0n)+(minus?-v:v);if(r===0n)out.delete(k);else out.set(k,r);}return out;}
+  function pm(a,b){const out=new Map();for(const [k,x]of a)for(const [l,y]of b){
+    const key=monomialAdd(k,l),sum=(out.get(key)||0n)+x*y;
+    if(sum===0n)out.delete(key);else out.set(key,sum);
+    if(out.size>MAX_TERMS)fail('式が複雑すぎます');
+  }return out;}
+  const rat=(n,d)=>({n,d});
+  const ra=(x,y,minus=false)=>rat(pa(pm(x.n,y.d),pm(y.n,x.d),minus),pm(x.d,y.d));
+  const rm=(x,y)=>rat(pm(x.n,y.n),pm(x.d,y.d));
+  const rd=(x,y)=>{if(y.n.size===0) fail('0で割る式です','invalid'); return rat(pm(x.n,y.d),pm(x.d,y.n));};
+  function decimal(s) {let [a,b='']=s.split('.');return rat(C(BigInt(a+b)),C(10n**BigInt(b.length)));}
+  const variable=k=>rat(new Map([[k+':1',1n]]),C(1n));
+  function substitute(ast,env){
+    if(ast.kind==='neg')return rm(rat(C(-1n),C(1n)),substitute(ast.a,env));
+    if(ast.kind==='number') {
+      if(Object.prototype.hasOwnProperty.call(env.aliases,ast.value))return substitute(env.aliases[ast.value],env);
+      if(Object.prototype.hasOwnProperty.call(env.derived,ast.value)) return substitute(parse(env.derived[ast.value]),env);
+      if(Object.prototype.hasOwnProperty.call(env.numericNames,ast.value)) {
+        const ids=env.numericNames[ast.value]; if(ids.length!==1)fail('同じ値が複数の数量に使われています');return variable(ids[0]);
+      }
+      if(env.constants.includes(ast.value))return decimal(ast.value);
+      fail('数値 '+ast.value+' は問題文・許可定数・確認済み途中式のいずれにもありません。数値を導いた途中式を示してください','invalid');
+    }
+    if(ast.kind==='id'){if(Object.prototype.hasOwnProperty.call(env.params,ast.value))return variable(ast.value); fail('未知の変数 '+ast.value);}
+    const a=substitute(ast.a,env),b=substitute(ast.b,env);
+    return ast.op==='+'?ra(a,b):ast.op==='-'?ra(a,b,true):ast.op==='*'?rm(a,b):rd(a,b);
+  }
+  // An identical printed number may represent two distinct quantities, for
+  // example red=1 and blue=1. Enumerate possible symbolic bindings rather than
+  // rejecting every equation containing repeated values. An assignment is
+  // accepted ONLY when it yields the expected symbolic identity, not just the
+  // correct numerical answer for the current values.
+  // Cap alternatives to avoid exponential work from untrusted free-form input.
+  const MAX_BINDINGS = 2048;
+  function candidates(ast,env){
+    if(ast.kind==='number'){
+      if(Object.prototype.hasOwnProperty.call(env.aliases,ast.value))return candidates(env.aliases[ast.value],env);
+      if(Object.prototype.hasOwnProperty.call(env.derived,ast.value))return candidates(parse(env.derived[ast.value]),env);
+      if(Object.prototype.hasOwnProperty.call(env.numericNames,ast.value)){
+        return env.numericNames[ast.value].map(variable);
+      }
+      if(env.constants.includes(ast.value))return [decimal(ast.value)];
+      fail('数値 '+ast.value+' は問題文・許可定数・確認済み途中式のいずれにもありません。数値を導いた途中式を示してください','invalid');
+    }
+    if(ast.kind==='id')return [substitute(ast,env)];
+    if(ast.kind==='neg')return candidates(ast.a,env).map(x=>rm(rat(C(-1n),C(1n)),x));
+    const left=candidates(ast.a,env),right=candidates(ast.b,env);
+    if(left.length*right.length>MAX_BINDINGS)fail('同じ数字が多いため、数量の対応を特定できません。別の書き方を試してください');
+    const out=[];
+    for(const a of left)for(const b of right){
+      // The purely symbolic alternatives are small for generated word problems.
+      out.push(ast.op==='+'?ra(a,b):ast.op==='-'?ra(a,b,true):ast.op==='*'?rm(a,b):rd(a,b));
+    }
+    return out;
+  }
+  function pv(p,values){let out=0n;for(const [k,c]of p){let term=c;
+    if(k)for(const q of k.split('|')){const [v,e]=q.split(':');term*=BigInt(values[v])**BigInt(e);}
+    out+=term;
+  }return out;}
+  function value(r,vals){const n=pv(r.n,vals),d=pv(r.d,vals);if(d===0n)fail('0で割る式です','invalid');return {n,d};}
+  function equalFrac(a,b) {return a.n*b.d===b.n*a.d;}
+  function equalRat(x,y) {return pm(x.n,y.d).size===pm(y.n,x.d).size && polyEqual(pm(x.n,y.d),pm(y.n,x.d));}
+  function polyEqual(a,b){if(a.size!==b.size)return false;for(const [k,v]of a)if(b.get(k)!==v)return false;return true;}
+  function result(status,detail,extra={}){return {status,detail,...extra};}
+  function grade(problem,input) {
+    try {
+      if(typeof input!=='string'||!input.trim())return result('needs_review','数式を入力してください');
+      const params=problem.params;
+      const names={};for(const [k,v] of Object.entries(params)) {
+        if(!Number.isSafeInteger(v)||v<0)fail('問題データの数値が未対応です');
+        (names[String(v)] ||= []).push(k);
+      }
+      const env={params,numericNames:names,aliases:{},derived:problem.derived_literals||{},constants:(problem.allowed_constants||[]).map(String)};
+      for(const [literal,formula] of Object.entries(env.derived)) {
+        if(Object.prototype.hasOwnProperty.call(env.numericNames,numKey(literal)))fail('導出値が問題の数量と衝突します');
+        const probe=substitute(parse(formula),{...env,derived:{},aliases:{}});
+        const vals=Object.fromEntries(Object.entries(params).map(([k,v])=>[k,BigInt(v)]));
+        if(!equalFrac(value(probe,vals),value(decimal(numKey(literal)),vals)))fail('導出値と式の対応が間違っています');
+      }
+      const expected=parse(problem.formula);
+      const expectedR=substitute(expected,env); // problem.formula must use variable names
+      const values=Object.fromEntries(Object.entries(params).map(([k,v])=>[k,BigInt(v)]));
+      const expectedValue=value(expectedR,values);
+      // An answer-only input must not be rejected merely because the answer is
+      // not one of the story's source quantities. Compare it numerically first;
+      // a correct final number without a derivation remains unverified.
+      const answerOnly=norm(input);
+      if(/^\d+(?:\.\d+)?$/.test(answerOnly)) {
+        const match=equalFrac(value(decimal(numKey(answerOnly)),values),expectedValue);
+        return match
+          ? result('needs_review','答えは一致しますが、式がないため立式の妥当性を確認できません',{reason:'answer_only'})
+          : result('incorrect','答えの数値が一致しません',{reason:'wrong_answer'});
+      }
+      const lines=norm(input).split(/\n+/).map(x=>x.trim()).filter(Boolean);
+      if(lines.length>12)fail('途中式が多すぎます');
+      let last=null;
+      for(let i=0;i<lines.length;i++){
+        const parts=lines[i].split('=');
+        if(parts.length>2)fail('連続した等式にはまだ対応していません');
+        const lhs=parse(parts[0]);
+        const possible=candidates(lhs,env), leftR=possible[0];
+        if(parts.length===2){
+          const rhsText=parts[1].trim(),rhs=numKey(rhsText);
+          const v=value(leftR,values),rhsV=value(decimal(rhs),values);
+          if(!equalFrac(v,rhsV))return result('incorrect','途中式または答えの計算が一致しません',{line:i+1});
+          if(i<lines.length-1){
+            if(Object.prototype.hasOwnProperty.call(env.numericNames,rhs))return result('needs_review','途中結果の値が問題文の数値と重なるため判定を保留します',{line:i+1});
+            env.aliases[rhs]=lhs; // one-step alias: recursively resolved via numeric names
+          }
+        }
+        last=possible;
+      }
+      if(!last)return result('needs_review','式を入力してください');
+      if(!equalFrac(value(last[0],values),expectedValue))return result('incorrect','今回の数値では正答になりません');
+      // A single number with no quantity in formula is not evidence of valid construction.
+      if(lines.length===1&&!/[+*/\-]/.test(lines[0].split('=')[0])) return result('needs_review','答えの数値だけでは立式の妥当性を確認できません');
+      if(last.some(candidate=>equalRat(candidate,expectedR)))return result('correct','数量の値が同じ場合も、成立する立式を確認しました',{method:'symbolic_identity_with_quantity_bindings'});
+      return result('incorrect','今回の答えは一致しますが、数量を変えると成立しない式です',{reason:'coincidental_answer'});
+    }catch(e){return result(e.code==='invalid'?'incorrect':'needs_review',e.message,{reason:e.code||'unsupported'});}
+  }
+  return {grade,parse};
+});
+
+/* Offline MathStudio v0.1 core, no eval/new Function/network. UMD for Node and file://. */
+(function(root,factory){let deps=typeof module==='object'&&module.exports?{skills:require('./skills.js'),grader:require('./expression_grader.js')}:{skills:root.MathSkills,grader:root.MathStudioGrader};const v=factory(deps);if(typeof module==='object'&&module.exports)module.exports=v;else root.MathEngine=v;})(typeof globalThis==='object'?globalThis:this,function({skills:catalog,grader}){
+const rand=(a,b,r=Math.random)=>Math.floor(r()*(b-a+1))+a,choose=(a,r=Math.random)=>a[rand(0,a.length-1,r)];
+const gcd=(a,b)=>b?gcd(b,a%b):Math.abs(a),lcm=(a,b)=>a*b/gcd(a,b);
+const fstr=(n,d)=>{const g=gcd(n,d);return d/g===1?String(n/g):`${n/g}/${d/g}`;};
+const val=(text)=>{if(typeof text!=='string'||text.trim().length>240)return NaN;let ast;try{ast=grader.parse(text.replace(/＝/g,'=').split('=')[0]);}catch{return NaN;}
+  const walk=n=>n.kind==='number'?Number(n.value):n.kind==='neg'?-walk(n.a):n.kind==='op'?({'+':(a,b)=>a+b,'-':(a,b)=>a-b,'*':(a,b)=>a*b,'/':(a,b)=>a/b}[n.op])(walk(n.a),walk(n.b)):NaN;
+  try{const x=walk(ast);return Number.isFinite(x)?x:NaN;}catch{return NaN;}};
+let seq=0;
+function makeQuestion(skill,category='basic',r=Math.random){
+ const k=typeof skill==='string'?catalog.byId[skill].kind:skill.kind;
+ const a=rand(2,9,r),b=rand(2,9,r),c=rand(2,8,r),mode=category;
+ let x,y,z,answer,prompt,unit='',formula=null,params=null,allowed_constants=[],hint='数量の関係を確認しよう。';
+ // Generated question uses independent source quantities for symbolic word grading wherever possible.
+ function finish(answer_,prompt_,extra={}){answer=answer_;prompt=prompt_;Object.assign(extra,{answer,prompt});return extra;}
+ let obj={};
+ if(['add1','addcarry','add2'].includes(k)){
+  if(k==='add1'){x=rand(1,8,r);y=rand(1,9-x,r);}
+  if(k==='addcarry'){x=rand(6,9,r);y=rand(11-x,9,r);}
+  if(k==='add2'){x=rand(23,68,r);y=rand(13,29,r);if(x===y)y++;}
+  z=x+y;
+  if(mode==='basic')obj=finish(z,`${x} ＋ ${y} ＝ □`);
+  else if(mode==='application')obj=finish(y,`${x} ＋ □ ＝ ${z}。□ はいくつ？`);
+  else {obj=finish(z,`赤いシールが${x}枚、青いシールが${y}枚あります。全部で何枚？`,{inputMode:'formula',unit:'枚',params:{a:x,b:y},formula:'a+b'});}
+ }else if(['groups','table','mul2simple','mul21','mul22'].includes(k)){
+  x=k==='groups'?rand(2,6,r):k==='table'?rand(2,9,r):k==='mul2simple'?rand(11,19,r):k==='mul21'?rand(23,87,r):rand(21,89,r);
+  y=k==='mul22'?rand(12,39,r):rand(2,9,r);if(x===y)y=(y===9?2:y+1);
+  z=x*y;
+  if(mode==='basic')obj=finish(z,`${x} × ${y} ＝ □`);
+  else if(mode==='application'){const d=(k==='groups'||k==='table')?2:10;obj=finish(z+x*d,`${x} × (${y} ＋ ${d}) ＝ □`,{allowed_constants:[d]});}
+  else obj=finish(z,`1箱に${x}個入ったビー玉が${y}箱あります。全部で何個？`,{inputMode:'formula',params:{a:x,b:y},formula:'a*b',unit:'個'});
+ }else if(['divMeaning','div21','longdiv'].includes(k)){
+  y=k==='longdiv'?rand(11,19,r):rand(2,9,r);x=k==='divMeaning'?rand(2,9,r):k==='div21'?rand(3,9,r):rand(12,29,r);
+  z=x*y;
+  if(mode==='basic')obj=finish(x,`${z} ÷ ${y} ＝ □`);
+  else if(mode==='application')obj=finish(y,`${z} ÷ □ ＝ ${x}。□ はいくつ？`);
+  else obj=finish(x,`${z}個のお菓子を${y}人で同じ数ずつ分けます。1人何個？`,{inputMode:'formula',params:{a:z,b:y},formula:'a/b',unit:'個'});
+ }else if(['fracConcept','fracUnit','fracAdd','fracEqual'].includes(k)){
+  let d=choose([3,4,5,6,7,8,9,10,12],r),n=rand(1,d-1,r),q=rand(1,d-1,r);
+  if(n===q)q=q<d-1?q+1:q-1;
+  if(k==='fracConcept'||k==='fracUnit'){
+   if(mode==='basic')obj=finish(n/d,`1つを${d}等分したうちの${n}つ分。分数で表すと？`,{displayAnswer:fstr(n,d)});
+   else if(mode==='application')obj=finish(n,`${n}/${d} は、1/${d} が何個集まった数？`);
+   else obj=finish(n/d,`テープを${d}等分し、そのうち${n}つ分を使いました。全体の何分のいくつ？`,{displayAnswer:fstr(n,d),inputMode:'value',unit:''});
+  }else if(k==='fracAdd'){
+   if(mode==='basic')obj=finish((n+q)/d,`${n}/${d} ＋ ${q}/${d} ＝ □`,{displayAnswer:fstr(n+q,d)});
+   else if(mode==='application')obj=finish(q/d,`${n}/${d} ＋ □ ＝ ${n+q}/${d}。□ は？`,{displayAnswer:fstr(q,d)});
+   else obj=finish((n+q)/d,`水を${n}/${d} Lと${q}/${d} L用意しました。合わせて何L？`,{displayAnswer:fstr(n+q,d),inputMode:'value',unit:'L'});
+  }else{
+   const t=rand(2,4,r);
+   if(mode==='basic')obj=finish(n*t,`${n}/${d} ＝ □/${d*t}。□ はいくつ？`);
+   else if(mode==='application')obj=finish(d*t,`${n}/${d} ＝ ${n*t}/□。□ はいくつ？`);
+   else obj=finish(n/d,`ピザ${n*t}切れを${d*t}等分した全体から食べました。食べた割合を分数で答えてください。`,{displayAnswer:fstr(n,d),inputMode:'value'});
+  }
+ }else{throw Error('未対応の技能 '+k);}
+ const out={id:`q_${Date.now().toString(36)}_${seq++}`,skillId:typeof skill==='string'?skill:skill.id,category,prompt:obj.prompt,answer:obj.answer,displayAnswer:obj.displayAnswer||String(obj.answer),inputMode:obj.inputMode||'value',params:obj.params,formula:obj.formula,allowed_constants:obj.allowed_constants||[],unit:obj.unit||'',hint};
+ return out;
+}
+function scoreAnswer(q,input){const t=String(input||'').trim();if(!t)return{status:'incorrect',detail:'未回答'};
+ if(q.inputMode==='formula'){
+    if(!grader||!grader.grade)return{status:'needs_review',detail:'数式判定が利用できません'};
+    const res=grader.grade({params:q.params,formula:q.formula,allowed_constants:q.allowed_constants},t);
+    return res;
+ }
+ const n=val(t);if(!Number.isFinite(n))return{status:'incorrect',detail:'数値・分数として読み取れません'};
+ return Math.abs(n-q.answer)<=1e-9*Math.max(1,Math.abs(q.answer))?{status:'correct',detail:'正解'}:{status:'incorrect',detail:'答えが違います'};
+}
+// Estimated seconds, only prototype heuristics, NOT measured or empirically calibrated.
+function secFor(skill,cat){const g=typeof skill==='string'?catalog.byId[skill].grade:skill.grade;const base={basic:[35,45,55,70],application:[70,85,100,120],word:[110,130,150,180]};return base[cat][Math.min(3,g-1)];}
+function buildTest(skill,seed=Math.random){skill=typeof skill==='string'?catalog.byId[skill]:skill;
+ const cats=['basic','application','word'];const n={basic:5,application:4,word:4};const budget=25*60,spare=120;
+ const time=()=>cats.reduce((t,c)=>t+n[c]*secFor(skill,c),spare);
+ let loops=0;while(time()<22*60&&loops++<30){const c=cats[loops%3];if(time()+secFor(skill,c)>30*60)break;n[c]++;}
+ let questions=[],seen=new Set();
+ for(const cat of cats)for(let i=0;i<n[cat];i++){
+  let q,tries=0;do{q=makeQuestion(skill,cat,seed);}while(seen.has(cat+q.prompt)&&++tries<30);
+  seen.add(cat+q.prompt);questions.push(q);
+ }
+ // Shuffle deterministic for injected pseudo-random testing.
+ for(let i=questions.length-1;i>0;i--){const j=rand(0,i,seed);[questions[i],questions[j]]=[questions[j],questions[i]];}
+ return {mode:'master',skillId:skill.id,questions,targetSeconds:time(),estimatedSeconds:time()-spare,createdAt:Date.now()};
+}
+function gradeTest(test,answers,elapsedSeconds){const results=test.questions.map((q,i)=>scoreAnswer(q,answers[i]||''));
+ const n={basic:0,application:0,word:0},ok={basic:0,application:0,word:0};
+ test.questions.forEach((q,i)=>{n[q.category]++;if(results[i].status==='correct')ok[q.category]++;});
+ const percent=c=>Math.round(100*ok[c]/Math.max(1,n[c]));
+ const base=percent('basic'),app=percent('application'),word=percent('word');
+ const timeScore=elapsedSeconds<=0?100:Math.min(100,Math.floor(100*test.targetSeconds/elapsedSeconds));
+ const totalCorrect=results.filter(r=>r.status==='correct').length;
+ // Speed jewel measures elapsed time only. Accuracy is assessed by the other three jewels.
+ // A perfect/master result STILL requires every question correct and elapsed <= target.
+ const speed=timeScore;
+ const metrics={basic:base,speed,application:app,word};
+ const provisional=Object.values(metrics).every(v=>v>=75),perfect=results.every(r=>r.status==='correct')&&elapsedSeconds<=test.targetSeconds;
+ return {results,metrics,provisional,perfect,elapsedSeconds,correct:totalCorrect,count:results.length,needsReview:results.some(r=>r.status==='needs_review')};
+}
+function masteryStatus(id,records,diagnosticAccess=[]){const s=catalog.byId[id];const own=!!records[id]?.selfMaster;const inherited=s.prereq.every(p=>!!records[p]?.master);
+ if(own&&inherited)return'master';if(own)return'pending';if(records[id]?.license)return'licensed';
+ if(s.prereq.every(p=>!!records[p]?.license||!!records[p]?.master))return'open';
+ if(s.prereq.length===0||diagnosticAccess.includes(id))return'open';return'locked';}
+function recalc(records){let changed=true,i=0;while(changed&&i++<catalog.skills.length){changed=false;for(const s of catalog.skills){const rec=records[s.id]||(records[s.id]={});const m=!!rec.selfMaster&&s.prereq.every(p=>records[p]?.master);if(!!rec.master!==m){rec.master=m;changed=true;}}}return records;}
+function applyResult(records,id,result,elapsed,testMeta){const rec=records[id]||(records[id]={});rec.metrics=result.metrics;rec.attempts=(rec.attempts||0)+1;
+ if(result.provisional)rec.license=true;
+ if(result.perfect)rec.selfMaster=true;
+ rec.lastAttempt=new Date().toISOString();rec.lastScore=result.correct+'/'+result.count;rec.bestPercent=Math.max(rec.bestPercent||0,Math.floor(result.correct/result.count*100));
+ rec.history=Array.isArray(rec.history)?rec.history:[];
+ rec.history.push({at:rec.lastAttempt,metrics:result.metrics,provisional:result.provisional,perfect:result.perfect,elapsedSeconds:elapsed,correct:result.correct,count:result.count,testId:testMeta||null});
+ recalc(records);return rec;
+}
+// Upgrade records created with the earlier ambiguous-number grading and the
+// incorrect speed=min(time,accuracy) rule. No test is re-taken; saved questions,
+// answers, and elapsed time are rescored in place. Preserve previously earned
+// achievements; a fix can grant a deserved achievement, not take one away.
+function repairStoredGrades(state){
+ if(!state||!Array.isArray(state.attemptsHistory))return {rescored:0,upgraded:0};
+ const latest=new Map();let rescored=0,upgraded=0;
+ for(const h of state.attemptsHistory){
+  if(!h||!catalog.byId[h.skillId]||!h.test||!Array.isArray(h.test.questions)||!h.test.questions.length||!Array.isArray(h.answers)||!Number.isFinite(h.elapsedSeconds))continue;
+  try{
+   const r=gradeTest(h.test,h.answers,h.elapsedSeconds);
+   const prevPerfect=!!h.perfect,prevProvisional=!!h.provisional;
+   Object.assign(h,{results:r.results,metrics:r.metrics,perfect:r.perfect,provisional:r.provisional,correct:r.correct,count:r.count});
+   if((!prevPerfect&&r.perfect)||(!prevProvisional&&r.provisional))upgraded++;
+   latest.set(h.skillId,h);rescored++;
+   const rec=state.records[h.skillId]||(state.records[h.skillId]={});
+   if(r.provisional)rec.license=true;
+   if(r.perfect){rec.selfMaster=true;rec.license=true;}
+   rec.bestPercent=Math.max(rec.bestPercent||0,Math.floor(r.correct/r.count*100));
+   if(Array.isArray(rec.history)){
+    const prior=rec.history.find(x=>x.testId===h.test.createdAt&&x.at===h.at);
+    if(prior)Object.assign(prior,{metrics:r.metrics,provisional:r.provisional,perfect:r.perfect,elapsedSeconds:h.elapsedSeconds,correct:r.correct,count:r.count});
+   }
+  }catch{ /* skip malformed legacy record without deleting the user's data */ }
+ }
+ for(const [id,h]of latest){
+  const rec=state.records[id];rec.metrics=h.metrics;rec.lastScore=h.correct+'/'+h.count;
+ }
+ recalc(state.records);
+ if(state.lastResult){
+  const h=state.attemptsHistory.find(x=>x.skillId===state.lastResult.skillId&&x.at===state.lastResult.at);
+  if(h)state.lastResult={...h,recMaster:!!state.records[h.skillId]?.master};
+ }
+ return {rescored,upgraded};
+}
+function makeDiagnosis(profile,r=Math.random){const steps=catalog.tracks.map(t=>({track:t.id,index:catalog.startingIndex(t.id,Number(profile.grade),Number(profile.month)),attempts:0,probes:0,done:false,status:'pending',last:null}));return {steps,index:0,question:null,logs:[],startedAt:new Date().toISOString()};}
+function currentDiagnosticSkill(d){let step=d.steps[d.index];if(!step)return null;let list=catalog.skills.filter(s=>s.track===step.track);return list[step.index];}
+function nextDiagnosticQuestion(d,r=Math.random){let step=d.steps[d.index];if(!step)return null;const skill=currentDiagnosticSkill(d);d.question=makeQuestion(skill,'basic',r);return d.question;}
+function diagnoseAnswer(d,input){const step=d.steps[d.index];const q=d.question;const r=scoreAnswer(q,input);d.logs.push({skillId:q.skillId,prompt:q.prompt,answer:input,status:r.status});
+ step.probes++;step.attempts+=r.status==='correct'?1:0;
+ if(step.probes<3){d.question=null;return {result:r,done:false,advance:false};}
+ const list=catalog.skills.filter(s=>s.track===step.track),passed=step.attempts>=2;
+ step.last={skillId:list[step.index].id,passed,score:step.attempts};
+ // bounded upward/downward exploration, at most 3 sampled levels per track.
+ step.levelsChecked=(step.levelsChecked||0)+1;
+ if(step.levelsChecked<3 && passed && step.index<list.length-1){step.index++;step.probes=0;step.attempts=0;d.question=null;return {result:r,done:false,advance:true};}
+ if(step.levelsChecked<3 && !passed && step.index>0){step.index--;step.probes=0;step.attempts=0;d.question=null;return {result:r,done:false,advance:true};}
+ step.done=true;step.status=passed?'passed':'needs_learning';step.recommendSkillId=passed&&step.index<list.length-1?list[step.index+1].id:list[step.index].id;
+ d.index++;d.question=null;return {result:r,done:d.index>=d.steps.length,advance:true};
+}
+return {makeQuestion,scoreAnswer,buildTest,gradeTest,masteryStatus,recalc,applyResult,repairStoredGrades,makeDiagnosis,nextDiagnosticQuestion,diagnoseAnswer,currentDiagnosticSkill,secFor,val,catalog};
+});
+
+/* Full proposed 285-skill catalogue (reference map, not complete exercises). */
+(function(root,factory){const obj=factory();if(typeof module==='object'&&module.exports)module.exports=obj;else root.MathCatalog=obj;})(typeof globalThis==='object'?globalThis:this,function(){
+'use strict';
+const stages=[{id:'E1',title:'小学1年',group:'elementary'},{id:'E2',title:'小学2年',group:'elementary'},{id:'E3',title:'小学3年',group:'elementary'},{id:'E4',title:'小学4年',group:'elementary'},{id:'E5',title:'小学5年',group:'elementary'},{id:'E6',title:'小学6年',group:'elementary'},{id:'J1',title:'中学1年',group:'junior'},{id:'J2',title:'中学2年',group:'junior'},{id:'J3',title:'中学3年',group:'junior'},{id:'H-I',title:'数学Ⅰ',group:'high'},{id:'H-A',title:'数学Ａ',group:'high'},{id:'H-II',title:'数学Ⅱ',group:'high'},{id:'H-B',title:'数学Ｂ',group:'high'},{id:'H-III',title:'数学Ⅲ',group:'high'},{id:'H-C',title:'数学Ｃ',group:'high'}];
+const strands=[['number','数と計算','＃'],['algebra','式・代数','𝑥'],['geometry','図形','△'],['functions','関数','ƒ'],['data','データ','▥'],['measure','量と測定','↔'],['probability','確率','⚄'],['calculus','微積分','∫'],['discrete','離散数学','⊞'],['modeling','数学的活用','◇']].map(([id,title,icon])=>({id,title,icon}));
+const skills=[{"id":"e1.number.count_objects","title":"ものの数を1対1対応で数える","stage":"E1","strand":"number","prereq":[],"area":"A 数と計算"},{"id":"e1.number.read_write_100","title":"100までの数を読む・書く","stage":"E1","strand":"number","prereq":["e1.number.count_objects"],"area":"A 数と計算"},{"id":"e1.number.compare_100","title":"100までの数の大小・順序","stage":"E1","strand":"number","prereq":["e1.number.read_write_100"],"area":"A 数と計算"},{"id":"e1.number.number_line","title":"数直線に整数を置く","stage":"E1","strand":"number","prereq":["e1.number.compare_100"],"area":"A 数と計算"},{"id":"e1.number.compose_decompose","title":"10の合成・分解","stage":"E1","strand":"number","prereq":["e1.number.read_write_100"],"area":"A 数と計算"},{"id":"e1.number.place_value","title":"十進位取り（十と一）を説明する","stage":"E1","strand":"number","prereq":["e1.number.compose_decompose"],"area":"A 数と計算"},{"id":"e1.number.add_meaning","title":"たし算の場面を式にする","stage":"E1","strand":"number","prereq":["e1.number.count_objects"],"area":"A 数と計算"},{"id":"e1.number.subtract_meaning","title":"ひき算の場面を式にする","stage":"E1","strand":"number","prereq":["e1.number.count_objects"],"area":"A 数と計算"},{"id":"e1.number.add_single","title":"1位数の加法を計算する","stage":"E1","strand":"number","prereq":["e1.number.compose_decompose","e1.number.add_meaning"],"area":"A 数と計算"},{"id":"e1.number.subtract_single","title":"1位数の減法を計算する","stage":"E1","strand":"number","prereq":["e1.number.compose_decompose","e1.number.subtract_meaning"],"area":"A 数と計算"},{"id":"e1.number.add_carry","title":"10をつくる繰り上がり加算","stage":"E1","strand":"number","prereq":["e1.number.add_single","e1.number.place_value"],"area":"A 数と計算"},{"id":"e1.number.subtract_borrow","title":"10をくずす繰り下がり減算","stage":"E1","strand":"number","prereq":["e1.number.subtract_single","e1.number.place_value"],"area":"A 数と計算"},{"id":"e1.number.simple_two_digit","title":"簡単な2位数の加減算","stage":"E1","strand":"number","prereq":["e1.number.place_value","e1.number.add_single","e1.number.subtract_single"],"area":"A 数と計算"},{"id":"e1.number.story_add_sub","title":"加減の文章場面を式・図に表す","stage":"E1","strand":"number","prereq":["e1.number.add_meaning","e1.number.subtract_meaning"],"area":"A 数と計算"},{"id":"e1.number.numbers_to_120","title":"120程度までの数の構造","stage":"E1","strand":"number","prereq":["e1.number.place_value"],"area":"A 数と計算"},{"id":"e1.geometry.shape_recognize","title":"平面図形の形と特徴を見分ける","stage":"E1","strand":"geometry","prereq":["e1.number.count_objects"],"area":"B 図形"},{"id":"e1.geometry.solid_recognize","title":"身の回りの立体の形を見分ける","stage":"E1","strand":"geometry","prereq":[],"area":"B 図形"},{"id":"e1.geometry.compose_shapes","title":"図形を組み合わせ分解する","stage":"E1","strand":"geometry","prereq":["e1.geometry.shape_recognize"],"area":"B 図形"},{"id":"e1.geometry.position_directions","title":"上下左右・位置を言葉で表す","stage":"E1","strand":"geometry","prereq":[],"area":"B 図形"},{"id":"e1.measure.compare_length","title":"長さを直接・間接比較する","stage":"E1","strand":"measure","prereq":[],"area":"C 測定"},{"id":"e1.measure.compare_area_capacity","title":"広さ・かさを比較する","stage":"E1","strand":"measure","prereq":[],"area":"C 測定"},{"id":"e1.measure.read_clock","title":"時計の時刻を読む","stage":"E1","strand":"measure","prereq":["e1.number.read_write_100"],"area":"C 測定"},{"id":"e1.data.picture_count","title":"数量を絵や図にして比較する","stage":"E1","strand":"data","prereq":["e1.number.count_objects"],"area":"D データの活用"},{"id":"e2.number.numbers_to_10000","title":"10000までの数の位取りを扱う","stage":"E2","strand":"number","prereq":["e1.number.place_value","e1.number.numbers_to_120"],"area":"A 数と計算"},{"id":"e2.number.add_column","title":"2位数の加算の筆算を使う","stage":"E2","strand":"number","prereq":["e1.number.add_carry","e2.number.numbers_to_10000"],"area":"A 数と計算"},{"id":"e2.number.subtract_column","title":"2位数の減算の筆算を使う","stage":"E2","strand":"number","prereq":["e1.number.subtract_borrow","e2.number.numbers_to_10000"],"area":"A 数と計算"},{"id":"e2.number.add_sub_3digit_simple","title":"簡単な3位数の加減算","stage":"E2","strand":"number","prereq":["e2.number.add_column","e2.number.subtract_column"],"area":"A 数と計算"},{"id":"e2.number.add_sub_inverse","title":"加法と減法の関係を説明する","stage":"E2","strand":"number","prereq":["e1.number.add_meaning","e1.number.subtract_meaning"],"area":"A 数と計算"},{"id":"e2.number.mul_equal_groups","title":"同数ずつのまとまりを乗法で表す","stage":"E2","strand":"number","prereq":["e1.number.add_single"],"area":"A 数と計算"},{"id":"e2.number.multiplication_table","title":"九九を使って計算する","stage":"E2","strand":"number","prereq":["e2.number.mul_equal_groups"],"area":"A 数と計算"},{"id":"e2.number.mul_2digit_simple","title":"2位数と1位数の簡単な乗法","stage":"E2","strand":"number","prereq":["e2.number.multiplication_table","e1.number.place_value"],"area":"A 数と計算"},{"id":"e2.number.mul_word_problems","title":"乗法の文章場面を式に表す","stage":"E2","strand":"number","prereq":["e2.number.mul_equal_groups"],"area":"A 数と計算"},{"id":"e2.number.commutative_property","title":"加法・乗法の交換法則を確かめる","stage":"E2","strand":"number","prereq":["e1.number.add_single","e2.number.multiplication_table"],"area":"A 数と計算"},{"id":"e2.number.associative_add","title":"加法の結合法則を説明する","stage":"E2","strand":"number","prereq":["e2.number.add_column"],"area":"A 数と計算"},{"id":"e2.number.simple_fraction","title":"半分・1/3など等分した分数を表す","stage":"E2","strand":"number","prereq":["e1.number.compose_decompose"],"area":"A 数と計算"},{"id":"e2.geometry.triangles_quads","title":"三角形・四角形を分類する","stage":"E2","strand":"geometry","prereq":["e1.geometry.shape_recognize"],"area":"B 図形"},{"id":"e2.geometry.square_rectangle","title":"長方形・正方形・直角を調べる","stage":"E2","strand":"geometry","prereq":["e2.geometry.triangles_quads"],"area":"B 図形"},{"id":"e2.geometry.right_triangle","title":"直角三角形を見分ける","stage":"E2","strand":"geometry","prereq":["e2.geometry.square_rectangle"],"area":"B 図形"},{"id":"e2.geometry.box_shape","title":"箱の形を構成し辺・頂点・面を知る","stage":"E2","strand":"geometry","prereq":["e1.geometry.solid_recognize"],"area":"B 図形"},{"id":"e2.measure.standard_length","title":"cm・mm・mで長さを測る","stage":"E2","strand":"measure","prereq":["e1.measure.compare_length","e2.number.numbers_to_10000"],"area":"C 測定"},{"id":"e2.measure.capacity_units","title":"L・dL・mLでかさを測る","stage":"E2","strand":"measure","prereq":["e1.measure.compare_area_capacity"],"area":"C 測定"},{"id":"e2.measure.minutes_hours","title":"時・分の関係を使い経過時間を求める","stage":"E2","strand":"measure","prereq":["e1.measure.read_clock","e2.number.add_column"],"area":"C 測定"},{"id":"e2.data.simple_tables","title":"数量を表に整理する","stage":"E2","strand":"data","prereq":["e1.data.picture_count"],"area":"D データの活用"},{"id":"e2.data.simple_graphs","title":"簡単なグラフを読み取る","stage":"E2","strand":"data","prereq":["e2.data.simple_tables"],"area":"D データの活用"},{"id":"e3.number.large_numbers_100m","title":"1億までの整数の位取り","stage":"E3","strand":"number","prereq":["e2.number.numbers_to_10000"],"area":"A 数と計算"},{"id":"e3.number.multi_digit_add","title":"多桁の加算筆算","stage":"E3","strand":"number","prereq":["e2.number.add_column"],"area":"A 数と計算"},{"id":"e3.number.multi_digit_subtract","title":"多桁の減算筆算","stage":"E3","strand":"number","prereq":["e2.number.subtract_column"],"area":"A 数と計算"},{"id":"e3.number.multiply_2by1","title":"2桁×1桁の筆算","stage":"E3","strand":"number","prereq":["e2.number.multiplication_table","e2.number.mul_2digit_simple"],"area":"A 数と計算"},{"id":"e3.number.multiply_3by1","title":"3桁×1桁の筆算","stage":"E3","strand":"number","prereq":["e3.number.multiply_2by1"],"area":"A 数と計算"},{"id":"e3.number.multiply_two_digit_by_two_digit","title":"2桁×2桁の筆算","stage":"E3","strand":"number","prereq":["e3.number.multiply_2by1","e1.number.place_value","e3.number.multi_digit_add"],"area":"A 数と計算"},{"id":"e3.number.multiplication_properties","title":"乗法の結合・分配法則を使う","stage":"E3","strand":"number","prereq":["e3.number.multiply_2by1","e2.number.commutative_property"],"area":"A 数と計算"},{"id":"e3.number.division_meaning","title":"等分除・包含除を理解する","stage":"E3","strand":"number","prereq":["e2.number.multiplication_table","e2.number.simple_fraction"],"area":"A 数と計算"},{"id":"e3.number.divide_2by1","title":"2桁÷1桁を計算する","stage":"E3","strand":"number","prereq":["e3.number.division_meaning","e2.number.multiplication_table"],"area":"A 数と計算"},{"id":"e3.number.remainder","title":"余りの意味と余りの大きさ","stage":"E3","strand":"number","prereq":["e3.number.divide_2by1"],"area":"A 数と計算"},{"id":"e3.number.decimal_tenths","title":"小数の位（1/10）と数直線","stage":"E3","strand":"number","prereq":["e2.number.numbers_to_10000","e2.number.simple_fraction"],"area":"A 数と計算"},{"id":"e3.number.decimal_add_sub","title":"小数第一位までの加減算","stage":"E3","strand":"number","prereq":["e3.number.decimal_tenths","e2.number.add_column"],"area":"A 数と計算"},{"id":"e3.number.fraction_unit","title":"単位分数と分数の大きさ","stage":"E3","strand":"number","prereq":["e2.number.simple_fraction","e1.number.number_line"],"area":"A 数と計算"},{"id":"e3.number.fraction_same_denominator_simple","title":"簡単な同分母分数の加減算","stage":"E3","strand":"number","prereq":["e3.number.fraction_unit","e1.number.add_single"],"area":"A 数と計算"},{"id":"e3.number.unknown_box_equation","title":"□を用いて未知数を含む式を解く","stage":"E3","strand":"number","prereq":["e2.number.add_sub_inverse","e3.number.division_meaning"],"area":"A 数と計算"},{"id":"e3.number.expression_diagram","title":"図と式の対応を読み取る","stage":"E3","strand":"number","prereq":["e1.number.story_add_sub","e2.number.mul_word_problems"],"area":"A 数と計算"},{"id":"e3.geometry.circles","title":"円の中心・半径・直径","stage":"E3","strand":"geometry","prereq":["e2.geometry.square_rectangle"],"area":"B 図形"},{"id":"e3.geometry.spheres","title":"球の中心・半径・直径","stage":"E3","strand":"geometry","prereq":["e1.geometry.solid_recognize","e3.geometry.circles"],"area":"B 図形"},{"id":"e3.geometry.isosceles_equilateral","title":"二等辺三角形・正三角形の性質","stage":"E3","strand":"geometry","prereq":["e2.geometry.triangles_quads"],"area":"B 図形"},{"id":"e3.geometry.angles_compare","title":"角の大小を比較する","stage":"E3","strand":"geometry","prereq":["e2.geometry.right_triangle"],"area":"B 図形"},{"id":"e3.measure.km","title":"kmとmの換算","stage":"E3","strand":"measure","prereq":["e2.measure.standard_length","e3.number.large_numbers_100m"],"area":"C 測定"},{"id":"e3.measure.mass","title":"g・kg・tの測定と換算","stage":"E3","strand":"measure","prereq":["e2.number.numbers_to_10000"],"area":"C 測定"},{"id":"e3.measure.seconds","title":"秒と分・時の関係","stage":"E3","strand":"measure","prereq":["e2.measure.minutes_hours"],"area":"C 測定"},{"id":"e3.measure.elapsed_time","title":"経過時間を計算する","stage":"E3","strand":"measure","prereq":["e3.measure.seconds","e2.measure.minutes_hours"],"area":"C 測定"},{"id":"e3.data.bar_graph","title":"棒グラフの作成と読み取り","stage":"E3","strand":"data","prereq":["e2.data.simple_graphs","e3.number.large_numbers_100m"],"area":"D データの活用"},{"id":"e4.number.large_numbers_trillions","title":"億・兆までの数を位取りで説明","stage":"E4","strand":"number","prereq":["e3.number.large_numbers_100m"],"area":"A 数と計算"},{"id":"e4.number.rounding","title":"四捨五入と概数","stage":"E4","strand":"number","prereq":["e3.number.large_numbers_100m"],"area":"A 数と計算"},{"id":"e4.number.estimation","title":"概算で結果の妥当性を判断する","stage":"E4","strand":"number","prereq":["e4.number.rounding","e3.number.multi_digit_add"],"area":"A 数と計算"},{"id":"e4.number.long_division","title":"2桁の除数を含む整数の除法筆算","stage":"E4","strand":"number","prereq":["e3.number.divide_2by1","e3.number.multiply_two_digit_by_two_digit"],"area":"A 数と計算"},{"id":"e4.number.mixed_operations","title":"四則混合・かっこを含む式","stage":"E4","strand":"number","prereq":["e4.number.long_division","e3.number.multiplication_properties"],"area":"A 数と計算"},{"id":"e4.number.decimal_place_value","title":"小数の位取りを広げる","stage":"E4","strand":"number","prereq":["e3.number.decimal_tenths"],"area":"A 数と計算"},{"id":"e4.number.decimal_add_sub","title":"小数の加減算を筆算する","stage":"E4","strand":"number","prereq":["e3.number.decimal_add_sub","e4.number.decimal_place_value"],"area":"A 数と計算"},{"id":"e4.number.decimal_times_integer","title":"小数×整数の計算","stage":"E4","strand":"number","prereq":["e3.number.multiply_2by1","e4.number.decimal_place_value"],"area":"A 数と計算"},{"id":"e4.number.decimal_div_integer","title":"小数÷整数の計算","stage":"E4","strand":"number","prereq":["e4.number.decimal_place_value","e4.number.long_division"],"area":"A 数と計算"},{"id":"e4.number.fraction_over_one","title":"1を超える分数・帯分数","stage":"E4","strand":"number","prereq":["e3.number.fraction_unit"],"area":"A 数と計算"},{"id":"e4.number.fraction_equivalence","title":"等しい分数と分数の大小","stage":"E4","strand":"number","prereq":["e4.number.fraction_over_one","e3.number.fraction_unit"],"area":"A 数と計算"},{"id":"e4.number.fraction_add_same","title":"同分母分数の加減算","stage":"E4","strand":"number","prereq":["e3.number.fraction_same_denominator_simple","e4.number.fraction_over_one"],"area":"A 数と計算"},{"id":"e4.number.symbols_formula","title":"□や△を使い数量関係を式にする","stage":"E4","strand":"number","prereq":["e3.number.unknown_box_equation"],"area":"A 数と計算"},{"id":"e4.geometry.angle_degrees","title":"角を度で測り作図する","stage":"E4","strand":"geometry","prereq":["e3.geometry.angles_compare"],"area":"B 図形"},{"id":"e4.geometry.parallel_perpendicular","title":"平行・垂直の関係を理解する","stage":"E4","strand":"geometry","prereq":["e2.geometry.square_rectangle"],"area":"B 図形"},{"id":"e4.geometry.quadrilaterals","title":"平行四辺形・ひし形・台形を分類する","stage":"E4","strand":"geometry","prereq":["e4.geometry.parallel_perpendicular","e2.geometry.triangles_quads"],"area":"B 図形"},{"id":"e4.geometry.rectangles_cubes","title":"直方体と立方体の性質","stage":"E4","strand":"geometry","prereq":["e2.geometry.box_shape"],"area":"B 図形"},{"id":"e4.geometry.nets_views","title":"立体の展開図・見取図を使う","stage":"E4","strand":"geometry","prereq":["e4.geometry.rectangles_cubes"],"area":"B 図形"},{"id":"e4.geometry.area_unit","title":"平方cm・平方m等の面積単位","stage":"E4","strand":"geometry","prereq":["e2.measure.standard_length","e1.measure.compare_area_capacity"],"area":"B 図形"},{"id":"e4.geometry.rectangle_area","title":"長方形・正方形の面積","stage":"E4","strand":"geometry","prereq":["e4.geometry.area_unit","e2.number.multiplication_table"],"area":"B 図形"},{"id":"e4.geometry.position_space","title":"空間の位置を座標的に表す","stage":"E4","strand":"geometry","prereq":["e1.geometry.position_directions","e4.geometry.rectangles_cubes"],"area":"B 図形"},{"id":"e4.functions.co_variation","title":"伴って変わる2量を表や式で表す","stage":"E4","strand":"functions","prereq":["e3.number.expression_diagram","e3.data.bar_graph"],"area":"C 変化と関係"},{"id":"e4.functions.simple_proportion","title":"2量の関係を簡単な比例で考える","stage":"E4","strand":"functions","prereq":["e4.functions.co_variation","e2.number.multiplication_table"],"area":"C 変化と関係"},{"id":"e4.functions.simple_percent","title":"簡単な場面で割合の意味をつかむ","stage":"E4","strand":"functions","prereq":["e3.number.division_meaning","e4.functions.co_variation"],"area":"C 変化と関係"},{"id":"e4.data.two_way_table","title":"2次元の表で分類・整理する","stage":"E4","strand":"data","prereq":["e2.data.simple_tables"],"area":"D データの活用"},{"id":"e4.data.line_graph","title":"折れ線グラフで変化を示す","stage":"E4","strand":"data","prereq":["e3.data.bar_graph","e4.functions.co_variation"],"area":"D データの活用"},{"id":"e5.number.even_odd","title":"偶数・奇数の性質","stage":"E5","strand":"number","prereq":["e3.number.division_meaning"],"area":"A 数と計算"},{"id":"e5.number.multiples_divisors","title":"倍数と約数を見つける","stage":"E5","strand":"number","prereq":["e3.number.divide_2by1","e2.number.multiplication_table"],"area":"A 数と計算"},{"id":"e5.number.gcd_lcm","title":"最大公約数・最小公倍数","stage":"E5","strand":"number","prereq":["e5.number.multiples_divisors"],"area":"A 数と計算"},{"id":"e5.number.fraction_reduce","title":"約分する","stage":"E5","strand":"number","prereq":["e4.number.fraction_equivalence","e5.number.gcd_lcm"],"area":"A 数と計算"},{"id":"e5.number.fraction_common_denominator","title":"通分する","stage":"E5","strand":"number","prereq":["e5.number.gcd_lcm","e4.number.fraction_equivalence"],"area":"A 数と計算"},{"id":"e5.number.fraction_add_unlike","title":"異分母分数の加算","stage":"E5","strand":"number","prereq":["e5.number.fraction_common_denominator","e4.number.fraction_add_same","e3.number.multi_digit_add"],"area":"A 数と計算"},{"id":"e5.number.fraction_sub_unlike","title":"異分母分数の減算","stage":"E5","strand":"number","prereq":["e5.number.fraction_common_denominator","e4.number.fraction_add_same","e3.number.multi_digit_subtract"],"area":"A 数と計算"},{"id":"e5.number.fraction_decimal_convert","title":"分数・小数・整数の関係","stage":"E5","strand":"number","prereq":["e4.number.fraction_equivalence","e4.number.decimal_place_value"],"area":"A 数と計算"},{"id":"e5.number.decimal_times_decimal","title":"小数×小数の計算","stage":"E5","strand":"number","prereq":["e4.number.decimal_times_integer","e3.number.multiplication_properties"],"area":"A 数と計算"},{"id":"e5.number.decimal_div_decimal","title":"小数÷小数の計算","stage":"E5","strand":"number","prereq":["e4.number.decimal_div_integer","e5.number.decimal_times_decimal"],"area":"A 数と計算"},{"id":"e5.number.fraction_times_integer","title":"分数×整数の計算","stage":"E5","strand":"number","prereq":["e4.number.fraction_add_same","e3.number.multiply_2by1"],"area":"A 数と計算"},{"id":"e5.number.fraction_div_integer","title":"分数÷整数の計算","stage":"E5","strand":"number","prereq":["e5.number.fraction_times_integer","e3.number.division_meaning"],"area":"A 数と計算"},{"id":"e5.geometry.polygons_regular","title":"多角形・正多角形の性質","stage":"E5","strand":"geometry","prereq":["e4.geometry.quadrilaterals"],"area":"B 図形"},{"id":"e5.geometry.congruent_figures","title":"図形の合同と対応する辺・角","stage":"E5","strand":"geometry","prereq":["e4.geometry.quadrilaterals","e4.geometry.angle_degrees"],"area":"B 図形"},{"id":"e5.geometry.triangle_angle_sum","title":"三角形の内角の和","stage":"E5","strand":"geometry","prereq":["e5.geometry.congruent_figures"],"area":"B 図形"},{"id":"e5.geometry.polygon_angle_sum","title":"多角形の内角の和","stage":"E5","strand":"geometry","prereq":["e5.geometry.triangle_angle_sum"],"area":"B 図形"},{"id":"e5.geometry.triangle_area","title":"三角形の面積","stage":"E5","strand":"geometry","prereq":["e4.geometry.rectangle_area","e5.geometry.congruent_figures"],"area":"B 図形"},{"id":"e5.geometry.parallelogram_area","title":"平行四辺形の面積","stage":"E5","strand":"geometry","prereq":["e4.geometry.rectangle_area","e4.geometry.quadrilaterals"],"area":"B 図形"},{"id":"e5.geometry.trapezoid_rhombus_area","title":"台形・ひし形の面積","stage":"E5","strand":"geometry","prereq":["e5.geometry.triangle_area","e5.geometry.parallelogram_area"],"area":"B 図形"},{"id":"e5.geometry.circle_circumference","title":"円周と円周率の関係","stage":"E5","strand":"geometry","prereq":["e3.geometry.circles","e5.number.decimal_times_decimal"],"area":"B 図形"},{"id":"e5.geometry.prism_cylinder","title":"角柱・円柱の構造","stage":"E5","strand":"geometry","prereq":["e4.geometry.rectangles_cubes","e3.geometry.circles"],"area":"B 図形"},{"id":"e5.geometry.volume_units","title":"立方cm・立方mと体積の意味","stage":"E5","strand":"geometry","prereq":["e4.geometry.area_unit","e4.geometry.rectangles_cubes"],"area":"B 図形"},{"id":"e5.geometry.rect_prism_volume","title":"直方体・立方体の体積","stage":"E5","strand":"geometry","prereq":["e5.geometry.volume_units","e4.geometry.rectangle_area"],"area":"B 図形"},{"id":"e5.functions.unit_rate","title":"単位量当たりの大きさを比較する","stage":"E5","strand":"functions","prereq":["e3.number.division_meaning","e4.functions.simple_proportion"],"area":"C 変化と関係"},{"id":"e5.functions.speed","title":"速さ・時間・道のりの関係","stage":"E5","strand":"functions","prereq":["e5.functions.unit_rate","e3.measure.elapsed_time"],"area":"C 変化と関係"},{"id":"e5.functions.percentage","title":"百分率と割合を計算する","stage":"E5","strand":"functions","prereq":["e5.functions.unit_rate","e5.number.decimal_div_decimal"],"area":"C 変化と関係"},{"id":"e5.functions.proportion_relation","title":"比例的関係を表で判断する","stage":"E5","strand":"functions","prereq":["e4.functions.simple_proportion","e5.functions.unit_rate"],"area":"C 変化と関係"},{"id":"e5.data.average","title":"平均の意味と計算","stage":"E5","strand":"data","prereq":["e4.number.long_division","e3.data.bar_graph"],"area":"D データの活用"},{"id":"e5.data.pie_graph","title":"円グラフ・帯グラフを読み取る","stage":"E5","strand":"data","prereq":["e5.functions.percentage","e4.data.two_way_table"],"area":"D データの活用"},{"id":"e5.data.statistical_problem_solving","title":"データを集め比較し結論を説明する","stage":"E5","strand":"data","prereq":["e5.data.average","e5.data.pie_graph"],"area":"D データの活用"},{"id":"e6.number.reciprocal","title":"逆数の意味と活用","stage":"E6","strand":"number","prereq":["e5.number.fraction_decimal_convert","e3.number.division_meaning"],"area":"A 数と計算"},{"id":"e6.number.fraction_times_fraction","title":"分数×分数の意味と計算","stage":"E6","strand":"number","prereq":["e5.number.fraction_times_integer","e4.number.fraction_equivalence"],"area":"A 数と計算"},{"id":"e6.number.fraction_div_fraction","title":"分数÷分数の意味と計算","stage":"E6","strand":"number","prereq":["e6.number.reciprocal","e6.number.fraction_times_fraction"],"area":"A 数と計算"},{"id":"e6.number.mixed_numbers","title":"整数・小数・分数の混合計算","stage":"E6","strand":"number","prereq":["e6.number.fraction_div_fraction","e5.number.decimal_div_decimal","e4.number.mixed_operations"],"area":"A 数と計算"},{"id":"e6.number.letter_expressions","title":"文字を用いて数量を式にする","stage":"E6","strand":"number","prereq":["e4.number.symbols_formula","e6.number.mixed_numbers"],"area":"A 数と計算"},{"id":"e6.geometry.enlarge_reduce","title":"図形の拡大図・縮図","stage":"E6","strand":"geometry","prereq":["e5.geometry.congruent_figures","e5.functions.proportion_relation"],"area":"B 図形"},{"id":"e6.geometry.line_symmetry","title":"線対称な図形を作図する","stage":"E6","strand":"geometry","prereq":["e5.geometry.polygons_regular","e5.geometry.congruent_figures"],"area":"B 図形"},{"id":"e6.geometry.point_symmetry","title":"点対称な図形を作図する","stage":"E6","strand":"geometry","prereq":["e6.geometry.line_symmetry"],"area":"B 図形"},{"id":"e6.geometry.circle_area","title":"円の面積の求め方","stage":"E6","strand":"geometry","prereq":["e3.geometry.circles","e5.geometry.circle_circumference","e5.geometry.triangle_area"],"area":"B 図形"},{"id":"e6.geometry.prism_volume","title":"角柱・円柱の体積","stage":"E6","strand":"geometry","prereq":["e5.geometry.rect_prism_volume","e5.geometry.prism_cylinder","e6.geometry.circle_area"],"area":"B 図形"},{"id":"e6.functions.ratio","title":"比と比の値を解釈する","stage":"E6","strand":"functions","prereq":["e5.functions.percentage","e6.number.fraction_div_fraction"],"area":"C 変化と関係"},{"id":"e6.functions.proportional_expression","title":"比例の表・式・グラフを結び付ける","stage":"E6","strand":"functions","prereq":["e5.functions.proportion_relation","e6.number.letter_expressions"],"area":"C 変化と関係"},{"id":"e6.functions.inverse_proportional","title":"反比例を表・式・グラフで扱う","stage":"E6","strand":"functions","prereq":["e6.functions.proportional_expression","e6.number.fraction_div_fraction"],"area":"C 変化と関係"},{"id":"e6.functions.proportional_problem","title":"比例・反比例を日常場面に適用","stage":"E6","strand":"functions","prereq":["e6.functions.proportional_expression","e6.functions.inverse_proportional"],"area":"C 変化と関係"},{"id":"e6.data.representative_values","title":"中央値・最頻値・平均値を比較する","stage":"E6","strand":"data","prereq":["e5.data.average"],"area":"D データの活用"},{"id":"e6.data.frequency_distribution","title":"度数分布表・ヒストグラムを解釈する","stage":"E6","strand":"data","prereq":["e5.data.statistical_problem_solving"],"area":"D データの活用"},{"id":"e6.data.possible_cases","title":"起こり得る場合を表や樹形図で列挙","stage":"E6","strand":"data","prereq":["e4.data.two_way_table","e3.number.multiplication_properties"],"area":"D データの活用"},{"id":"e6.data.statistical_inference_intro","title":"データを用いた問題解決を説明する","stage":"E6","strand":"data","prereq":["e6.data.frequency_distribution","e6.data.representative_values"],"area":"D データの活用"},{"id":"j1.number.negative_numbers","title":"正負の数の意味・大小・数直線","stage":"J1","strand":"number","prereq":["e3.number.large_numbers_100m","e5.number.fraction_decimal_convert"],"area":"A 数と式"},{"id":"j1.number.integer_four_ops","title":"正負の数の四則計算","stage":"J1","strand":"number","prereq":["j1.number.negative_numbers","e6.number.mixed_numbers"],"area":"A 数と式"},{"id":"j1.number.exponent_positive","title":"正の整数指数を計算する","stage":"J1","strand":"number","prereq":["j1.number.integer_four_ops","e2.number.multiplication_table"],"area":"A 数と式"},{"id":"j1.number.prime_factorization","title":"素因数分解を行う","stage":"J1","strand":"number","prereq":["e5.number.multiples_divisors","e5.number.gcd_lcm"],"area":"A 数と式"},{"id":"j1.algebra.variables_terms","title":"文字式で数量を表す","stage":"J1","strand":"algebra","prereq":["e6.number.letter_expressions","j1.number.integer_four_ops"],"area":"A 数と式"},{"id":"j1.algebra.linear_expression","title":"一次式の整理・加減","stage":"J1","strand":"algebra","prereq":["j1.algebra.variables_terms"],"area":"A 数と式"},{"id":"j1.algebra.inequality_expressions","title":"大小・数量の関係を不等式に表す","stage":"J1","strand":"algebra","prereq":["j1.algebra.variables_terms"],"area":"A 数と式"},{"id":"j1.algebra.linear_equation_meaning","title":"方程式と解の意味","stage":"J1","strand":"algebra","prereq":["e3.number.unknown_box_equation","j1.algebra.variables_terms"],"area":"A 数と式"},{"id":"j1.algebra.solve_linear","title":"等式の性質で一次方程式を解く","stage":"J1","strand":"algebra","prereq":["j1.algebra.linear_equation","j1.number.integer_four_ops"],"area":"A 数と式"},{"id":"j1.algebra.linear_equation","title":"一次方程式の等式変形を理解する","stage":"J1","strand":"algebra","prereq":["j1.algebra.linear_equation_meaning","j1.algebra.linear_expression"],"area":"A 数と式"},{"id":"j1.algebra.ratio_equation","title":"比例式を解く","stage":"J1","strand":"algebra","prereq":["j1.algebra.solve_linear","e6.functions.ratio"],"area":"A 数と式"},{"id":"j1.algebra.word_equations","title":"文章題を一次方程式で解く","stage":"J1","strand":"algebra","prereq":["j1.algebra.solve_linear","e1.number.story_add_sub"],"area":"A 数と式"},{"id":"j1.geometry.basic_constructions","title":"垂直二等分線・角の二等分線など作図","stage":"J1","strand":"geometry","prereq":["e4.geometry.angle_degrees","e4.geometry.parallel_perpendicular"],"area":"B 図形"},{"id":"j1.geometry.transformations","title":"平行移動・対称移動・回転移動","stage":"J1","strand":"geometry","prereq":["e6.geometry.line_symmetry","e6.geometry.point_symmetry"],"area":"B 図形"},{"id":"j1.geometry.spatial_lines_planes","title":"空間の直線・平面・位置関係","stage":"J1","strand":"geometry","prereq":["e4.geometry.position_space"],"area":"B 図形"},{"id":"j1.geometry.surface_area","title":"柱体・錐体・球の表面積","stage":"J1","strand":"geometry","prereq":["e5.geometry.prism_cylinder","e6.geometry.circle_area"],"area":"B 図形"},{"id":"j1.geometry.solid_volumes","title":"柱体・錐体・球の体積","stage":"J1","strand":"geometry","prereq":["e6.geometry.prism_volume","e3.geometry.spheres"],"area":"B 図形"},{"id":"j1.geometry.sector_arclength_area","title":"おうぎ形の弧の長さ・面積","stage":"J1","strand":"geometry","prereq":["e5.geometry.circle_circumference","e6.geometry.circle_area","e6.functions.ratio"],"area":"B 図形"},{"id":"j1.geometry.nets_projections","title":"見取図・展開図・投影図","stage":"J1","strand":"geometry","prereq":["e4.geometry.nets_views","j1.geometry.spatial_lines_planes"],"area":"B 図形"},{"id":"j1.functions.coordinate_plane","title":"平面座標の読み取り","stage":"J1","strand":"functions","prereq":["e1.number.number_line","e4.functions.co_variation"],"area":"C 関数"},{"id":"j1.functions.proportional_yax","title":"比例をy=axで表しグラフを読む","stage":"J1","strand":"functions","prereq":["e6.functions.proportional_expression","j1.functions.coordinate_plane"],"area":"C 関数"},{"id":"j1.functions.inverse_y_over_x","title":"反比例をy=a/xで表しグラフを読む","stage":"J1","strand":"functions","prereq":["e6.functions.inverse_proportional","j1.functions.coordinate_plane"],"area":"C 関数"},{"id":"j1.functions.functions_application","title":"比例・反比例を現象に適用する","stage":"J1","strand":"functions","prereq":["j1.functions.proportional_yax","j1.functions.inverse_y_over_x"],"area":"C 関数"},{"id":"j1.data.histogram_relative_freq","title":"ヒストグラム・相対度数","stage":"J1","strand":"data","prereq":["e6.data.frequency_distribution"],"area":"D データの活用"},{"id":"j1.data.experimental_probability","title":"多数回試行による確率の意味","stage":"J1","strand":"data","prereq":["e6.data.possible_cases","j1.data.histogram_relative_freq"],"area":"D データの活用"},{"id":"j2.algebra.polynomial_add_sub","title":"整式の加減と単項式の乗除","stage":"J2","strand":"algebra","prereq":["j1.algebra.linear_expression","j1.number.integer_four_ops"],"area":"A 数と式"},{"id":"j2.algebra.polynomial_monomial","title":"単項式×多項式・多項式÷単項式","stage":"J2","strand":"algebra","prereq":["j2.algebra.polynomial_add_sub","j1.number.exponent_positive"],"area":"A 数と式"},{"id":"j2.algebra.formula_transform","title":"目的に応じた式変形","stage":"J2","strand":"algebra","prereq":["j2.algebra.polynomial_add_sub","j1.algebra.solve_linear"],"area":"A 数と式"},{"id":"j2.algebra.simultaneous_meaning","title":"連立二元一次方程式の解の意味","stage":"J2","strand":"algebra","prereq":["j1.algebra.solve_linear","j1.algebra.variables_terms"],"area":"A 数と式"},{"id":"j2.algebra.solve_simultaneous","title":"代入法・加減法で連立方程式を解く","stage":"J2","strand":"algebra","prereq":["j2.algebra.simultaneous_meaning","j2.algebra.polynomial_add_sub"],"area":"A 数と式"},{"id":"j2.algebra.word_simultaneous","title":"文章題に連立方程式を使う","stage":"J2","strand":"algebra","prereq":["j2.algebra.solve_simultaneous","j1.algebra.word_equations"],"area":"A 数と式"},{"id":"j2.geometry.angles_parallel","title":"平行線と角の性質","stage":"J2","strand":"geometry","prereq":["e4.geometry.parallel_perpendicular","e4.geometry.angle_degrees"],"area":"B 図形"},{"id":"j2.geometry.polygon_angle_sum","title":"多角形の角の和を説明","stage":"J2","strand":"geometry","prereq":["e5.geometry.polygon_angle_sum","j2.geometry.angles_parallel"],"area":"B 図形"},{"id":"j2.geometry.congruence_conditions","title":"三角形の合同条件を使う","stage":"J2","strand":"geometry","prereq":["e5.geometry.congruent_figures"],"area":"B 図形"},{"id":"j2.geometry.proof_logic","title":"仮定・結論・証明の構造","stage":"J2","strand":"geometry","prereq":["j2.geometry.congruence_conditions","j2.geometry.angles_parallel"],"area":"B 図形"},{"id":"j2.geometry.triangle_properties_proofs","title":"二等辺三角形などの性質を証明","stage":"J2","strand":"geometry","prereq":["j2.geometry.proof_logic","e3.geometry.isosceles_equilateral"],"area":"B 図形"},{"id":"j2.geometry.parallelogram_proofs","title":"平行四辺形の性質・条件を証明","stage":"J2","strand":"geometry","prereq":["j2.geometry.proof_logic","e4.geometry.quadrilaterals"],"area":"B 図形"},{"id":"j2.functions.linear_function_yaxb","title":"一次関数をy=ax+bで表す","stage":"J2","strand":"functions","prereq":["j1.functions.proportional_yax","j1.algebra.linear_expression"],"area":"C 関数"},{"id":"j2.functions.slope_intercept","title":"傾き・切片を解釈する","stage":"J2","strand":"functions","prereq":["j2.functions.linear_function_yaxb"],"area":"C 関数"},{"id":"j2.functions.linear_table_graph","title":"表・式・グラフを相互変換","stage":"J2","strand":"functions","prereq":["j2.functions.slope_intercept","j1.functions.coordinate_plane"],"area":"C 関数"},{"id":"j2.functions.linear_application","title":"一次関数で実際の変化を説明","stage":"J2","strand":"functions","prereq":["j2.functions.linear_table_graph","j1.algebra.word_equations"],"area":"C 関数"},{"id":"j2.functions.simultaneous_graph","title":"連立方程式と直線の交点","stage":"J2","strand":"functions","prereq":["j2.algebra.solve_simultaneous","j2.functions.linear_table_graph"],"area":"C 関数"},{"id":"j2.data.quartiles_boxplot","title":"四分位数・四分位範囲・箱ひげ図","stage":"J2","strand":"data","prereq":["e6.data.representative_values","j1.data.histogram_relative_freq"],"area":"D データの活用"},{"id":"j2.data.compare_distributions","title":"分布の形・中心・散らばりを比較","stage":"J2","strand":"data","prereq":["j2.data.quartiles_boxplot"],"area":"D データの活用"},{"id":"j2.data.count_based_probability","title":"場合の数を数えて確率を求める","stage":"J2","strand":"data","prereq":["e6.data.possible_cases","j1.data.experimental_probability"],"area":"D データの活用"},{"id":"j3.number.square_root_meaning","title":"平方根と有理数・無理数","stage":"J3","strand":"number","prereq":["j1.number.exponent_positive","j1.number.negative_numbers"],"area":"A 数と式"},{"id":"j3.number.root_operations","title":"根号を含む式の計算","stage":"J3","strand":"number","prereq":["j3.number.square_root_meaning","j2.algebra.polynomial_add_sub"],"area":"A 数と式"},{"id":"j3.number.significant_digits","title":"誤差・近似値と科学的記数法","stage":"J3","strand":"number","prereq":["e4.number.rounding","j1.number.exponent_positive"],"area":"A 数と式"},{"id":"j3.algebra.expand_polynomials","title":"単項式・多項式の乗法と展開","stage":"J3","strand":"algebra","prereq":["j2.algebra.polynomial_monomial"],"area":"A 数と式"},{"id":"j3.algebra.factorize_polynomials","title":"式の因数分解","stage":"J3","strand":"algebra","prereq":["j3.algebra.expand_polynomials"],"area":"A 数と式"},{"id":"j3.algebra.quadratic_eq_meaning","title":"二次方程式の解の意味","stage":"J3","strand":"algebra","prereq":["j1.algebra.solve_linear","j1.number.exponent_positive"],"area":"A 数と式"},{"id":"j3.algebra.solve_quadratic_factor","title":"因数分解で二次方程式を解く","stage":"J3","strand":"algebra","prereq":["j3.algebra.factorize_polynomials","j3.algebra.quadratic_eq_meaning"],"area":"A 数と式"},{"id":"j3.algebra.solve_quadratic_formula","title":"平方完成・解の公式を使う","stage":"J3","strand":"algebra","prereq":["j3.algebra.quadratic_eq_meaning","j3.number.root_operations","j3.algebra.expand_polynomials"],"area":"A 数と式"},{"id":"j3.algebra.quadratic_word_problems","title":"二次方程式を文章題に活用","stage":"J3","strand":"algebra","prereq":["j3.algebra.solve_quadratic_formula","j3.algebra.solve_quadratic_factor"],"area":"A 数と式"},{"id":"j3.geometry.similarity_conditions","title":"相似の意味と三角形の相似条件","stage":"J3","strand":"geometry","prereq":["e6.geometry.enlarge_reduce","j2.geometry.congruence_conditions"],"area":"B 図形"},{"id":"j3.geometry.parallel_ratios","title":"平行線と線分の比","stage":"J3","strand":"geometry","prereq":["j3.geometry.similarity_conditions","e6.functions.ratio"],"area":"B 図形"},{"id":"j3.geometry.area_volume_ratio","title":"相似比・面積比・体積比","stage":"J3","strand":"geometry","prereq":["j3.geometry.similarity_conditions","e5.geometry.triangle_area","e6.geometry.prism_volume"],"area":"B 図形"},{"id":"j3.geometry.inscribed_angle","title":"円周角と中心角の関係を説明","stage":"J3","strand":"geometry","prereq":["e3.geometry.circles","j2.geometry.proof_logic"],"area":"B 図形"},{"id":"j3.geometry.pythagorean_theorem","title":"三平方の定理とその証明","stage":"J3","strand":"geometry","prereq":["j2.geometry.proof_logic","e5.geometry.triangle_area"],"area":"B 図形"},{"id":"j3.geometry.pythagorean_applications","title":"三平方の定理を長さの計算に活用","stage":"J3","strand":"geometry","prereq":["j3.geometry.pythagorean_theorem","j3.number.square_root_meaning"],"area":"B 図形"},{"id":"j3.functions.quadratic_function","title":"関数y=ax²の意味","stage":"J3","strand":"functions","prereq":["j2.functions.linear_table_graph","j1.number.exponent_positive"],"area":"C 関数"},{"id":"j3.functions.quadratic_table_graph","title":"y=ax²の変化・グラフの特徴","stage":"J3","strand":"functions","prereq":["j3.functions.quadratic_function","j1.functions.coordinate_plane"],"area":"C 関数"},{"id":"j3.functions.quadratic_application","title":"二次関数を具体場面に用いる","stage":"J3","strand":"functions","prereq":["j3.functions.quadratic_table_graph"],"area":"C 関数"},{"id":"j3.data.sampling_population","title":"母集団・標本・標本調査の意味","stage":"J3","strand":"data","prereq":["j2.data.compare_distributions"],"area":"D データの活用"},{"id":"j3.data.random_sampling","title":"無作為抽出と標本のまとめ方","stage":"J3","strand":"data","prereq":["j3.data.sampling_population","j2.data.count_based_probability"],"area":"D データの活用"},{"id":"j3.data.infer_population","title":"標本から母集団の傾向を推定し限界を説明","stage":"J3","strand":"data","prereq":["j3.data.random_sampling","j2.data.compare_distributions"],"area":"D データの活用"},{"id":"h-i.algebra.real_numbers","title":"実数・有理数・無理数の整理","stage":"H-I","strand":"algebra","prereq":["j3.number.square_root_meaning"],"area":"(1) 数と式"},{"id":"h-i.algebra.absolute_value","title":"絶対値と実数の大小関係","stage":"H-I","strand":"algebra","prereq":["j1.number.negative_numbers","h-i.algebra.real_numbers"],"area":"(1) 数と式"},{"id":"h-i.algebra.polynomial_operations","title":"多項式の加減・乗法を整理する","stage":"H-I","strand":"algebra","prereq":["j3.algebra.expand_polynomials"],"area":"(1) 数と式"},{"id":"h-i.algebra.factorization_advanced","title":"式の展開と因数分解の活用","stage":"H-I","strand":"algebra","prereq":["j3.algebra.factorize_polynomials","h-i.algebra.polynomial_operations"],"area":"(1) 数と式"},{"id":"h-i.algebra.linear_inequalities","title":"一次不等式・連立一次不等式を解く","stage":"H-I","strand":"algebra","prereq":["j1.algebra.inequality_expressions","j1.algebra.solve_linear"],"area":"(1) 数と式"},{"id":"h-i.algebra.propositional_logic","title":"集合と命題の真偽・必要十分条件","stage":"H-I","strand":"algebra","prereq":["j2.geometry.proof_logic","h-i.algebra.real_numbers"],"area":"(1) 数と式"},{"id":"h-i.geometry.trig_ratios","title":"sin・cos・tanを直角三角形で定義","stage":"H-I","strand":"geometry","prereq":["j3.geometry.pythagorean_applications","j3.geometry.similarity_conditions"],"area":"(2) 図形と計量"},{"id":"h-i.geometry.trig_obtuse","title":"鈍角までの三角比","stage":"H-I","strand":"geometry","prereq":["h-i.geometry.trig_ratios","j1.functions.coordinate_plane"],"area":"(2) 図形と計量"},{"id":"h-i.geometry.sine_cosine_rule","title":"正弦定理・余弦定理を使う","stage":"H-I","strand":"geometry","prereq":["h-i.geometry.trig_obtuse","j3.geometry.pythagorean_theorem"],"area":"(2) 図形と計量"},{"id":"h-i.geometry.triangle_area_trig","title":"三角比を使い面積や長さを求める","stage":"H-I","strand":"geometry","prereq":["h-i.geometry.sine_cosine_rule","e5.geometry.triangle_area"],"area":"(2) 図形と計量"},{"id":"h-i.functions.quadratic_general","title":"一般形の二次関数を扱う","stage":"H-I","strand":"functions","prereq":["j3.functions.quadratic_table_graph","h-i.algebra.polynomial_operations"],"area":"(3) 二次関数"},{"id":"h-i.functions.completing_square","title":"平方完成で頂点を求める","stage":"H-I","strand":"functions","prereq":["j3.algebra.solve_quadratic_formula","h-i.functions.quadratic_general"],"area":"(3) 二次関数"},{"id":"h-i.functions.quadratic_max_min","title":"二次関数の最大値・最小値","stage":"H-I","strand":"functions","prereq":["h-i.functions.completing_square"],"area":"(3) 二次関数"},{"id":"h-i.functions.quadratic_inequality","title":"二次不等式を解く","stage":"H-I","strand":"functions","prereq":["h-i.functions.quadratic_max_min","j3.algebra.solve_quadratic_formula"],"area":"(3) 二次関数"},{"id":"h-i.data.variance_std","title":"分散・標準偏差を計算し解釈する","stage":"H-I","strand":"data","prereq":["j2.data.quartiles_boxplot","e5.data.average"],"area":"(4) データの分析"},{"id":"h-i.data.scatter_correlation","title":"散布図・相関係数を解釈する","stage":"H-I","strand":"data","prereq":["j2.data.compare_distributions"],"area":"(4) データの分析"},{"id":"h-i.data.hypothesis_testing_intro","title":"仮説検定の考え方に触れる","stage":"H-I","strand":"data","prereq":["h-i.data.variance_std","j3.data.infer_population"],"area":"(4) データの分析"},{"id":"h-a.geometry.triangle_centers","title":"三角形の内心・外心・重心","stage":"H-A","strand":"geometry","prereq":["j2.geometry.triangle_properties_proofs","j3.geometry.inscribed_angle"],"area":"(1) 図形の性質"},{"id":"h-a.geometry.circle_lines","title":"円と直線・二円の位置関係","stage":"H-A","strand":"geometry","prereq":["j3.geometry.inscribed_angle","j3.geometry.pythagorean_theorem"],"area":"(1) 図形の性質"},{"id":"h-a.geometry.spatial_geometry_props","title":"空間における多面体などの性質","stage":"H-A","strand":"geometry","prereq":["j1.geometry.spatial_lines_planes"],"area":"(1) 図形の性質"},{"id":"h-a.probability.counting_principles","title":"加法原理・乗法原理で数える","stage":"H-A","strand":"probability","prereq":["e6.data.possible_cases","j2.data.count_based_probability"],"area":"(2) 場合の数と確率"},{"id":"h-a.probability.permutations","title":"順列を使う","stage":"H-A","strand":"probability","prereq":["h-a.probability.counting_principles"],"area":"(2) 場合の数と確率"},{"id":"h-a.probability.combinations","title":"組合せを使う","stage":"H-A","strand":"probability","prereq":["h-a.probability.permutations"],"area":"(2) 場合の数と確率"},{"id":"h-a.probability.probability_formal","title":"事象と確率を定義する","stage":"H-A","strand":"probability","prereq":["j2.data.count_based_probability","h-a.probability.combinations"],"area":"(2) 場合の数と確率"},{"id":"h-a.probability.independent_events","title":"独立な試行と確率","stage":"H-A","strand":"probability","prereq":["h-a.probability.probability_formal"],"area":"(2) 場合の数と確率"},{"id":"h-a.probability.conditional_probability","title":"条件付き確率を求める","stage":"H-A","strand":"probability","prereq":["h-a.probability.probability_formal","h-a.probability.combinations"],"area":"(2) 場合の数と確率"},{"id":"h-a.probability.expectation","title":"期待値を意味づけて計算する","stage":"H-A","strand":"probability","prereq":["h-a.probability.probability_formal","e5.data.average"],"area":"(2) 場合の数と確率"},{"id":"h-a.discrete.integer_algorithms","title":"約数・倍数と整数の性質・計算方法","stage":"H-A","strand":"discrete","prereq":["e5.number.gcd_lcm","j1.number.prime_factorization"],"area":"(3) 数学と人間の活動"},{"id":"h-a.discrete.n_base_numbers","title":"記数法の仕組みを比較する","stage":"H-A","strand":"discrete","prereq":["e1.number.place_value","h-a.discrete.integer_algorithms"],"area":"(3) 数学と人間の活動"},{"id":"h-a.discrete.math_history_activity","title":"数学史と身近な問題を数学化する","stage":"H-A","strand":"discrete","prereq":["h-a.discrete.integer_algorithms"],"area":"(3) 数学と人間の活動"},{"id":"h-ii.algebra.binomial_theorem","title":"二項定理・多項式の展開","stage":"H-II","strand":"algebra","prereq":["h-i.algebra.polynomial_operations"],"area":"(1) いろいろな式"},{"id":"h-ii.algebra.polynomial_remainder","title":"整式の割り算・剰余の定理・因数定理","stage":"H-II","strand":"algebra","prereq":["h-i.algebra.polynomial_operations"],"area":"(1) いろいろな式"},{"id":"h-ii.algebra.high_degree_eq","title":"高次方程式を解く","stage":"H-II","strand":"algebra","prereq":["h-ii.algebra.polynomial_remainder","j3.algebra.solve_quadratic_factor"],"area":"(1) いろいろな式"},{"id":"h-ii.algebra.complex_numbers","title":"複素数と二次方程式の解を扱う","stage":"H-II","strand":"algebra","prereq":["h-i.algebra.real_numbers","j3.algebra.solve_quadratic_formula"],"area":"(1) いろいろな式"},{"id":"h-ii.geometry.coordinate_line_circle","title":"直線と円の方程式","stage":"H-II","strand":"geometry","prereq":["j2.functions.linear_table_graph","e3.geometry.circles","h-i.algebra.polynomial_operations"],"area":"(2) 図形と方程式"},{"id":"h-ii.geometry.locus_region","title":"軌跡・不等式の表す領域","stage":"H-II","strand":"geometry","prereq":["h-ii.geometry.coordinate_line_circle","h-i.algebra.linear_inequalities"],"area":"(2) 図形と方程式"},{"id":"h-ii.functions.powers_extended","title":"累乗の指数を有理数・実数へ拡張","stage":"H-II","strand":"functions","prereq":["j1.number.exponent_positive","j3.number.square_root_meaning"],"area":"(3) 指数関数・対数関数"},{"id":"h-ii.functions.exponential_function","title":"指数関数と増減・グラフ","stage":"H-II","strand":"functions","prereq":["h-ii.functions.powers_extended","j2.functions.linear_table_graph"],"area":"(3) 指数関数・対数関数"},{"id":"h-ii.functions.logarithm","title":"対数の意味・計算法則","stage":"H-II","strand":"functions","prereq":["h-ii.functions.powers_extended"],"area":"(3) 指数関数・対数関数"},{"id":"h-ii.functions.log_function","title":"対数関数と増減・グラフ","stage":"H-II","strand":"functions","prereq":["h-ii.functions.logarithm","h-ii.functions.exponential_function"],"area":"(3) 指数関数・対数関数"},{"id":"h-ii.functions.unit_circle_radian","title":"一般角・弧度法を扱う","stage":"H-II","strand":"functions","prereq":["h-i.geometry.trig_obtuse","e5.geometry.circle_circumference"],"area":"(4) 三角関数"},{"id":"h-ii.functions.trigonometric_functions","title":"三角関数の周期・グラフ","stage":"H-II","strand":"functions","prereq":["h-ii.functions.unit_circle_radian","j3.functions.quadratic_table_graph"],"area":"(4) 三角関数"},{"id":"h-ii.functions.trigonometric_identities","title":"加法定理などを活用する","stage":"H-II","strand":"functions","prereq":["h-ii.functions.trigonometric_functions","h-i.geometry.sine_cosine_rule"],"area":"(4) 三角関数"},{"id":"h-ii.calculus.derivative_polynomial","title":"微分係数と導関数（多項式）","stage":"H-II","strand":"calculus","prereq":["h-i.functions.quadratic_max_min"],"area":"(5) 微分・積分の考え"},{"id":"h-ii.calculus.increasing_decreasing","title":"導関数から増減・極値を求める","stage":"H-II","strand":"calculus","prereq":["h-ii.calculus.derivative_polynomial"],"area":"(5) 微分・積分の考え"},{"id":"h-ii.calculus.integration_polynomial","title":"原始関数と多項式の積分","stage":"H-II","strand":"calculus","prereq":["h-ii.calculus.derivative_polynomial"],"area":"(5) 微分・積分の考え"},{"id":"h-ii.calculus.area_integral","title":"定積分で図形の面積を求める","stage":"H-II","strand":"calculus","prereq":["h-ii.calculus.integration_polynomial","h-ii.geometry.coordinate_line_circle"],"area":"(5) 微分・積分の考え"},{"id":"h-b.algebra.sequence_basics","title":"数列・一般項を表す","stage":"H-B","strand":"algebra","prereq":["j1.algebra.variables_terms"],"area":"(1) 数列"},{"id":"h-b.algebra.arith_geom_seq","title":"等差数列・等比数列の一般項と和","stage":"H-B","strand":"algebra","prereq":["h-b.algebra.sequence_basics","e6.functions.proportional_expression"],"area":"(1) 数列"},{"id":"h-b.algebra.sum_notation","title":"Σ記号と各種の和を扱う","stage":"H-B","strand":"algebra","prereq":["h-b.algebra.arith_geom_seq"],"area":"(1) 数列"},{"id":"h-b.algebra.recurrence","title":"漸化式で数列を表す","stage":"H-B","strand":"algebra","prereq":["h-b.algebra.sequence_basics"],"area":"(1) 数列"},{"id":"h-b.algebra.mathematical_induction","title":"数学的帰納法で命題を証明する","stage":"H-B","strand":"algebra","prereq":["h-b.algebra.recurrence","h-i.algebra.propositional_logic"],"area":"(1) 数列"},{"id":"h-b.data.random_variables","title":"確率変数と分布","stage":"H-B","strand":"data","prereq":["h-a.probability.probability_formal","h-i.data.variance_std"],"area":"(2) 統計的な推測"},{"id":"h-b.data.binomial_distribution","title":"二項分布を扱う","stage":"H-B","strand":"data","prereq":["h-b.data.random_variables","h-a.probability.combinations"],"area":"(2) 統計的な推測"},{"id":"h-b.data.normal_distribution","title":"正規分布の性質を扱う","stage":"H-B","strand":"data","prereq":["h-b.data.random_variables","h-i.data.variance_std"],"area":"(2) 統計的な推測"},{"id":"h-b.data.estimate_intervals","title":"標本から母平均・母比率を区間推定","stage":"H-B","strand":"data","prereq":["h-b.data.normal_distribution","j3.data.infer_population"],"area":"(2) 統計的な推測"},{"id":"h-b.data.hypothesis_testing","title":"仮説検定を行い結果を解釈する","stage":"H-B","strand":"data","prereq":["h-b.data.estimate_intervals","h-i.data.hypothesis_testing_intro"],"area":"(2) 統計的な推測"},{"id":"h-b.modeling.mathematical_modeling","title":"社会のデータを数学的にモデル化し判断する","stage":"H-B","strand":"modeling","prereq":["h-i.data.scatter_correlation","h-b.algebra.sequence_basics"],"area":"(3) 数学と社会生活"},{"id":"h-iii.calculus.sequence_limits","title":"数列の極限を理解する","stage":"H-III","strand":"calculus","prereq":["h-b.algebra.arith_geom_seq"],"area":"(1) 極限"},{"id":"h-iii.calculus.infinite_series","title":"無限級数の収束・発散","stage":"H-III","strand":"calculus","prereq":["h-iii.calculus.sequence_limits","h-b.algebra.sum_notation"],"area":"(1) 極限"},{"id":"h-iii.calculus.function_limits","title":"関数の極限と連続性","stage":"H-III","strand":"calculus","prereq":["h-iii.calculus.sequence_limits","h-ii.functions.trigonometric_functions"],"area":"(1) 極限"},{"id":"h-iii.calculus.advanced_derivatives","title":"指数・対数・三角関数などの導関数","stage":"H-III","strand":"calculus","prereq":["h-iii.calculus.function_limits","h-ii.calculus.derivative_polynomial","h-ii.functions.trigonometric_identities"],"area":"(2) 微分法"},{"id":"h-iii.calculus.product_quotient_chain","title":"積・商・合成関数の微分","stage":"H-III","strand":"calculus","prereq":["h-iii.calculus.advanced_derivatives"],"area":"(2) 微分法"},{"id":"h-iii.calculus.curve_analysis","title":"導関数で増減・極値・凹凸を調べる","stage":"H-III","strand":"calculus","prereq":["h-iii.calculus.product_quotient_chain"],"area":"(2) 微分法"},{"id":"h-iii.calculus.advanced_indef_integrals","title":"置換・部分積分を用いる","stage":"H-III","strand":"calculus","prereq":["h-iii.calculus.product_quotient_chain","h-ii.calculus.integration_polynomial"],"area":"(3) 積分法"},{"id":"h-iii.calculus.advanced_def_integrals","title":"いろいろな関数の定積分","stage":"H-III","strand":"calculus","prereq":["h-iii.calculus.advanced_indef_integrals"],"area":"(3) 積分法"},{"id":"h-iii.calculus.area_volume_advanced","title":"定積分で面積・体積・曲線長を扱う","stage":"H-III","strand":"calculus","prereq":["h-iii.calculus.advanced_def_integrals","h-ii.calculus.area_integral"],"area":"(3) 積分法"},{"id":"h-c.geometry.vectors_components","title":"平面ベクトルの成分と演算","stage":"H-C","strand":"geometry","prereq":["j1.functions.coordinate_plane","h-i.geometry.trig_ratios"],"area":"(1) ベクトル"},{"id":"h-c.geometry.vector_dot_product","title":"内積と垂直条件","stage":"H-C","strand":"geometry","prereq":["h-c.geometry.vectors_components","h-i.geometry.trig_obtuse"],"area":"(1) ベクトル"},{"id":"h-c.geometry.space_vectors","title":"空間ベクトルの成分・内積","stage":"H-C","strand":"geometry","prereq":["h-c.geometry.vector_dot_product","j1.geometry.spatial_lines_planes"],"area":"(1) ベクトル"},{"id":"h-c.geometry.vector_applications","title":"ベクトルで図形の性質を考察する","stage":"H-C","strand":"geometry","prereq":["h-c.geometry.vector_dot_product"],"area":"(1) ベクトル"},{"id":"h-c.geometry.conic_sections","title":"放物線・楕円・双曲線を方程式で表す","stage":"H-C","strand":"geometry","prereq":["h-ii.geometry.coordinate_line_circle","h-i.functions.quadratic_general"],"area":"(2) 平面上の曲線と複素数平面"},{"id":"h-c.geometry.parametric_polar","title":"媒介変数表示・極座標を扱う","stage":"H-C","strand":"geometry","prereq":["h-c.geometry.conic_sections","h-ii.functions.trigonometric_functions"],"area":"(2) 平面上の曲線と複素数平面"},{"id":"h-c.geometry.complex_plane","title":"複素数平面で複素数を表す","stage":"H-C","strand":"geometry","prereq":["h-ii.algebra.complex_numbers","h-c.geometry.vectors_components"],"area":"(2) 平面上の曲線と複素数平面"},{"id":"h-c.geometry.complex_geometry","title":"複素数の極形式と図形への応用","stage":"H-C","strand":"geometry","prereq":["h-c.geometry.complex_plane","h-ii.functions.trigonometric_identities"],"area":"(2) 平面上の曲線と複素数平面"},{"id":"h-c.modeling.mathematical_representations","title":"行列・グラフ等の表現の特性を比較・活用する","stage":"H-C","strand":"modeling","prereq":["h-i.algebra.propositional_logic"],"area":"(3) 数学的な表現の工夫"}];
+const byId=Object.fromEntries(skills.map(s=>[s.id,s]));
+const stageById=Object.fromEntries(stages.map(s=>[s.id,s]));
+const ranges=[{id:'e1-3',label:'小1〜3',stages:['E1','E2','E3']},{id:'e4-6',label:'小4〜6',stages:['E4','E5','E6']},{id:'elementary',label:'小学校全部',stages:['E1','E2','E3','E4','E5','E6']},{id:'junior',label:'中学校',stages:['J1','J2','J3']},{id:'high',label:'高校数学',stages:['H-I','H-A','H-II','H-B','H-III','H-C']},{id:'all',label:'全285技能',stages:stages.map(s=>s.id)}];
+function visibleSkills(range){const stages=new Set((ranges.find(x=>x.id===range)||ranges[0]).stages);return skills.filter(s=>stages.has(s.stage));}
+function modeForSkill(skill){const stage=typeof skill==='string'?byId[skill]?.stage:skill.stage;if(stage?.startsWith('E'))return Number(stage.slice(1))<=3?'e1-3':'e4-6';if(stage?.startsWith('J'))return 'junior';return 'high';}
+return{skills,byId,stages,stageById,strands,ranges,visibleSkills,modeForSkill};
+});
+
+/* MathStudio v0.1.6: dependency-aligned layered curriculum map. */
+(function(root,factory){const v=factory();if(typeof module==='object'&&module.exports)module.exports=v;else root.MathTechTree=v;})(typeof globalThis==='object'?globalThis:this,function(){
+'use strict';
+const C=typeof window!=='undefined'?window.MathCatalog:require('./catalog.js');
+const COLUMN_W=324,MARGIN=12,NODE_W=242,NODE_H=78,ROW=108,TOP=22,HEADER_H=43,STAGE_PAD=19;
+// Domain lanes stay at roughly the same Y coordinate across grades. Grade width
+// grows only when its prerequisites have genuine within-grade depth.
+const LANE_ORDER=['number','measure','geometry','algebra','functions','calculus','data','probability','discrete','modeling'];
+const safe=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const colors={number:'#597adc',algebra:'#9d64d0',geometry:'#d8884c',functions:'#288d93',data:'#4b958d',measure:'#9279be',probability:'#bc7ba7',calculus:'#bf685f',discrete:'#798c58',modeling:'#8f8180'};
+const statusText={master:'MASTER',pending:'認定待ち',licensed:'仮免',open:'学習可能',locked:'未解放',planned:'教材準備中'};
+let zoom=1,manualZoom=false,lastPosition=null,observer=null,canvasLayout=null,mode='e1-3';
+function makeLayout(skills,tracks=C.strands){
+ const present=new Set(skills.map(s=>s.stage));
+ const stages=C.stages.filter(s=>present.has(s.id)), visible=new Map(skills.map(s=>[s.id,s]));
+ const positions={},links=[], stageGeometry=[],groups=new Map(),depthOf=new Map();
+ const catalogIndex=new Map(C.skills.map((s,i)=>[s.id,i]));
+ let colIndex=0,xStart=MARGIN;
+ // All within-grade prerequisite chains run from left to right rather than
+ // looping around a single column. This is a proper topological layering.
+ for(const stage of stages){
+  const nodes=skills.filter(s=>s.stage===stage.id),memo=new Map(),visiting=new Set();
+  function localDepth(s){
+   if(memo.has(s.id))return memo.get(s.id);
+   if(visiting.has(s.id))throw Error('Cyclic prerequisite graph: '+s.id);
+   visiting.add(s.id);
+   const v=Math.max(0,...s.prereq.filter(id=>visible.has(id)&&visible.get(id).stage===stage.id).map(id=>localDepth(visible.get(id))+1));
+   visiting.delete(s.id);memo.set(s.id,v);return v;
+  }
+  for(const s of nodes)localDepth(s);
+  const nLayers=1+Math.max(...memo.values(),0),stageWidth=nLayers*COLUMN_W+STAGE_PAD*2;
+  stageGeometry.push({id:stage.id,title:stage.title,group:stage.group,x:xStart,width:stageWidth,columns:nLayers});
+  for(const s of nodes){
+   const depth=memo.get(s.id),col=colIndex+depth;
+   positions[s.id]={x:xStart+STAGE_PAD+depth*COLUMN_W,y:0,width:NODE_W,height:NODE_H,stage:s.stage,strand:s.strand,row:0,column:col};
+   const key=col+':'+s.strand;
+   if(!groups.has(key))groups.set(key,[]);
+   groups.get(key).push(s);
+  }
+  xStart+=stageWidth;colIndex+=nLayers;
+ }
+ const columns=colIndex,laneBase=new Map(),laneSize=new Map();
+ let slotCursor=0;
+ for(const strand of LANE_ORDER){
+  const peak=Math.max(0,...Array.from({length:columns},(_,col)=>(groups.get(col+':'+strand)||[]).length));
+  if(!peak)continue;
+  // Spare slots let different stages share a path without forcing a dense grid.
+  const width=peak+Math.max(1,Math.ceil(peak*.25));
+  laneBase.set(strand,slotCursor);laneSize.set(strand,width);
+  slotCursor+=width+2;
+ }
+ const totalSlots=slotCursor;
+ const columnGroups=[];
+ for(let col=0;col<columns;col++)for(const strand of LANE_ORDER){
+  const group=groups.get(col+':'+strand);
+  if(group?.length)columnGroups.push({col,strand,nodes:group,base:laneBase.get(strand),width:laneSize.get(strand)});
+ }
+ const children=new Map(skills.map(s=>[s.id,[]]));
+ for(const s of skills)for(const p of s.prereq)if(visible.has(p)){
+  children.get(p).push(s.id);
+  links.push({from:p,to:s.id,crossTrack:visible.get(p).strand!==s.strand});
+ }
+ function slotY(slot){return TOP+slot*ROW;}
+ // Stable initial order followed by alternating upstream/downstream sweeps.
+ // Unlike an independent list per grade, each pass aligns nodes with the
+ // prerequisite/successor lanes on BOTH sides of the grade boundary.
+ for(const g of columnGroups){
+  g.nodes.sort((a,b)=>catalogIndex.get(a.id)-catalogIndex.get(b.id));
+  g.nodes.forEach((s,i)=>{
+   const slot=g.base+Math.round((i+1)*(g.width+1)/(g.nodes.length+1))-1;
+   const pos=positions[s.id];pos.row=slot;pos.y=slotY(slot);
+  });
+ }
+ function desired(s){
+  const target=[],current=positions[s.id];
+  for(const p of s.prereq){const pred=visible.get(p);if(!pred)continue;
+   const weight=pred.strand===s.strand?4:0.65;
+   target.push([positions[p].row,weight]);
+  }
+  for(const c of children.get(s.id)){const ch=visible.get(c);
+   const weight=ch.strand===s.strand?3:0.5;
+   target.push([positions[c].row,weight]);
+  }
+  target.push([current.row,1.25]);
+  return target.reduce((a,[v,w])=>a+v*w,0)/target.reduce((a,[,w])=>a+w,0);
+ }
+ function arrange(g){
+  const sorted=g.nodes.map(s=>({s,target:desired(s)})).sort((a,b)=>a.target-b.target||catalogIndex.get(a.s.id)-catalogIndex.get(b.s.id));
+  const m=sorted.length,n=g.width;
+  // Increasing-slot DP gives the minimum total displacement with no overlaps.
+  const dp=Array.from({length:m+1},()=>Array(n+1).fill(Infinity)),pick=Array.from({length:m+1},()=>Array(n+1).fill(false));
+  for(let j=0;j<=n;j++)dp[0][j]=0;
+  for(let i=1;i<=m;i++)for(let j=i;j<=n;j++){
+   const slot=g.base+j-1,diff=sorted[i-1].target-slot;
+   const use=dp[i-1][j-1]+diff*diff;
+   if(use<=dp[i][j-1]){dp[i][j]=use;pick[i][j]=true;}else dp[i][j]=dp[i][j-1];
+  }
+  let j=n;for(let i=m;i>0;i--){while(!pick[i][j])j--;
+   const pos=positions[sorted[i-1].s.id];pos.row=g.base+j-1;pos.y=slotY(pos.row);j--;
+  }
+ }
+ for(let pass=0;pass<12;pass++){
+  const ordered=pass%2?columnGroups.slice().reverse():columnGroups;
+  for(const g of ordered)arrange(g);
+ }
+ const height=TOP+totalSlots*ROW+18;
+ const width=xStart+8;
+ return{width,height,stages,stageGeometry,positions,links,nodeWidth:NODE_W,nodeHeight:NODE_H,headerHeight:HEADER_H,stageWidth:null,totalColumns:columns};
+}
+// Line-of-sight connections are truly straight. Only links blocked by an
+// unrelated card use a two-gutter detour through the nearest empty row gap.
+function segmentHitsRect(a,b,r){
+ const eps=2.2,x0=r.x+eps,x1=r.x+r.width-eps,y0=r.y+eps,y1=r.y+r.height-eps;
+ let t0=0,t1=1;const dx=b[0]-a[0],dy=b[1]-a[1];
+ for(const [p,q] of [[-dx,a[0]-x0],[dx,x1-a[0]],[-dy,a[1]-y0],[dy,y1-a[1]]]){
+  if(Math.abs(p)<1e-8){if(q<0)return false;continue;}
+  const t=q/p;if(p<0){t0=Math.max(t0,t);}else t1=Math.min(t1,t);
+  if(t0>t1)return false;
+ }
+ return true;
+}
+function routePoints(a,b,edgeNumber=0,obstacles=null){
+ const source=[a.x+a.width,a.y+a.height/2],target=[b.x,b.y+b.height/2];
+ if(!obstacles||!obstacles.some(r=>r!==a&&r!==b&&segmentHitsRect(source,target,r)))return[source,target];
+ const left=source[0]+Math.min(39,(target[0]-source[0])*.34);
+ const right=target[0]-Math.min(39,(target[0]-source[0])*.34);
+ // Every node is aligned to ROW; between rows there is a continuous corridor.
+ const ideal=(source[1]+target[1])/2;
+ const channelSlot=Math.max(0,Math.round((ideal-TOP-NODE_H-(ROW-NODE_H)/2)/ROW));
+ const y=TOP+channelSlot*ROW+NODE_H+(ROW-NODE_H)/2;
+ return[source,[left,source[1]],[left,y],[right,y],[right,target[1]],target];
+}
+function path(a,b,edgeNumber=0,obstacles=null){return routePoints(a,b,edgeNumber,obstacles).map((v,i)=>`${i?'L':'M'} ${v[0].toFixed(1)} ${v[1].toFixed(1)}`).join(' ');}
+function gem(m,key,color){let n=Number.isFinite(m?.[key])?m[key]:0;return `<span class="tech-gem ${n>=100?'bright':n===0?'empty':''}" style="--stone:${color}" title="${safe({basic:'基礎力',speed:'速度',application:'応用力',word:'文章題'}[key])} ${n}%"></span>`;}
+function render({skills,tracks=C.strands,statusOf,records={},selectedId,recommendations=[],activeRange='e1-3'}){
+ mode=activeRange;
+ const l=makeLayout(skills,tracks);canvasLayout=l;
+ const selected=C.byId[selectedId];const related=new Set([selectedId,...(selected?.prereq||[]),...C.skills.filter(s=>s.prereq.includes(selectedId)).map(s=>s.id)]);
+ const bands=l.stageGeometry.map((s,i)=>`<div class="era-band ${i%2?'era-even':'era-odd'}" style="left:${s.x}px;width:${s.width}px;height:${l.height}px"></div>`).join('');
+ const years=l.stageGeometry.map((s,i)=>`<div class="grade-fixed" style="left:${s.x*zoom}px;width:${s.width*zoom}px"><span>${s.id.startsWith('E')?'ELEMENTARY':s.id.startsWith('J')?'JUNIOR HIGH':'HIGH SCHOOL'}</span><strong>${safe(s.title)}</strong><small>${skills.filter(sk=>sk.stage===s.id).length}技能</small></div>`).join('');
+ const obstacles=Object.values(l.positions);
+ const links=l.links.map((e,i)=>{const a=l.positions[e.from],b=l.positions[e.to],highlight=e.from===selectedId||e.to===selectedId;return `<path class="tech-link ${e.crossTrack?'cross-lane':''} ${highlight?'highlight':''}" data-source="${safe(e.from)}" data-target="${safe(e.to)}" marker-end="url(#${highlight?'tech-arrow-active':'tech-arrow'})" d="${path(a,b,i,obstacles)}"/>`;}).join('');
+ const nodes=skills.map(s=>{
+  const p=l.positions[s.id],st=statusOf(s.id),isFocus=s.id===selectedId,near=related.has(s.id),track=tracks.find(t=>t.id===s.strand),record=records[s.id],playable=st!=='planned';
+  return `<button class="tech-node ${st} ${isFocus?'selected':''} ${near?'related':''}" style="left:${p.x}px;top:${p.y}px;width:${NODE_W}px;height:${NODE_H}px;--track-color:${colors[s.strand]||'#7395ca'}" data-id="${safe(s.id)}" data-act="select" aria-pressed="${isFocus}" aria-haspopup="dialog" aria-label="${safe(C.stageById[s.stage]?.title)}・${safe(s.title)}・${statusText[st]||st}" title="${safe(s.title)}"><div class="tech-node-top"><span class="tech-node-meta">${safe(track?.icon||'◇')} ${safe(track?.title||s.strand)}</span><span class="tech-status ${st}">${statusText[st]||safe(st)}</span></div><span class="tech-node-name">${safe(s.title)}</span><span class="tech-node-bottom">${playable?`<span class="tech-gems">${gem(record?.metrics,'basic','#e15f6b')}${gem(record?.metrics,'speed','#5383df')}${gem(record?.metrics,'application','#21a57d')}${gem(record?.metrics,'word','#dca33f')}</span>`:'<span class="tech-plan-note">出題未実装</span>'}<span class="tech-reason">前提${s.prereq.length}件 ${recommendations.includes(s.id)?'◎':''}</span></span></button>`;
+ }).join('');
+ const rangeOptions=C.ranges.map(r=>`<option value="${r.id}" ${r.id===activeRange?'selected':''}>${r.label}（${C.visibleSkills(r.id).length}）</option>`).join('');
+ const currentEdges=l.links.length,allEdges=C.skills.reduce((n,s)=>n+s.prereq.length,0),implemented=skills.filter(s=>statusOf(s.id)!=='planned').length;
+ return `<section class="tech-wrap" aria-label="学年別スキル技術ツリー"><div class="tech-toolbar"><strong class="tech-tooltitle">技能マップ</strong><label class="tech-range-label" for="tech-range">範囲</label><select id="tech-range" class="tech-range-select" aria-label="スキルツリーの表示範囲">${rangeOptions}</select><div class="tech-search"><input id="tech-search" type="search" placeholder="技能を検索" autocomplete="off" aria-label="全技能を検索"><button class="btn secondary small" data-act="map-search">検索</button><div id="tech-search-results" class="tech-search-results" hidden></div></div><div class="tech-controls"><button class="btn secondary small" data-act="map-focus" title="選択した技能へ移動" aria-label="選択した技能へ移動">◎</button><button class="btn secondary small" data-act="map-zoom-out" aria-label="縮小">−</button><span class="map-zoom-value">${Math.round(zoom*100)}%</span><button class="btn secondary small" data-act="map-zoom-in" aria-label="拡大">＋</button><button class="btn secondary small" data-act="map-fit" title="カードを読みやすい標準倍率に戻す">標準倍率</button></div><details class="tech-legend"><summary>凡例</summary><div class="tech-legend-content"><span><i class="legend-dot master"></i>MASTER</span><span><i class="legend-dot licensed"></i>仮免</span><span><i class="legend-dot locked"></i>未解放</span><span><i class="legend-dot planned"></i>教材準備中</span><span><i class="legend-line"></i>前提線</span></div></details></div><div class="tech-map-viewport" id="tech-map-viewport"><div class="tech-grade-overlay" aria-hidden="true"><div class="tech-grade-strip" style="width:${l.width*zoom}px;height:${HEADER_H}px">${years}</div></div><div class="tech-map-scroll" id="tech-map-scroll" tabindex="0" aria-label="技能ツリー。学年見出しを固定し、横方向・縦方向にスクロール可能"><div class="tech-canvas" style="width:${l.width}px;height:${l.height}px;zoom:${zoom}">${bands}<svg class="tech-edges" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${l.width} ${l.height}" aria-hidden="true" preserveAspectRatio="none"><defs><marker id="tech-arrow" markerWidth="5" markerHeight="5" refX="4.5" refY="2.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0 L5 2.5 L0 5 Z" fill="#95a7bf"/></marker><marker id="tech-arrow-active" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0 L7 3.5 L0 7 Z" fill="#d18426"/></marker></defs>${links}</svg>${nodes}</div></div></div></section>`;
+}
+function scrollEl(){return typeof document!=='undefined'?document.getElementById('tech-map-scroll'):null;}
+function memorize(){const el=scrollEl();if(el)lastPosition={left:el.scrollLeft,top:el.scrollTop,mode};}
+function syncGrades(){const el=scrollEl(),strip=document.querySelector('.tech-grade-strip');if(el&&strip)strip.style.transform=`translate3d(${-el.scrollLeft}px,0,0)`;}
+function setZoom(v){zoom=v;const canvas=document.querySelector('.tech-canvas'),strip=document.querySelector('.tech-grade-strip');if(canvas)canvas.style.zoom=zoom;if(strip&&canvasLayout){strip.style.width=`${canvasLayout.width*zoom}px`;strip.querySelectorAll('.grade-fixed').forEach((e,i)=>{e.style.left=`${canvasLayout.stageGeometry[i].x*zoom}px`;e.style.width=`${canvasLayout.stageGeometry[i].width*zoom}px`;});}const span=document.querySelector('.map-zoom-value');if(span)span.textContent=`${Math.round(zoom*100)}%`;syncGrades();}
+function fit({resetPosition=true}={}){
+ const el=scrollEl();if(!el||!canvasLayout)return;
+ // Do not shrink all 285 nodes to fit the full height or width: this is a scrollable map.
+ const stageCount=canvasLayout.stages.length;
+ const best=stageCount<=3?Math.max(.86,Math.min(1.4,Math.floor(((el.clientWidth-16)/canvasLayout.width)*100)/100)):(el.clientWidth<700?.88:1);
+ const previous={left:el.scrollLeft,top:el.scrollTop};setZoom(best);
+ if(resetPosition){el.scrollLeft=0;el.scrollTop=0;}else{el.scrollLeft=previous.left;el.scrollTop=previous.top;}
+ syncGrades();
+}
+function previewEdges(id){
+ document.querySelectorAll('.tech-link').forEach(link=>link.classList.toggle('hover',!!id&&(link.dataset.source===id||link.dataset.target===id)));
+}
+function restore(selectedId){const el=scrollEl();if(!el)return;if(observer)observer.disconnect();el.addEventListener('scroll',syncGrades,{passive:true});
+ el.addEventListener('pointerover',event=>{const button=event.target.closest?.('.tech-node');if(button)previewEdges(button.dataset.id);});
+ el.addEventListener('pointerout',event=>{const button=event.target.closest?.('.tech-node');if(button&&!button.contains(event.relatedTarget))previewEdges(null);});if(!manualZoom)fit();if(lastPosition&&lastPosition.mode===mode){el.scrollLeft=lastPosition.left;el.scrollTop=lastPosition.top;}else if(selectedId&&selectedId!==C.visibleSkills(mode)[0]?.id)focus(selectedId);syncGrades();if(typeof ResizeObserver!=='undefined'){observer=new ResizeObserver(()=>{if(!manualZoom)fit({resetPosition:false});else syncGrades();});observer.observe(document.getElementById('tech-map-viewport'));}}
+function focus(id){const el=scrollEl(),node=[...document.querySelectorAll('.tech-node')].find(n=>n.dataset.id===id);if(!el||!node)return;el.scrollLeft=Math.max(0,node.offsetLeft*zoom-el.clientWidth*.32);el.scrollTop=Math.max(0,node.offsetTop*zoom-el.clientHeight*.32);memorize();syncGrades();}
+function adjustZoom(delta,selectedId){memorize();manualZoom=true;setZoom(Math.round(Math.min(1.5,Math.max(.72,zoom+delta))*100)/100);focus(selectedId);}
+function resetFit(){manualZoom=false;lastPosition=null;fit();}
+function resetRange(){manualZoom=false;lastPosition=null;}
+return{makeLayout,routePoints,render,memorize,restore,focus,adjustZoom,resetFit,resetRange,syncGrades};
+});
+
+(function(){'use strict';
+const E=window.MathEngine,S=window.MathSkills,C=window.MathCatalog,KEY='MathStudio.v0.1.local';
+const $=s=>document.querySelector(s),esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const ms=()=>Date.now();
+const fresh=()=>({schema_version:1,profile:null,records:{},recommendations:[],diagnosis:null,active:null,practice:null,lastResult:null,attemptsHistory:[],practiceHistory:[],nav:'tree',selectedId:null,createdAt:new Date().toISOString()});
+let state;try{state=JSON.parse(localStorage.getItem(KEY))||fresh();if(state.schema_version!==1||typeof state.records!=='object')state=fresh();}catch{state=fresh();}
+let saveError=false;
+// Rescore legacy history once, preserving localStorage and all answers.
+if(state.profile && state.gradingRevision!==2){E.repairStoredGrades(state);state.gradingRevision=2;save();}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state));saveError=false;}catch(e){saveError=true;const el=$('#storage-warning');if(el)el.textContent='保存に失敗しました。データをJSONでバックアップしてください。';}}
+const badge=(status)=>({master:['MASTER','master'],pending:['認定待ち','pending'],licensed:['仮免','licensed'],open:['学習可能','open'],locked:['未解放','locked']}[status]||['','']);
+const elapsed=()=>{const a=state.active;return a?Math.max(1,Math.floor((a.elapsedBase||0)+(!a.paused&&a.startedAt?(ms()-a.startedAt)/1000:0))):0;};
+const clock=sec=>`${String(Math.floor(sec/60)).padStart(2,'0')}:${String(Math.floor(sec%60)).padStart(2,'0')}`;
+const metrics=[['basic','基礎力','#e15f6b'],['speed','速度','#5383df'],['application','応用力','#21a57d'],['word','文章題','#dca33f']];
+const displayMetric=(m,small=false)=>`<div class="gems">${metrics.map(([k,label,color])=>{let v=Number.isFinite(m?.[k])?m[k]:0;return `<div class="gem-box"><span class="gem ${v>=100?'bright':!v?'gray':''} ${small?'small':''}" style="--gem:${color}" title="${label} ${v}%"></span>${small?'':`<label>${label}</label><b class="tabular">${v}%</b>`}</div>`;}).join('')}</div>`;
+function statusOf(id){return S.byId[id]?E.masteryStatus(id,state.records,state.recommendations):'planned';}
+function summary(){const all=S.skills,master=all.filter(s=>statusOf(s.id)==='master').length,licenses=all.filter(s=>state.records[s.id]?.license).length,attempts=state.attemptsHistory.length;return{master,licenses,attempts};}
+const head=()=>`<header class="topbar"><div class="brand" data-act="nav" data-value="tree"><div class="logo">∑</div><div><strong>MathStudio</strong><small>数学の技能を、ひとつずつ。</small></div></div><div class="top-actions"><span class="pill">試作版 v0.1.6</span>${state.profile?'<button class="btn secondary small" data-act="export">学習データを保存</button>':''}</div></header>`;
+function frame(content,isTree=false){document.documentElement.classList.toggle('math-tree-page',isTree);$('#app').innerHTML=`<div class="shell ${isTree?'shell-tree':''}">${head()}${saveError?'<div id="storage-warning" class="notice warn">端末への保存に失敗しました。データを書き出してください。</div>':''}${content}<div class="footer">MathStudio v0.1.6 • 通信不要 / 個人用 / 教材・基準は試験的な実装</div></div>`;}
+function onboard(){const month=new Date().getMonth()+1;frame(`<div class="hero"><div class="kicker">WELCOME TO MATHSTUDIO</div><h1>数学のスキルツリーを冒険しよう。</h1><p>計算から文章題まで。4つの宝石をそろえて、次の技能をアンロック。</p></div><div class="grid2"><section class="card"><h2>まず、学年を教えてください</h2><p class="muted">学年と開始月を手掛かりに、できるところとこれから学ぶところを探します。</p><div class="field"><label for="grade">いまの学年</label><select id="grade">${Array.from({length:6},(_,i)=>`<option value="${i+1}" ${i===3?'selected':''}>小学${i+1}年生</option>`).join('')}</select></div><div class="field"><label for="month">初回診断の基準月</label><select id="month">${Array.from({length:12},(_,i)=>`<option value="${i+1}" ${month===i+1?'selected':''}>${i+1}月</option>`).join('')}</select></div><button class="btn" data-act="begin">初回診断をはじめる →</button><p class="smallnote" style="margin-top:14px">初版で実際に出題できるのは小学1〜4年の一部15技能です。小学5・6年を選んでも、診断は実装済みの範囲で行います。</p></section><section class="card"><h2>学習のルール</h2><div class="stack"><div class="notice">🔹 基礎力・速度・応用力・文章題の4つを、混合テストで評価</div><div class="notice">🔓 全項目75%以上で次の技能を仮アンロック</div><div class="notice">🏅 1回のテストで全問正解・時間内。さらに前提技能もMASTERで紋章完成</div><div class="notice warn">⚠ 自宅PCのブラウザに記録を保存します。定期的にJSONでバックアップしてください。</div></div></section></div>`);}
+function navBar(){return `<div class="nav"><button class="${state.nav==='tree'?'active':''}" data-act="nav" data-value="tree">◇ スキルツリー</button><button class="${state.nav==='progress'?'active':''}" data-act="nav" data-value="progress">↗ 学習の記録</button><button class="${state.nav==='settings'?'active':''}" data-act="nav" data-value="settings">⚙ 設定・バックアップ</button></div>`;}
+function skillCard(s){let st=statusOf(s.id),rec=state.records[s.id];return `<button class="skill-card ${st}" data-act="select" data-id="${s.id}" aria-label="${esc(s.title)}"><div class="flex between"><span class="skill-grade">小${s.grade}年・${s.month}月目安</span><span class="status ${st}">${badge(st)[0]}</span></div><div class="skill-name">${esc(s.title)}</div><div class="flex between"><div>${displayMetric(rec?.metrics,true)}</div><div class="seal ${st==='master'?'master':st==='pending'?'pending':st==='licensed'?'license':''}">${st==='master'?'★':st==='pending'?'⌛':st==='licensed'?'◇':st==='locked'?'🔒':'✧'}</div></div><div class="skill-foot">${st==='locked'?'前提技能が必要':rec?.lastScore?'前回 '+rec.lastScore:'まだ受験していません'}</div></button>`;}
+function detail(id){
+ const s=C.byId[id];if(!s)return'';
+ const actual=S.byId[id],playable=!!actual,st=statusOf(id),rec=state.records[id]||{},stage=C.stageById[s.stage];
+ const prereq=s.prereq.length?`<div class="req-links">${s.prereq.map(p=>`<button class="req req-button" data-act="jump-skill" data-id="${esc(p)}" title="この技能へ移動">${statusOf(p)==='master'?'✓':'○'} ${esc(C.byId[p]?.title||p)}</button>`).join('')}</div>`:'<div class="muted">前提技能なし（カリキュラム案）</div>';
+ const full=playable?`<h3>4つの宝石</h3>${displayMetric(rec.metrics)}<p class="smallnote">直近の正式テストの結果です。MASTER認定には、1回のテストで全問正解・時間内が必要です。</p>`:'<div class="notice warn"><strong>教材準備中</strong>：スキルツリーと前提関係だけを先に登録しました。問題の出題・採点・宝石の評価・マスター認定はまだ利用できません。</div>';
+ const actions=playable?`<div class="flex" style="flex-wrap:wrap"><button class="btn soft" data-act="practice" data-id="${esc(id)}" ${st==='locked'?'disabled':''}>短い練習をする</button><button class="btn" data-act="test" data-id="${esc(id)}" ${st==='locked'?'disabled':''}>${st==='master'?'もう一度挑戦':'混合マスターテストに挑戦'} →</button></div><div class="hint">正式テストは想定20〜30分です。終了時まで答えを見せません。</div>`:'<p class="smallnote">教材追加後に、この画面から練習・マスターテストへ挑戦できる予定です。</p>';
+ const abilityNote=playable?`<p class="smallnote">教材実装済み15技能の判定・アンロックは試作グラフの前提条件を利用します。表示されている285技能の前提関係は別途検証中のカリキュラム案です。</p>`:'';
+ return `<section class="card skill-detail"><div class="flex between"><div><div class="kicker">${esc(stage?.title||s.stage)} / ${esc(C.strands.find(t=>t.id===s.strand)?.title||s.strand)}</div><h2 id="skill-dialog-title" style="margin-bottom:0">${esc(actual?.title||s.title)}</h2></div><div class="seal ${st==='master'?'master':st==='pending'?'pending':st==='licensed'?'license':''}">${st==='master'?'★':st==='planned'?'◇':'✧'}</div></div><span class="status ${st}" style="width:max-content">${st==='planned'?'教材準備中':badge(st)[0]}</span><p class="smallnote">${esc(s.area)}</p><div class="divider" style="margin:2px 0"></div>${full}<h3>必要な前提技能（285技能のカリキュラム案）</h3>${prereq}${abilityNote}${st==='pending'?'<div class="notice warn">自身の満点達成済み。前提技能のMASTERを待っています。</div>':''}${state.recommendations.includes(id)?'<div class="notice">初回診断でおすすめされた技能です。診断のみではMASTER認定されません。</div>':''}${st==='locked'?'<div class="notice warn">試作教材の前提技能を仮免以上にすると解放されます。</div>':''}${actions}</section>`;
+}
+function tree(showDialog=false){
+ const sum=summary(),M=window.MathTechTree;
+ const range=state.treeRange||(state.selectedId&&C.byId[state.selectedId]?C.modeForSkill(state.selectedId):(Number(state.profile?.grade)||1)<=3?'e1-3':'e4-6');
+ const visible=C.visibleSkills(range);
+ const rec=state.selectedId&&visible.some(s=>s.id===state.selectedId)?state.selectedId:(state.recommendations.find(id=>visible.some(s=>s.id===id))||visible[0]?.id);
+ if(document.getElementById('tech-map-scroll'))M.memorize();
+ frame(`<div class="tree-overview"><div class="flex" style="align-items:baseline;gap:4px"><h1>数学の技術ツリー</h1><span class="tree-subtitle">学年別・分岐と合流のスキルマップ</span></div><div class="tree-summary"><span class="pill">全285技能</span><span class="pill">★ MASTER ${sum.master}/15（教材あり）</span><span class="pill">◇ 仮免 ${sum.licenses}</span><span class="pill">受験 ${sum.attempts}</span><button class="btn secondary small" data-act="diagnosis">診断をやり直す</button></div></div>${navBar()}${M.render({skills:visible,tracks:C.strands,statusOf,records:state.records,selectedId:rec,recommendations:state.recommendations,activeRange:range})}<dialog id="skill-dialog" class="skill-dialog" aria-labelledby="skill-dialog-title"><div class="skill-dialog-titlebar"><span>◆ 技能の詳細と挑戦</span><button class="skill-dialog-close" type="button" data-act="close-skill" aria-label="閉じる">✕</button></div>${detail(rec)}</dialog>`,true);
+ M.restore(rec);
+ if(showDialog){const dialog=$('#skill-dialog');dialog?.showModal();dialog?.querySelector('.skill-dialog-close')?.focus({preventScroll:true});}
+}
+function openSkill(id){if(!C.byId[id])return;state.selectedId=id;state.treeRange=C.modeForSkill(id);window.MathTechTree.resetRange();save();tree(true);}
+function searchSkills(){
+ const q=$('#tech-search')?.value.trim().toLocaleLowerCase('ja')||'',host=$('#tech-search-results');if(!host)return;
+ if(!q){host.innerHTML='<div class="search-message">技能名または領域の文字を入力してください。</div>';host.hidden=false;return;}
+ const results=C.skills.filter(s=>(s.title+' '+s.id+' '+s.area+' '+C.stageById[s.stage]?.title).toLocaleLowerCase('ja').includes(q));
+ host.innerHTML=`<div class="search-message">${results.length}件ヒット${results.length>30?'（先頭30件を表示）':''}</div>`+results.slice(0,30).map(s=>`<button type="button" data-act="map-search-go" data-id="${esc(s.id)}">${esc(C.stageById[s.stage]?.title)}：${esc(s.title)}${S.byId[s.id]?' （問題あり）':''}</button>`).join('');host.hidden=false;
+}
+
+function diagnose(){let d=state.diagnosis;if(!d){state.diagnosis=E.makeDiagnosis(state.profile);d=state.diagnosis;save();}
+ if(d.index>=d.steps.length){finishDiagnosis();return;}
+ const q=d.question||E.nextDiagnosticQuestion(d);save();const s=S.byId[q.skillId],step=d.steps[d.index];
+ frame(`<div class="page-title"><div><div class="kicker">INITIAL ASSESSMENT</div><h1>得意なところを探そう</h1><div class="subtitle">今の問題ができたら少し先へ。難しければ前の技能へ。</div></div><button class="btn secondary small" data-act="nav" data-value="tree">診断を終了してツリーへ</button></div><section class="card" style="max-width:780px;margin:auto"><div class="diag-dots">${S.tracks.map((t,i)=>`<span class="${i<d.index?'done':i===d.index?'active':''}">${t.icon} ${t.title}</span>`).join('')}</div><div class="divider"></div><div class="flex between"><span class="tag">小${s.grade}年・${esc(s.title)}</span><span class="counter">この技能の確認 ${step.probes+1} / 3</span></div><div class="question"><p>${esc(q.prompt)}</p></div><div class="field"><label for="diag-answer">答えを入力</label><input id="diag-answer" class="answer-input" type="text" inputmode="decimal" autocomplete="off" placeholder="例：12 または 2/3"></div><div class="flex between"><span class="hint">数問の結果から位置を推定します。マスター認定ではありません。</span><button class="btn" data-act="diagnose-answer">次の問題へ →</button></div></section>`);$('#diag-answer')?.focus();}
+function finishDiagnosis(){const d=state.diagnosis;if(!d)return;const ids=d.steps.map(x=>x.recommendSkillId).filter(Boolean);state.recommendations=[...new Set(ids)];state.selectedId=ids[0]||S.skills[0].id;const summary=d.steps.map(x=>({track:x.track,skillId:x.recommendSkillId,levelsChecked:x.levelsChecked}));state.diagnosis=null;state.lastDiagnosis={at:new Date().toISOString(),summary,logs:d.logs};state.nav='tree';save();render();}
+function startTest(id){let s=S.byId[id];if(!s||statusOf(id)==='locked')return;
+ state.active={test:E.buildTest(s),answers:[],index:0,paused:false,elapsedBase:0,startedAt:ms()};state.lastResult=null;save();render();}
+function startPractice(id){const skill=S.byId[id];if(!skill||statusOf(id)==='locked')return;const categories=['basic','application','word','basic','application','word','basic','application','word'];const questions=categories.map(cat=>E.makeQuestion(skill,cat));state.practice={skillId:id,questions,answers:[],checks:[],index:0,finished:false};state.lastResult=null;save();render();}
+function practiceScreen(){const p=state.practice,q=p.questions[p.index],res=p.checks[p.index],cat={basic:'基礎',application:'応用',word:'文章題'}[q.category];
+frame(`<div class="page-title"><div><div class="kicker">TRAINING</div><h1>${esc(S.byId[p.skillId].title)} の練習</h1><div class="subtitle">練習中の間違いはマスター判定に影響しません。</div></div><button class="btn secondary small" data-act="stop-practice">練習を終える</button></div><section class="card" style="max-width:800px;margin:auto"><div class="flex between"><span class="tag">${cat}</span><span class="counter">練習 ${p.index+1} / ${p.questions.length}</span></div><div class="question"><p>${esc(q.prompt)}</p></div><div class="field"><label for="practice-answer">${q.inputMode==='formula'?'式を入力（答えだけでは判定できません）':'答え'}</label>${q.inputMode==='formula'?`<textarea id="practice-answer" class="answer-input formula" rows="3" ${res?'disabled':''}>${esc(p.answers[p.index]||'')}</textarea>`:`<input id="practice-answer" class="answer-input" type="text" inputmode="decimal" value="${esc(p.answers[p.index]||'')}" ${res?'disabled':''}>`}</div>${res?`<div class="notice ${res.status==='correct'?'good':'warn'}">${res.status==='correct'?'○ 正解！':res.status==='needs_review'?'△ 要確認':'× もう一度確認しよう'}<br>${esc(res.detail)}<br>確認用の答え：${esc(q.displayAnswer)}</div><p class="hint" style="margin-top:12px">${esc(q.hint)} 練習では答えを確認できます。正式テストでは別の問題が出ます。</p><button class="btn" data-act="practice-next" style="margin-top:16px">${p.index===p.questions.length-1?'練習を終える':'次の練習問題へ →'}</button>`:`<button class="btn" data-act="practice-check">答え合わせ</button>`}</section>`);}
+function endPractice(){const p=state.practice;if(!p)return;state.practiceHistory=(state.practiceHistory||[]);state.practiceHistory.push({at:new Date().toISOString(),skillId:p.skillId,questions:p.questions,answers:p.answers,checks:p.checks});state.practice=null;save();render();}
+function testScreen(){const a=state.active;if(!a)return;let q=a.test.questions[a.index],cat={basic:'基礎',application:'応用',word:'文章題'}[q.category];let remaining=a.test.targetSeconds-elapsed();frame(`<div class="page-title"><div><div class="kicker">MASTERY EXAM</div><h1>${esc(S.byId[a.test.skillId].title)}</h1><div class="subtitle">各分野を混ぜた1回のテスト。全問正解＋目標時間以内で完全達成。</div></div><div class="flex"><span class="timer" id="timer">${clock(elapsed())} / ${clock(a.test.targetSeconds)}</span><button class="btn secondary small" data-act="pause">${a.paused?'再開':'一時停止'}</button></div></div>${a.paused?'<div class="notice warn">一時停止中です。再開すると解答できます。</div>':''}<section class="card" style="max-width:880px;margin:auto"><div class="flex between"><span class="tag">${cat}</span><span class="counter">問題 ${a.index+1} / ${a.test.questions.length}</span></div><div class="question"><p>${esc(q.prompt)}</p></div><div class="field"><label for="test-answer">${q.inputMode==='formula'?'式を入力（複数行も可）':'答えを入力'}</label>${q.inputMode==='formula'?`<textarea id="test-answer" class="answer-input formula" rows="3" ${a.paused?'disabled':''} placeholder="例：24×3÷8=9\nまたは\n24×3=72\n72÷8=9">${esc(a.answers[a.index]||'')}</textarea>`:`<input id="test-answer" class="answer-input" type="text" inputmode="decimal" autocomplete="off" value="${esc(a.answers[a.index]||'')}" ${a.paused?'disabled':''} placeholder="数値 または 2/3 のような分数">`}</div><div class="hint">${q.inputMode==='formula'?'答えの数値だけでは立式を確認できません。途中式と最終結果を記入してください。':'数字・小数・分数で答えられます。'}</div><div class="qnav">${a.test.questions.map((v,i)=>`<button aria-label="問題${i+1}" data-act="jump" data-value="${i}" class="${i===a.index?'current':a.answers[i]?.trim()?'filled':''}">${i+1}</button>`).join('')}</div><div class="flex between" style="flex-wrap:wrap"><button class="btn secondary" data-act="prev" ${a.index===0?'disabled':''}>← 前の問題</button><div class="flex"><button class="btn secondary" data-act="next" ${a.index===a.test.questions.length-1?'disabled':''}>次の問題 →</button><button class="btn" data-act="submit">採点する</button></div></div><div class="divider"></div><div class="notice warn">マスターには全問正解が必要です。未回答や自動判定できない式は正解として扱いません。目標時間を超えても解答は続けられます。</div></section>`);
+}
+function submit(){const a=state.active;if(!a)return;const blanks=a.test.questions.filter((_,i)=>!String(a.answers[i]||'').trim()).length;if(blanks&&!confirm(`${blanks}問が未回答です。そのまま採点しますか？`))return;
+ if(!a.paused){a.elapsedBase=elapsed();a.paused=true;a.startedAt=null;}
+ const result=E.gradeTest(a.test,a.answers,a.elapsedBase),rec=E.applyResult(state.records,a.test.skillId,result,a.elapsedBase,a.test.createdAt);
+ const row={at:new Date().toISOString(),skillId:a.test.skillId,test:a.test,answers:a.answers,results:result.results,metrics:result.metrics,elapsedSeconds:a.elapsedBase,perfect:result.perfect,provisional:result.provisional,correct:result.correct,count:result.count};
+ state.attemptsHistory.push(row);state.lastResult={...row,recMaster:rec.master};state.active=null;state.selectedId=row.skillId;state.nav='tree';save();render();}
+function resultScreen(){const r=state.lastResult;if(!r)return tree();const s=S.byId[r.skillId],st=statusOf(r.skillId),target=r.test.targetSeconds;
+ const desc=r.perfect?st==='master'?'完全マスター！4つの宝石が合体しました。':'全問正解・時間達成！前提技能の完全マスター待ちです。':r.provisional?'全4項目が75%以上。次の技能に挑戦できます。':'まだ仮免には届いていません。間違えたところを確かめましょう。';
+ frame(`<div class="page-title"><div><div class="kicker">EXAM RESULT</div><h1>${esc(s.title)} ― 採点結果</h1></div><button class="btn secondary" data-act="close-result">スキルツリーに戻る</button></div><div class="grid2"><section class="card"><h2>${r.perfect?'🏆 挑戦成功！':r.provisional?'🔓 仮免到達！':'📝 次の挑戦に備えよう'}</h2><p>${desc}</p><div class="statgrid"><div class="stat"><strong>${r.correct}/${r.count}</strong><small>正解数</small></div><div class="stat"><strong>${clock(r.elapsedSeconds)}</strong><small>実際の時間</small></div><div class="stat"><strong>${clock(target)}</strong><small>目標時間</small></div></div><div class="divider"></div>${metrics.map(([k,label,col])=>`<div class="metricrow"><b>${label}</b><div class="progress"><div style="width:${r.metrics[k]}%;background:${col}"></div></div><b>${r.metrics[k]}%</b></div>`).join('')}<div class="notice" style="margin-top:12px">基本・応用・文章題はそれぞれの正答率。速度は目標時間と実時間だけで評価します。完全マスターには全問正解＋時間内の両方が必要です。</div><div class="flex" style="margin-top:18px;flex-wrap:wrap"><button class="btn" data-act="retry" data-id="${r.skillId}">新しい問題で再挑戦</button><button class="btn secondary" data-act="gemini">Geminiへの質問を用意</button></div></section><section class="card"><h2>解答の振り返り</h2><p class="muted">今回の問題・あなたの解答・判定を記録しています。</p><div style="max-height:590px;overflow:auto">${r.test.questions.map((q,i)=>{let res=r.results[i],good=res.status==='correct';return `<div class="result-line ${good?'ok':res.status==='needs_review'?'review':'bad'}"><div class="flex between"><b>${i+1}. ${good?'○ 正解':res.status==='needs_review'?'△ 要確認':'× 不正解'}</b><span class="tag">${{basic:'基礎',application:'応用',word:'文章題'}[q.category]}</span></div><div class="result-prompt">${esc(q.prompt)}</div><div class="result-detail">解答：${esc(r.answers[i]||'（未回答）').replace(/\n/g,' / ')}<br>確認用の答え：${esc(q.displayAnswer)}<br>${esc(res.detail)}</div></div>`;}).join('')}</div></section></div>`);
+}
+function progress(){const sum=summary(),hist=state.attemptsHistory;const W=700,H=230,pad=38,maxY=15;
+ const shadow={};
+ const counts=hist.map((h,i)=>{
+   if(!shadow[h.skillId])shadow[h.skillId]={};
+   if(h.provisional)shadow[h.skillId].license=true;
+   if(h.perfect){shadow[h.skillId].selfMaster=true;shadow[h.skillId].license=true;}
+   E.recalc(shadow);
+   return {a:i+1,b:S.skills.filter(sk=>shadow[sk.id]?.license).length,c:S.skills.filter(sk=>shadow[sk.id]?.master).length};
+ });
+ const point=(name)=>counts.map((o,i)=>`${pad+(i/Math.max(1,counts.length-1))*(W-2*pad)},${H-pad-o[name]/maxY*(H-2*pad)}`).join(' ');
+ frame(`<div class="page-title"><div><div class="kicker">LEARNING HISTORY</div><h1>学習の記録</h1></div></div>${navBar()}<div class="grid2"><section class="card"><h2>試作版の学習推移</h2>${hist.length?`<svg class="history-chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="受験回数ごとの仮免技能数とマスター技能数"><line x1="${pad}" y1="${H-pad}" x2="${W-pad}" y2="${H-pad}" stroke="#cdd8e7"/><line x1="${pad}" y1="${pad}" x2="${pad}" y2="${H-pad}" stroke="#cdd8e7"/><polyline fill="none" stroke="#4a74ce" stroke-width="3" points="${point('b')}"/><polyline fill="none" stroke="#19a279" stroke-width="3" points="${point('c')}"/><text x="${pad}" y="20" font-size="13" fill="#677b99">技能数 0〜15</text></svg><div class="flex" style="flex-wrap:wrap"><span class="pill">🔵 仮免を獲得した技能</span><span class="pill">🟢 現在MASTERの技能</span></div>`:'<div class="notice">受験履歴がありません。混合テストを受けると記録されます。</div>'}<div class="notice warn" style="margin-top:16px">学校の標準進度比較・将来予測は未実装です。公的な月別進度や難易度の校正後に追加します。</div></section><section class="card"><h2>記録の概要</h2><div class="statgrid"><div class="stat"><strong>${sum.master}</strong><small>MASTER</small></div><div class="stat"><strong>${sum.licenses}</strong><small>仮免</small></div><div class="stat"><strong>${sum.attempts}</strong><small>正式テスト</small></div></div><div class="divider"></div><h3>最近の受験</h3>${hist.slice(-10).reverse().map(h=>`<div class="result-line"><div class="flex between"><b>${esc(S.byId[h.skillId]?.title||'技能')}</b><span class="status ${h.perfect?'master':h.provisional?'licensed':''}">${h.perfect?'満点':h.provisional?'仮免':'練習継続'}</span></div><div class="hint">${esc(h.at.slice(0,16).replace('T',' '))} / ${h.correct}/${h.count} 正解 / ${clock(h.elapsedSeconds)}</div></div>`).join('')||'<p class="muted">記録なし</p>'}</section></div>`);
+}
+function settings(){frame(`<div class="page-title"><div><div class="kicker">SETTINGS</div><h1>設定・バックアップ</h1></div></div>${navBar()}<div class="grid2"><section class="card"><h2>学習データの保存</h2><p>名前やアカウントを使わず、このブラウザ内に保存します。学校の端末では消去される場合があるため、こまめにJSONファイルを書き出してください。</p><div class="stack"><button class="btn" data-act="export">JSONバックアップを保存</button><button class="btn secondary" data-act="import">JSONバックアップを読み込む</button><input type="file" id="import-file" accept=".json,application/json" style="display:none"><button class="btn secondary" data-act="diagnosis">初回診断をやり直す</button></div><p class="smallnote">JSONに問題文・解答・正誤・所要時間が保存されます。共有する前に内容を確認してください。</p></section><section class="card"><h2>現在の対象範囲</h2><p>問題生成・採点できるのは小学1〜4年の一部15技能です。小学校から高校まで285技能の参照ツリーをアプリに表示しています。ただし、残り270技能は教材準備中です。</p><div class="notice warn">文章題の数式判定は四則演算中心の限定実装です。数値が合っていても式を検証できなければ「要確認」となり、マスターにはなりません。</div><div class="divider"></div><button class="btn danger small" data-act="reset">端末内の学習データを初期化</button></section></div>`);}
+function render(){if(!state.profile)return onboard();if(state.active)return testScreen();if(state.practice)return practiceScreen();if(state.diagnosis)return diagnose();if(state.lastResult)return resultScreen();if(state.nav==='progress')return progress();if(state.nav==='settings')return settings();tree();}
+function changePage(page){state.nav=page;state.lastResult=null;state.active=null;state.practice=null;state.diagnosis=null;save();render();}
+function exportData(){const payload={...state,exportedAt:new Date().toISOString()};const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json;charset=utf-8'});const link=document.createElement('a');const url=URL.createObjectURL(blob);link.href=url;link.download=`MathStudio_backup_${new Date().toISOString().slice(0,10)}.json`;document.body.appendChild(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),5000);}
+function sanitizeImport(data){if(!data||data.schema_version!==1||typeof data.profile!=='object'||!data.profile)throw Error('非対応のバックアップ形式です');const out=fresh();const grade=Number(data.profile.grade),month=Number(data.profile.month);if(!(grade>=1&&grade<=6&&month>=1&&month<=12))throw Error('学年・月のデータが不正です');out.profile={grade,month};if(data.records&&typeof data.records==='object'){for(const sk of S.skills){const rec=data.records[sk.id];if(rec&&typeof rec==='object'){out.records[sk.id]={license:rec.license===true,selfMaster:rec.selfMaster===true,metrics:Object.fromEntries(metrics.map(([k])=>[k,Math.min(100,Math.max(0,Number(rec.metrics?.[k])||0))])),attempts:Math.min(100000,Math.max(0,Number(rec.attempts)||0)),history:Array.isArray(rec.history)?rec.history.slice(-2000):[]};}}}out.recommendations=Array.isArray(data.recommendations)?data.recommendations.filter(id=>!!S.byId[id]):[];out.selectedId=S.byId[data.selectedId]?data.selectedId:null;
+ out.attemptsHistory=Array.isArray(data.attemptsHistory)?data.attemptsHistory.slice(0,10000).filter(x=>S.byId[x?.skillId]&&Array.isArray(x.test?.questions)&&Array.isArray(x.answers)&&Array.isArray(x.results)):[];out.practiceHistory=Array.isArray(data.practiceHistory)?data.practiceHistory.filter(x=>S.byId[x?.skillId]&&Array.isArray(x.questions)&&Array.isArray(x.answers)):[];
+ out.lastDiagnosis=data.lastDiagnosis&&typeof data.lastDiagnosis==='object'?data.lastDiagnosis:null;E.repairStoredGrades(out);out.gradingRevision=2;E.recalc(out.records);return out;}
+async function importData(f){if(!f||f.size>8*1024*1024){alert('8MB以下のJSONファイルを選んでください');return;}try{const obj=JSON.parse(await f.text());const imported=sanitizeImport(obj);if(!confirm('端末内の学習記録を、このバックアップで置き換えます。よろしいですか？'))return;state=imported;save();render();}catch(e){alert('読み込み失敗：'+e.message);}}
+function gemini(){const r=state.lastResult;if(!r)return;const misses=r.test.questions.map((q,i)=>({q,res:r.results[i],answer:r.answers[i]})).filter(x=>x.res.status!=='correct').slice(0,3);const prompt=`小学生の算数の家庭教師として、答えをすぐ教えず質問を1つずつ出して考え方を導いてください。氏名等の個人情報はありません。\n単元：${S.byId[r.skillId]?.title}\n${misses.length?misses.map(x=>`問題：${x.q.prompt}\n子どもの解答：${x.answer||'（無回答）'}\n判定：${x.res.detail}`).join('\n'): '満点でした。関連する発展問題を1つだけ作り、段階的にヒントをください。'}`;
+ const opened=window.open('https://gemini.google.com/app','_blank','noopener,noreferrer');
+ if(navigator.clipboard?.writeText)navigator.clipboard.writeText(prompt).then(()=>{alert('質問文をコピーしました。Geminiの画面に貼り付けてください。');}).catch(()=>fallbackCopy(prompt));else fallbackCopy(prompt);
+ if(!opened)alert('Geminiの別タブを開けませんでした。ブラウザで gemini.google.com/app を開いてください。');}
+function fallbackCopy(t){let el=document.createElement('textarea');el.value=t;el.style.position='fixed';el.style.top='0';document.body.appendChild(el);el.select();try{document.execCommand('copy');alert('質問文をコピーしました。Geminiに貼り付けてください。');}catch{alert('コピーできませんでした。');}el.remove();}
+// Event delegation; active text inputs are saved on every keystroke.
+document.addEventListener('input',e=>{if(e.target.id==='test-answer'&&state.active){state.active.answers[state.active.index]=e.target.value;save();}if(e.target.id==='practice-answer'&&state.practice){state.practice.answers[state.practice.index]=e.target.value;save();}});
+document.addEventListener('change',e=>{if(e.target.id==='import-file')importData(e.target.files?.[0]);if(e.target.id==='tech-range'){state.treeRange=e.target.value;window.MathTechTree.resetRange();save();tree();}});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='tech-search'){e.preventDefault();searchSkills();return;}if(e.key==='Enter'&&e.target.id==='diag-answer'){e.preventDefault();$('#app [data-act="diagnose-answer"]')?.click();}});
+document.addEventListener('click',e=>{const btn=e.target.closest('[data-act]');if(!btn||btn.disabled)return;const act=btn.dataset.act,id=btn.dataset.id;
+ if(act==='begin'){state=fresh();state.profile={grade:Number($('#grade').value),month:Number($('#month').value)};state.diagnosis=E.makeDiagnosis(state.profile);save();return render();}
+ if(act==='nav')return changePage(btn.dataset.value);
+ if(act==='map-fit')return window.MathTechTree.resetFit();
+ if(act==='map-focus')return window.MathTechTree.focus(state.selectedId||state.recommendations[0]||S.skills[0].id);
+ if(act==='map-zoom-in')return window.MathTechTree.adjustZoom(.1,state.selectedId||state.recommendations[0]||S.skills[0].id);
+ if(act==='map-zoom-out')return window.MathTechTree.adjustZoom(-.1,state.selectedId||state.recommendations[0]||S.skills[0].id);
+ if(act==='map-search'){searchSkills();return;}
+ if(act==='map-search-go'||act==='jump-skill'){return openSkill(id);}
+ if(act==='select'){state.selectedId=id;save();return tree(true);}
+ if(act==='close-skill'){const dlg=$('#skill-dialog');if(dlg?.open)dlg.close();document.querySelector(`.tech-node[data-id="${state.selectedId}"]`)?.focus({preventScroll:true});return;}
+ if(act==='test'||act==='retry')return startTest(id);
+ if(act==='practice')return startPractice(id);
+ if(act==='stop-practice')return endPractice();
+ if(act==='practice-check'){const p=state.practice;if(!p)return;const answer=p.answers[p.index]||'';p.checks[p.index]=E.scoreAnswer(p.questions[p.index],answer);save();return render();}
+ if(act==='practice-next'){const p=state.practice;if(!p)return;if(p.index===p.questions.length-1)return endPractice();p.index++;save();return render();}
+ if(act==='diagnosis'){if(!confirm('初回診断を最初からやり直します。取得済みの宝石は保持します。よろしいですか？'))return;state.lastResult=null;state.active=null;state.practice=null;state.diagnosis=E.makeDiagnosis(state.profile);save();return render();}
+ if(act==='diagnose-answer'){let ans=$('#diag-answer')?.value?.trim();if(!ans){alert('答えを入力してください');return;}const step=E.diagnoseAnswer(state.diagnosis,ans);save();return step.done?finishDiagnosis():render();}
+ if(act==='pause'){let a=state.active;if(a.paused){a.paused=false;a.startedAt=ms();}else{a.elapsedBase=elapsed();a.paused=true;a.startedAt=null;}save();return render();}
+ if(act==='prev'||act==='next'||act==='jump'){let a=state.active;if(!a)return;a.index=act==='prev'?Math.max(0,a.index-1):act==='next'?Math.min(a.test.questions.length-1,a.index+1):Number(btn.dataset.value);save();return render();}
+ if(act==='submit'){if(state.active?.paused){alert('一時停止を解除してから採点してください。');return;}return submit();}
+ if(act==='close-result'){state.lastResult=null;save();return render();}
+ if(act==='export')return exportData();
+ if(act==='import')return $('#import-file')?.click();
+ if(act==='reset'){if(!confirm('全学習データを消去します。元に戻せません。事前にJSONバックアップを保存してください。'))return;state=fresh();save();return render();}
+ if(act==='gemini')return gemini();
+});
+function autoPause(){if(state.active&&!state.active.paused){state.active.elapsedBase=elapsed();state.active.paused=true;state.active.startedAt=null;save();}}
+document.addEventListener('visibilitychange',()=>{if(document.hidden)autoPause();});
+window.addEventListener('pagehide',autoPause);
+setInterval(()=>{if(state.active&&!state.active.paused){let el=$('#timer');if(el)el.textContent=`${clock(elapsed())} / ${clock(state.active.test.targetSeconds)}`;}},1000);
+render();
+})();
+</script></body></html>
