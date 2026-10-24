@@ -2,7 +2,7 @@ const assert=require('node:assert/strict'),E=require('../src/engine.js'),C=requi
 let suites=0;
 const t=(name,fn)=>{fn();suites++;console.log('PASS',name);};
 const ans=q=>q.inputMode==='formula'?q.formula:q.displayAnswer;
-t('15 skills and valid prerequisite subgraph',()=>{assert.equal(C.skills.length,15);for(const s of C.skills)for(const p of s.prereq)assert(C.byId[p]);});
+t('15 skills and valid prerequisite subgraph',()=>{assert.equal(C.skills.length,79);for(const s of C.skills)for(const p of s.prereq)assert(C.byId[p]);});
 t('6750 self-checks of 15 skills x 3 families x 150 rounds',()=>{let n=0;for(const s of C.skills)for(const cat of ['basic','application','word'])for(let i=0;i<150;i++){const q=E.makeQuestion(s,cat);assert.equal(E.scoreAnswer(q,ans(q)).status,'correct',s.id+' '+cat);assert(Number.isFinite(q.answer));n++;}assert.equal(n,6750);});
 t('mixed tests contain every category and time targets 20-30min',()=>{for(const s of C.skills){const z=E.buildTest(s);assert(z.targetSeconds>=1200&&z.targetSeconds<=1800);for(const k of ['basic','application','word'])assert(z.questions.filter(q=>q.category===k).length>=4);}});
 t('complete test grants 4 jewels',()=>{const z=E.buildTest(C.skills[0]);const g=E.gradeTest(z,z.questions.map(ans),z.targetSeconds);assert(g.perfect&&g.provisional);assert.deepEqual(g.metrics,{basic:100,speed:100,application:100,word:100});});
