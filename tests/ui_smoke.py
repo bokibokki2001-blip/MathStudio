@@ -19,14 +19,16 @@ async def main():
    await page.locator('#diag-answer').fill('0')
    await page.locator('[data-act=diagnose-answer]').click()
   print('Diagnosis complete:', i)
-  await page.locator('[data-act=practice]').click()
+  await page.locator('.tech-node[data-id="e1.number.add_single"]').click()
+  await page.locator('#skill-dialog [data-act=practice]').click()
   print('Practice:',await page.locator('h1').all_text_contents())
   await page.locator('#practice-answer').fill('0')
   await page.locator('[data-act=practice-check]').click()
   print('Practice feedback:',await page.locator('div.notice').all_text_contents())
   await page.locator('[data-act=stop-practice]').click()
   print('After practice:',await page.locator('h1').all_text_contents())
-  await page.locator('[data-act=test]:not([disabled])').click()
+  await page.locator('.tech-node[data-id="e1.number.add_single"]').click()
+  await page.locator('#skill-dialog [data-act=test]:not([disabled])').click()
   for j in range(100):
    act=await page.evaluate('JSON.parse(localStorage.getItem("MathStudio.v0.1.local")).active')
    if not act:break
