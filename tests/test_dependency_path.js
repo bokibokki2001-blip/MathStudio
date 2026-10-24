@@ -3,7 +3,7 @@ const J=require('../src/dependency_path.js'),C=require('../src/catalog.js'),S=re
 const playable=new Set(S.skills.map(s=>s.id));
 function test(id, statuses={}) {return J.analyze(id,{catalog:C,statusOf:id=>statuses[id]|| (playable.has(id)?'locked':'planned'),playableIds:playable});}
 for(const s of C.skills){let j=test(s.id);assert(!j.ancestors.has(s.id));assert.equal(j.edgeCount,j.edges.length);assert.equal(new Set(j.order).size,j.order.length);assert(j.order.at(-1)===s.id);for(const e of j.edges)assert(j.order.indexOf(e.from)<j.order.indexOf(e.to));
- for(const f of j.firstSteps)assert(C.byId[f].prereq.every(p=>J.met('master') || j.completed.includes(p) || !j.all.has(p))===true || C.byId[f].prereq.length===0);
+ for(const f of j.firstSteps)assert(C.byId[f].prereq.length===0, 'With no completed nodes, the first steps must be roots');
 }
 const mul=test('e3.number.multiply_two_digit_by_two_digit');
 assert(mul.ancestors.has('e1.number.count_objects'));assert(mul.ancestors.has('e2.number.multiplication_table'));assert(mul.ancestors.has('e3.number.multi_digit_add'));
