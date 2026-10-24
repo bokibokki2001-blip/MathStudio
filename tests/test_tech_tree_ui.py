@@ -18,17 +18,20 @@ async def main():
    await page.locator('#diag-answer').fill('0');await page.locator('[data-act=diagnose-answer]').click()
   assert await page.locator('.tech-node').count()==15
   assert await page.locator('.tech-link').count()==16
-  assert await page.locator('.era-head').count()==6
+  assert await page.locator('.grade-fixed').count()==6
   print('Map: nodes 15, edges 16, eras 6')
   await page.screenshot(path=str(R/'tests/tech_tree_full.png'),full_page=True)
   await page.locator('.tech-node[data-id="e3.number.multiply_two_digit_by_two_digit"]').click()
   assert (await page.locator('.tech-node.selected').get_attribute('data-id'))=='e3.number.multiply_two_digit_by_two_digit'
   assert await page.locator('.tech-link.highlight').count()>=2
-  assert '2桁×2桁の掛け算' in await page.locator('#detail-pane').inner_text()
+  assert await page.locator('#skill-dialog').is_visible()
+  assert '2桁×2桁の掛け算' in await page.locator('#skill-dialog').inner_text()
+  await page.locator('[data-act=close-skill]').click()
+  base=int((await page.locator('.map-zoom-value').inner_text()).strip('%'))
   await page.locator('[data-act=map-zoom-in]').click()
-  assert '110%' in await page.locator('.map-zoom-value').inner_text()
+  assert int((await page.locator('.map-zoom-value').inner_text()).strip('%'))==base+10
   await page.locator('[data-act=map-zoom-out]').click()
-  assert '100%' in await page.locator('.map-zoom-value').inner_text()
+  assert int((await page.locator('.map-zoom-value').inner_text()).strip('%'))==base
   await page.locator('[data-act=map-focus]').click()
   assert not errs,errs
   print('Graph navigation, highlighted prerequisites, zoom, focus: passed')
