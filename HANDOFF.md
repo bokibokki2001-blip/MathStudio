@@ -1,4 +1,4 @@
-# HANDOFF — MathStudio v0.1.4
+# HANDOFF — MathStudio v0.1.5
 
 ## 現状
 - 自宅PCのオフライン使用を想定。学校Chromebookのi-Filter制限を回避する変更は不要。
