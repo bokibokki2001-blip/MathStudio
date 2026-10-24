@@ -1,1 +1,9 @@
-The requested file reference is not currently visible. Use files.search or files.list to rediscover the file, then retry with a returned ref_id or file_id.
+# 最初に読む — MathStudio v0.1.2
+
+自宅のWindows PCで使うことに変更しました。`MathStudio_v0.1.2_Standalone.html`をChrome/Edgeで開けば、インターネット不要で学習できます。初回診断と技術ツリーを試し、終わったら「学習データを保存」でJSONを別途バックアップしてください。学校管理Chromebookは使用先として想定しません。
+
+# 新しいChatGPTチャットで開発を再開するプロンプト
+
+このZIPは、個人用オフライン算数学習アプリ MathStudio v0.1.2 のソースと実験結果です。まず `SPEC.md`、`HANDOFF.md`、`TESTING.md`、`CHANGELOG.md`、`README.md` をすべて読んでください。`reference/curriculum_285_v0.1.json` は小学校〜高校285技能の **試作カリキュラム**であり、実行アプリが扱えるのは `src/skills.js` の15技能だけです。コードを直接確認し、書類の「予定・実装・テスト・実機確認」を混同しないでください。ユーザーの合意したルール：4宝石＝基礎力・速度・応用力・文章題、ひとつの混合テストで4項目を評価、全項目75%以上で仮免、同一の混合テストで全問正解＋目標時間達成で自己100%、前提技能全MASTERで中央の完全MASTER紋章を完成。初回は学年/月を基準に分野別の前後技能へ動的探索、診断だけではMASTERにしません。想定20〜30分の問題セット、必須問題類型＋残りランダム、難易度は公開調査の正答率・試験時間で将来校正。ChromebookのChromeで `index.html` を開ける構成が目標です。必要に応じて外部のブラウザGeminiで質問できるが、アプリ本体はAPI不要・オフラインです。次のタスクを実装したら、動作テスト、ソースZIPの作成、および5文書の更新を必ず行ってください。ユーザーの実機確認がない場合は未確認と明記してください。秘密情報や実際の学習バックアップJSONを公開ソースへ入れないでください。
+
+**v0.1.2追記:** 同じ数値の数量が複数存在する文章題の `1+1=2` の誤保留、および時間内でも正答率で速度100%にならない問題を修正。新ルールでは速度の宝石は時間達成率だけで計算するが、自己MASTERには全問正解と時間内を要求。`src/engine.js` の `repairStoredGrades()` は旧版の答案から自動再採点する。旧版からのJSONインポート動作と `file://` のファイルパス依存の保存領域に注意。詳細は変更履歴とテスト結果を参照。
