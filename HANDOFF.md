@@ -1,20 +1,11 @@
-# HANDOFF — MathStudio v0.1.8
+# HANDOFF — MathStudio v0.1.9
 
-## Changes
-実装技能は15→79。 `src/skills.js` に参照カタログ由来の追加64技能、`src/extended_questions.js` に各技能×3カテゴリの教材を実装。`src/engine.js` の `kind=extended` 分岐で新問題を生成する。
-
-## Script load order
-`catalog.js → skills.js → expression_grader.js → extended_questions.js → engine.js → dependency_path.js → tech_tree.js → app.js`
-
-`tools/build_standalone.py` を実行すると1枚HTMLを再生成できる。GitHub `index.html` は単独HTMLとして起動可能。ローカルZIPでは分割ソースも保持する。
-
-## Backward compatibility
-保存キー `MathStudio.v0.1.local` とschema 1を変更していない。旧15技能の前提定義を維持し、記録済みMASTERを無断で無効化しない。新64技能は参考カタログの前提閉包を満たす。新旧の前提定義が一部異なるため、将来統合するときには記録移行を設計すること。
-
-## Tests and next steps
-- `node tests/run.js` / `node tests/test_expanded_lessons.js`
-- `python tests/test_expanded_ui.py` / `python tests/ui_smoke.py`
-- ブラウザの全範囲カタログ表示・前提経路確認も継続検証。
-- 次は、小4後半から小6の分数・割合・速さ・比例、図形の操作型入力を拡張。
-- 目標時間や難易度の校正、正答判定が意味に適合するかの独立レビュー、Windows実機検証が必要。
-- 版更新時には `SPEC.md`, `HANDOFF.md`, `CHANGELOG.md`, `TESTING.md`, `START_HERE.md` を再更新する。
+- 出題対応は285/285技能（既存15＋v0.1.8の64＋新206）。新技能は `src/advanced_questions.js` に個別定義。
+- 必須のロード順：`catalog.js → skills.js → expression_grader.js → extended_questions.js → advanced_questions.js → engine.js → dependency_path.js → tech_tree.js → app.js`。 `tools/build_standalone.py` で単独HTML生成。
+- 数値・限定式のほか `inputMode='choice'` に対応。選択問題の `answer` は1始まりの選択肢番号、`options` は文字列配列。3カテゴリがあり、混合テスト内の同一テキストを避ける。
+- 旧保存キー `MathStudio.v0.1.local`、JSONスキーマ1、従来15技能の前提定義は互換性のため保持。新270技能は暫定カタログ前提。
+- MASTERは当該問題集に対する内部判定。記述証明・作図・統計的考察・高度な式変形を網羅したとは説明しない。
+- 285技能×3カテゴリ×80乱数で68,400問、855混合テスト、回帰11テスト、Chromiumの選択UIを検証。これらは主に**自己採点の整合性**であり教育的妥当性の第三者監査ではない。
+- 初回診断は小学の基礎4系列のみ。公開試験・学習指導要領と照合した難易度や時間は未校正。
+- 次の優先事項：数学的に独立した解答検証、教材の人手監修、自由証明/作図の採点方式、前提技能の統一、全学年の適応診断、長期保存の実機テスト。
+- リリースZIPには `START_HERE.md`・`SPEC.md`・`HANDOFF.md`・`CHANGELOG.md`・`TESTING.md` を含める。GitHubに個人の学習履歴JSONは置かない。
