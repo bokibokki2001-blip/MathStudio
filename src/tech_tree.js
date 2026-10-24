@@ -1,53 +1,145 @@
-/* MathStudio v0.1.5: readable, routed, stage-by-stage curriculum map. */
+/* MathStudio v0.1.6: dependency-aligned layered curriculum map. */
 (function(root,factory){const v=factory();if(typeof module==='object'&&module.exports)module.exports=v;else root.MathTechTree=v;})(typeof globalThis==='object'?globalThis:this,function(){
 'use strict';
 const C=typeof window!=='undefined'?window.MathCatalog:require('./catalog.js');
-const STAGE_W=344,MARGIN=12,NODE_W=242,NODE_H=78,ROW=113,TOP=20,HEADER_H=43;
+const COLUMN_W=324,MARGIN=12,NODE_W=242,NODE_H=78,ROW=108,TOP=22,HEADER_H=43,STAGE_PAD=19;
+// Domain lanes stay at roughly the same Y coordinate across grades. Grade width
+// grows only when its prerequisites have genuine within-grade depth.
+const LANE_ORDER=['number','measure','geometry','algebra','functions','calculus','data','probability','discrete','modeling'];
 const safe=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const colors={number:'#597adc',algebra:'#9d64d0',geometry:'#d8884c',functions:'#288d93',data:'#4b958d',measure:'#9279be',probability:'#bc7ba7',calculus:'#bf685f',discrete:'#798c58',modeling:'#8f8180'};
 const statusText={master:'MASTER',pending:'認定待ち',licensed:'仮免',open:'学習可能',locked:'未解放',planned:'教材準備中'};
 let zoom=1,manualZoom=false,lastPosition=null,observer=null,canvasLayout=null,mode='e1-3';
 function makeLayout(skills,tracks=C.strands){
- const present=new Set(skills.map(s=>s.stage));const stages=C.stages.filter(s=>present.has(s.id));
- const positions={},links=[];let maxRows=0;
- const strandIndex=new Map(tracks.map((x,i)=>[x.id,i]));
- const catalogueIndex=new Map(C.skills.map((s,i)=>[s.id,i]));
- stages.forEach((stage,si)=>{
-  // Stable strand groups, preserving curriculum order (and progression) inside each group.
-  const group=skills.filter(s=>s.stage===stage.id).sort((a,b)=>(strandIndex.get(a.strand)??99)-(strandIndex.get(b.strand)??99)||catalogueIndex.get(a.id)-catalogueIndex.get(b.id));
-  maxRows=Math.max(maxRows,group.length);
-  group.forEach((s,row)=>{positions[s.id]={x:MARGIN+si*STAGE_W+20,y:TOP+row*ROW,width:NODE_W,height:NODE_H,stage:s.stage,strand:s.strand,row,column:si};});
- });
- for(const s of skills)for(const p of s.prereq)if(positions[p]&&positions[s.id])links.push({from:p,to:s.id,crossTrack:positions[p].strand!==positions[s.id].strand});
- return{width:MARGIN+stages.length*STAGE_W+8,height:TOP+maxRows*ROW+18,stages,positions,links,stageWidth:STAGE_W,nodeWidth:NODE_W,nodeHeight:NODE_H,headerHeight:HEADER_H};
-}
-// Links travel only through the open gutter beside each grade and the horizontal
-// air-gaps between card rows. Even links spanning grades do not run under cards.
-function routePoints(a,b,edgeNumber=0){
- const source=[a.x+a.width,a.y+a.height/2],targetMiddle=b.y+b.height/2;
- const offset=((edgeNumber%5)-2)*2.2;
- if(a.column===b.column){
-  const gutter=a.x+STAGE_W-42+offset;
-  return[source,[gutter,source[1]],[gutter,targetMiddle],[b.x+b.width,targetMiddle]];
+ const present=new Set(skills.map(s=>s.stage));
+ const stages=C.stages.filter(s=>present.has(s.id)), visible=new Map(skills.map(s=>[s.id,s]));
+ const positions={},links=[], stageGeometry=[],groups=new Map(),depthOf=new Map();
+ const catalogIndex=new Map(C.skills.map((s,i)=>[s.id,i]));
+ let colIndex=0,xStart=MARGIN;
+ // All within-grade prerequisite chains run from left to right rather than
+ // looping around a single column. This is a proper topological layering.
+ for(const stage of stages){
+  const nodes=skills.filter(s=>s.stage===stage.id),memo=new Map(),visiting=new Set();
+  function localDepth(s){
+   if(memo.has(s.id))return memo.get(s.id);
+   if(visiting.has(s.id))throw Error('Cyclic prerequisite graph: '+s.id);
+   visiting.add(s.id);
+   const v=Math.max(0,...s.prereq.filter(id=>visible.has(id)&&visible.get(id).stage===stage.id).map(id=>localDepth(visible.get(id))+1));
+   visiting.delete(s.id);memo.set(s.id,v);return v;
+  }
+  for(const s of nodes)localDepth(s);
+  const nLayers=1+Math.max(...memo.values(),0),stageWidth=nLayers*COLUMN_W+STAGE_PAD*2;
+  stageGeometry.push({id:stage.id,title:stage.title,group:stage.group,x:xStart,width:stageWidth,columns:nLayers});
+  for(const s of nodes){
+   const depth=memo.get(s.id),col=colIndex+depth;
+   positions[s.id]={x:xStart+STAGE_PAD+depth*COLUMN_W,y:0,width:NODE_W,height:NODE_H,stage:s.stage,strand:s.strand,row:0,column:col};
+   const key=col+':'+s.strand;
+   if(!groups.has(key))groups.set(key,[]);
+   groups.get(key).push(s);
+  }
+  xStart+=stageWidth;colIndex+=nLayers;
  }
- const entrance=b.x-18+(edgeNumber%3)*3;
- if(b.column===a.column+1){
-  const passage=a.x+a.width+(b.x-(a.x+a.width))*.5+offset;
-  return[source,[passage,source[1]],[passage,targetMiddle],[b.x,targetMiddle]];
+ const columns=colIndex,laneBase=new Map(),laneSize=new Map();
+ let slotCursor=0;
+ for(const strand of LANE_ORDER){
+  const peak=Math.max(0,...Array.from({length:columns},(_,col)=>(groups.get(col+':'+strand)||[]).length));
+  if(!peak)continue;
+  // Spare slots let different stages share a path without forcing a dense grid.
+  const width=peak+Math.max(1,Math.ceil(peak*.25));
+  laneBase.set(strand,slotCursor);laneSize.set(strand,width);
+  slotCursor+=width+2;
  }
- // Global row-aligned passage: no intermediate-grade card occupies this Y band.
- const rowPassage=a.y+NODE_H+(ROW-NODE_H)*.48+offset;
- return[source,[a.x+a.width+26,source[1]],[a.x+a.width+26,rowPassage],[entrance,rowPassage],[entrance,targetMiddle],[b.x,targetMiddle]];
+ const totalSlots=slotCursor;
+ const columnGroups=[];
+ for(let col=0;col<columns;col++)for(const strand of LANE_ORDER){
+  const group=groups.get(col+':'+strand);
+  if(group?.length)columnGroups.push({col,strand,nodes:group,base:laneBase.get(strand),width:laneSize.get(strand)});
+ }
+ const children=new Map(skills.map(s=>[s.id,[]]));
+ for(const s of skills)for(const p of s.prereq)if(visible.has(p)){
+  children.get(p).push(s.id);
+  links.push({from:p,to:s.id,crossTrack:visible.get(p).strand!==s.strand});
+ }
+ function slotY(slot){return TOP+slot*ROW;}
+ // Stable initial order followed by alternating upstream/downstream sweeps.
+ // Unlike an independent list per grade, each pass aligns nodes with the
+ // prerequisite/successor lanes on BOTH sides of the grade boundary.
+ for(const g of columnGroups){
+  g.nodes.sort((a,b)=>catalogIndex.get(a.id)-catalogIndex.get(b.id));
+  g.nodes.forEach((s,i)=>{
+   const slot=g.base+Math.round((i+1)*(g.width+1)/(g.nodes.length+1))-1;
+   const pos=positions[s.id];pos.row=slot;pos.y=slotY(slot);
+  });
+ }
+ function desired(s){
+  const target=[],current=positions[s.id];
+  for(const p of s.prereq){const pred=visible.get(p);if(!pred)continue;
+   const weight=pred.strand===s.strand?4:0.65;
+   target.push([positions[p].row,weight]);
+  }
+  for(const c of children.get(s.id)){const ch=visible.get(c);
+   const weight=ch.strand===s.strand?3:0.5;
+   target.push([positions[c].row,weight]);
+  }
+  target.push([current.row,1.25]);
+  return target.reduce((a,[v,w])=>a+v*w,0)/target.reduce((a,[,w])=>a+w,0);
+ }
+ function arrange(g){
+  const sorted=g.nodes.map(s=>({s,target:desired(s)})).sort((a,b)=>a.target-b.target||catalogIndex.get(a.s.id)-catalogIndex.get(b.s.id));
+  const m=sorted.length,n=g.width;
+  // Increasing-slot DP gives the minimum total displacement with no overlaps.
+  const dp=Array.from({length:m+1},()=>Array(n+1).fill(Infinity)),pick=Array.from({length:m+1},()=>Array(n+1).fill(false));
+  for(let j=0;j<=n;j++)dp[0][j]=0;
+  for(let i=1;i<=m;i++)for(let j=i;j<=n;j++){
+   const slot=g.base+j-1,diff=sorted[i-1].target-slot;
+   const use=dp[i-1][j-1]+diff*diff;
+   if(use<=dp[i][j-1]){dp[i][j]=use;pick[i][j]=true;}else dp[i][j]=dp[i][j-1];
+  }
+  let j=n;for(let i=m;i>0;i--){while(!pick[i][j])j--;
+   const pos=positions[sorted[i-1].s.id];pos.row=g.base+j-1;pos.y=slotY(pos.row);j--;
+  }
+ }
+ for(let pass=0;pass<12;pass++){
+  const ordered=pass%2?columnGroups.slice().reverse():columnGroups;
+  for(const g of ordered)arrange(g);
+ }
+ const height=TOP+totalSlots*ROW+18;
+ const width=xStart+8;
+ return{width,height,stages,stageGeometry,positions,links,nodeWidth:NODE_W,nodeHeight:NODE_H,headerHeight:HEADER_H,stageWidth:null,totalColumns:columns};
 }
-function path(a,b,edgeNumber=0){return routePoints(a,b,edgeNumber).map((v,i)=>`${i?'L':'M'} ${v[0].toFixed(1)} ${v[1].toFixed(1)}`).join(' ');}
+// Line-of-sight connections are truly straight. Only links blocked by an
+// unrelated card use a two-gutter detour through the nearest empty row gap.
+function segmentHitsRect(a,b,r){
+ const eps=2.2,x0=r.x+eps,x1=r.x+r.width-eps,y0=r.y+eps,y1=r.y+r.height-eps;
+ let t0=0,t1=1;const dx=b[0]-a[0],dy=b[1]-a[1];
+ for(const [p,q] of [[-dx,a[0]-x0],[dx,x1-a[0]],[-dy,a[1]-y0],[dy,y1-a[1]]]){
+  if(Math.abs(p)<1e-8){if(q<0)return false;continue;}
+  const t=q/p;if(p<0){t0=Math.max(t0,t);}else t1=Math.min(t1,t);
+  if(t0>t1)return false;
+ }
+ return true;
+}
+function routePoints(a,b,edgeNumber=0,obstacles=null){
+ const source=[a.x+a.width,a.y+a.height/2],target=[b.x,b.y+b.height/2];
+ if(!obstacles||!obstacles.some(r=>r!==a&&r!==b&&segmentHitsRect(source,target,r)))return[source,target];
+ const left=source[0]+Math.min(39,(target[0]-source[0])*.34);
+ const right=target[0]-Math.min(39,(target[0]-source[0])*.34);
+ // Every node is aligned to ROW; between rows there is a continuous corridor.
+ const ideal=(source[1]+target[1])/2;
+ const channelSlot=Math.max(0,Math.round((ideal-TOP-NODE_H-(ROW-NODE_H)/2)/ROW));
+ const y=TOP+channelSlot*ROW+NODE_H+(ROW-NODE_H)/2;
+ return[source,[left,source[1]],[left,y],[right,y],[right,target[1]],target];
+}
+function path(a,b,edgeNumber=0,obstacles=null){return routePoints(a,b,edgeNumber,obstacles).map((v,i)=>`${i?'L':'M'} ${v[0].toFixed(1)} ${v[1].toFixed(1)}`).join(' ');}
 function gem(m,key,color){let n=Number.isFinite(m?.[key])?m[key]:0;return `<span class="tech-gem ${n>=100?'bright':n===0?'empty':''}" style="--stone:${color}" title="${safe({basic:'基礎力',speed:'速度',application:'応用力',word:'文章題'}[key])} ${n}%"></span>`;}
 function render({skills,tracks=C.strands,statusOf,records={},selectedId,recommendations=[],activeRange='e1-3'}){
  mode=activeRange;
  const l=makeLayout(skills,tracks);canvasLayout=l;
  const selected=C.byId[selectedId];const related=new Set([selectedId,...(selected?.prereq||[]),...C.skills.filter(s=>s.prereq.includes(selectedId)).map(s=>s.id)]);
- const bands=l.stages.map((s,i)=>`<div class="era-band ${i%2?'era-even':'era-odd'}" style="left:${MARGIN+i*STAGE_W}px;width:${STAGE_W}px;height:${l.height}px"></div>`).join('');
- const years=l.stages.map((s,i)=>`<div class="grade-fixed" style="left:${(MARGIN+i*STAGE_W)*zoom}px;width:${STAGE_W*zoom}px"><span>${s.id.startsWith('E')?'ELEMENTARY':s.id.startsWith('J')?'JUNIOR HIGH':'HIGH SCHOOL'}</span><strong>${safe(s.title)}</strong><small>${skills.filter(sk=>sk.stage===s.id).length}技能</small></div>`).join('');
- const links=l.links.map((e,i)=>{const a=l.positions[e.from],b=l.positions[e.to],highlight=e.from===selectedId||e.to===selectedId;return `<path class="tech-link ${e.crossTrack?'cross-lane':''} ${highlight?'highlight':''}" data-source="${safe(e.from)}" data-target="${safe(e.to)}" marker-end="url(#${highlight?'tech-arrow-active':'tech-arrow'})" d="${path(a,b,i)}"/>`;}).join('');
+ const bands=l.stageGeometry.map((s,i)=>`<div class="era-band ${i%2?'era-even':'era-odd'}" style="left:${s.x}px;width:${s.width}px;height:${l.height}px"></div>`).join('');
+ const years=l.stageGeometry.map((s,i)=>`<div class="grade-fixed" style="left:${s.x*zoom}px;width:${s.width*zoom}px"><span>${s.id.startsWith('E')?'ELEMENTARY':s.id.startsWith('J')?'JUNIOR HIGH':'HIGH SCHOOL'}</span><strong>${safe(s.title)}</strong><small>${skills.filter(sk=>sk.stage===s.id).length}技能</small></div>`).join('');
+ const obstacles=Object.values(l.positions);
+ const links=l.links.map((e,i)=>{const a=l.positions[e.from],b=l.positions[e.to],highlight=e.from===selectedId||e.to===selectedId;return `<path class="tech-link ${e.crossTrack?'cross-lane':''} ${highlight?'highlight':''}" data-source="${safe(e.from)}" data-target="${safe(e.to)}" marker-end="url(#${highlight?'tech-arrow-active':'tech-arrow'})" d="${path(a,b,i,obstacles)}"/>`;}).join('');
  const nodes=skills.map(s=>{
   const p=l.positions[s.id],st=statusOf(s.id),isFocus=s.id===selectedId,near=related.has(s.id),track=tracks.find(t=>t.id===s.strand),record=records[s.id],playable=st!=='planned';
   return `<button class="tech-node ${st} ${isFocus?'selected':''} ${near?'related':''}" style="left:${p.x}px;top:${p.y}px;width:${NODE_W}px;height:${NODE_H}px;--track-color:${colors[s.strand]||'#7395ca'}" data-id="${safe(s.id)}" data-act="select" aria-pressed="${isFocus}" aria-haspopup="dialog" aria-label="${safe(C.stageById[s.stage]?.title)}・${safe(s.title)}・${statusText[st]||st}" title="${safe(s.title)}"><div class="tech-node-top"><span class="tech-node-meta">${safe(track?.icon||'◇')} ${safe(track?.title||s.strand)}</span><span class="tech-status ${st}">${statusText[st]||safe(st)}</span></div><span class="tech-node-name">${safe(s.title)}</span><span class="tech-node-bottom">${playable?`<span class="tech-gems">${gem(record?.metrics,'basic','#e15f6b')}${gem(record?.metrics,'speed','#5383df')}${gem(record?.metrics,'application','#21a57d')}${gem(record?.metrics,'word','#dca33f')}</span>`:'<span class="tech-plan-note">出題未実装</span>'}<span class="tech-reason">前提${s.prereq.length}件 ${recommendations.includes(s.id)?'◎':''}</span></span></button>`;
@@ -59,20 +151,22 @@ function render({skills,tracks=C.strands,statusOf,records={},selectedId,recommen
 function scrollEl(){return typeof document!=='undefined'?document.getElementById('tech-map-scroll'):null;}
 function memorize(){const el=scrollEl();if(el)lastPosition={left:el.scrollLeft,top:el.scrollTop,mode};}
 function syncGrades(){const el=scrollEl(),strip=document.querySelector('.tech-grade-strip');if(el&&strip)strip.style.transform=`translate3d(${-el.scrollLeft}px,0,0)`;}
-function setZoom(v){zoom=v;const canvas=document.querySelector('.tech-canvas'),strip=document.querySelector('.tech-grade-strip');if(canvas)canvas.style.zoom=zoom;if(strip&&canvasLayout){strip.style.width=`${canvasLayout.width*zoom}px`;strip.querySelectorAll('.grade-fixed').forEach((e,i)=>{e.style.left=`${(MARGIN+i*STAGE_W)*zoom}px`;e.style.width=`${STAGE_W*zoom}px`;});}const span=document.querySelector('.map-zoom-value');if(span)span.textContent=`${Math.round(zoom*100)}%`;syncGrades();}
-function fit(){
+function setZoom(v){zoom=v;const canvas=document.querySelector('.tech-canvas'),strip=document.querySelector('.tech-grade-strip');if(canvas)canvas.style.zoom=zoom;if(strip&&canvasLayout){strip.style.width=`${canvasLayout.width*zoom}px`;strip.querySelectorAll('.grade-fixed').forEach((e,i)=>{e.style.left=`${canvasLayout.stageGeometry[i].x*zoom}px`;e.style.width=`${canvasLayout.stageGeometry[i].width*zoom}px`;});}const span=document.querySelector('.map-zoom-value');if(span)span.textContent=`${Math.round(zoom*100)}%`;syncGrades();}
+function fit({resetPosition=true}={}){
  const el=scrollEl();if(!el||!canvasLayout)return;
  // Do not shrink all 285 nodes to fit the full height or width: this is a scrollable map.
  const stageCount=canvasLayout.stages.length;
  const best=stageCount<=3?Math.max(.86,Math.min(1.4,Math.floor(((el.clientWidth-16)/canvasLayout.width)*100)/100)):(el.clientWidth<700?.88:1);
- setZoom(best);el.scrollLeft=0;el.scrollTop=0;syncGrades();
+ const previous={left:el.scrollLeft,top:el.scrollTop};setZoom(best);
+ if(resetPosition){el.scrollLeft=0;el.scrollTop=0;}else{el.scrollLeft=previous.left;el.scrollTop=previous.top;}
+ syncGrades();
 }
 function previewEdges(id){
  document.querySelectorAll('.tech-link').forEach(link=>link.classList.toggle('hover',!!id&&(link.dataset.source===id||link.dataset.target===id)));
 }
 function restore(selectedId){const el=scrollEl();if(!el)return;if(observer)observer.disconnect();el.addEventListener('scroll',syncGrades,{passive:true});
  el.addEventListener('pointerover',event=>{const button=event.target.closest?.('.tech-node');if(button)previewEdges(button.dataset.id);});
- el.addEventListener('pointerout',event=>{const button=event.target.closest?.('.tech-node');if(button&&!button.contains(event.relatedTarget))previewEdges(null);});if(!manualZoom)fit();if(lastPosition&&lastPosition.mode===mode){el.scrollLeft=lastPosition.left;el.scrollTop=lastPosition.top;}else if(selectedId&&selectedId!==C.visibleSkills(mode)[0]?.id)focus(selectedId);syncGrades();if(typeof ResizeObserver!=='undefined'){observer=new ResizeObserver(()=>{if(!manualZoom)fit();else syncGrades();});observer.observe(document.getElementById('tech-map-viewport'));}}
+ el.addEventListener('pointerout',event=>{const button=event.target.closest?.('.tech-node');if(button&&!button.contains(event.relatedTarget))previewEdges(null);});if(!manualZoom)fit();if(lastPosition&&lastPosition.mode===mode){el.scrollLeft=lastPosition.left;el.scrollTop=lastPosition.top;}else if(selectedId&&selectedId!==C.visibleSkills(mode)[0]?.id)focus(selectedId);syncGrades();if(typeof ResizeObserver!=='undefined'){observer=new ResizeObserver(()=>{if(!manualZoom)fit({resetPosition:false});else syncGrades();});observer.observe(document.getElementById('tech-map-viewport'));}}
 function focus(id){const el=scrollEl(),node=[...document.querySelectorAll('.tech-node')].find(n=>n.dataset.id===id);if(!el||!node)return;el.scrollLeft=Math.max(0,node.offsetLeft*zoom-el.clientWidth*.32);el.scrollTop=Math.max(0,node.offsetTop*zoom-el.clientHeight*.32);memorize();syncGrades();}
 function adjustZoom(delta,selectedId){memorize();manualZoom=true;setZoom(Math.round(Math.min(1.5,Math.max(.72,zoom+delta))*100)/100);focus(selectedId);}
 function resetFit(){manualZoom=false;lastPosition=null;fit();}
