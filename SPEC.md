@@ -1,4 +1,4 @@
-# MathStudio 仕様書 v0.1.4（2026-10-24）
+# MathStudio 仕様書 v0.1.5（2026-10-24）
 
 ## 実行環境
 自宅PCのChrome/Edge向けオフラインHTML。JSONによる学習履歴のバックアップと復元。LocalStorageキーは `MathStudio.v0.1.local`、schema_version=1。旧版との互換性を維持。
