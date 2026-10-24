@@ -10,7 +10,7 @@ async def main():
   await page.set_content('<html><head><meta charset="utf-8"></head><body><div id="app"></div></body></html>')
   await page.add_style_tag(content=(R/'src/style.css').read_text(encoding='utf-8'))
   await page.evaluate("""() => {const state={schema_version:1,profile:{grade:4,month:10},records:{},recommendations:[],diagnosis:null,active:null,practice:null,lastResult:null,attemptsHistory:[],practiceHistory:[],nav:'tree',selectedId:'e1.number.add_single',createdAt:'2026-10-24T00:00:00Z',gradingRevision:2,treeRange:'e1-3'};const db={'MathStudio.v0.1.local':JSON.stringify(state)};Object.defineProperty(window,'localStorage',{configurable:true,value:{getItem:k=>db[k]||null,setItem:(k,v)=>db[k]=String(v)}});}""")
-  for name in ['skills.js','expression_grader.js','engine.js','catalog.js','tech_tree.js','app.js']:
+  for name in ['skills.js','expression_grader.js','engine.js','catalog.js','dependency_path.js','tech_tree.js','app.js']:
    await page.add_script_tag(content=(R/'src'/name).read_text(encoding='utf-8'))
   for width,height in [(1920,1080),(1440,900),(1280,720),(1024,768),(800,600)]:
    await page.set_viewport_size({'width':width,'height':height})
