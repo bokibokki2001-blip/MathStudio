@@ -1,5 +1,5 @@
 /* Offline MathStudio v0.1 core, no eval/new Function/network. UMD for Node and file://. */
-(function(root,factory){let deps=typeof module==='object'&&module.exports?{skills:require('./skills.js'),grader:require('./expression_grader.js')}:{skills:root.MathSkills,grader:root.MathStudioGrader};const v=factory(deps);if(typeof module==='object'&&module.exports)module.exports=v;else root.MathEngine=v;})(typeof globalThis==='object'?globalThis:this,function({skills:catalog,grader}){
+(function(root,factory){let deps=typeof module==='object'&&module.exports?{skills:require('./skills.js'),grader:require('./expression_grader.js'),expanded:require('./extended_questions.js')}:{skills:root.MathSkills,grader:root.MathStudioGrader,expanded:root.MathExtendedQuestions};const v=factory(deps);if(typeof module==='object'&&module.exports)module.exports=v;else root.MathEngine=v;})(typeof globalThis==='object'?globalThis:this,function({skills:catalog,grader,expanded}){
 const rand=(a,b,r=Math.random)=>Math.floor(r()*(b-a+1))+a,choose=(a,r=Math.random)=>a[rand(0,a.length-1,r)];
 const gcd=(a,b)=>b?gcd(b,a%b):Math.abs(a),lcm=(a,b)=>a*b/gcd(a,b);
 const fstr=(n,d)=>{const g=gcd(n,d);return d/g===1?String(n/g):`${n/g}/${d/g}`;};
@@ -8,7 +8,10 @@ const val=(text)=>{if(typeof text!=='string'||text.trim().length>240)return NaN;
   try{const x=walk(ast);return Number.isFinite(x)?x:NaN;}catch{return NaN;}};
 let seq=0;
 function makeQuestion(skill,category='basic',r=Math.random){
- const k=typeof skill==='string'?catalog.byId[skill].kind:skill.kind;
+ const item=typeof skill==='string'?catalog.byId[skill]:skill;
+ if(!item)throw Error('Unknown skill: '+skill);
+ const k=item.kind;
+ if(k==='extended')return expanded.makeQuestion(item,category,r);
  const a=rand(2,9,r),b=rand(2,9,r),c=rand(2,8,r),mode=category;
  let x,y,z,answer,prompt,unit='',formula=null,params=null,allowed_constants=[],hint='数量の関係を確認しよう。';
  // Generated question uses independent source quantities for symbolic word grading wherever possible.
