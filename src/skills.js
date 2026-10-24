@@ -1,4 +1,4 @@
-/* Working sample. IDs deliberately align with curriculum_285_v0.1.json; the links below are a prototype subgraph, NOT the complete 485-link DAG. */
+/* All 285 proposed curriculum skills have offline problem families; historical 15 prerequisites are preserved for legacy progress compatibility. */
 (function(root,factory){const v=factory();if(typeof module==='object'&&module.exports)module.exports=v;else root.MathSkills=v;})(typeof globalThis==='object'?globalThis:this,function(){
 const proposed=typeof module==='object'&&module.exports?require('./catalog.js'):globalThis.MathCatalog;
 const s=(id,title,grade,month,kind,track,prereq=[],note='')=>({id,title,grade,month,kind,track,prereq,note});
@@ -32,6 +32,16 @@ for(const id of EXTRA_IDS){
  // "extra" keeps placement diagnosis on its original four validated tracks.
  skills.push(s(id,item.title,grade,6,'extended','extra',[...item.prereq],item.area));
 }
+// v0.1.9: all 285 catalog skills are represented in the playable lesson catalog.
+// Historical 15 prerequisite definitions are left intact for backward compatibility.
+// New lessons use the proposed catalog's exact prerequisite DAG.
+const STAGE_GRADES={'E1':1,'E2':2,'E3':3,'E4':4,'E5':5,'E6':6,'J1':7,'J2':8,'J3':9,'H-I':10,'H-A':11,'H-II':12,'H-B':13,'H-III':14,'H-C':15};
+for(const item of proposed.skills){
+ if(playableIds.has(item.id))continue;
+ skills.push(s(item.id,item.title,STAGE_GRADES[item.stage]||6,6,'advanced','extra',[...item.prereq],item.area));
+}
+if(skills.length!==proposed.skills.length)throw Error('Lesson catalog and map differ in size');
+if(new Set(skills.map(x=>x.id)).size!==skills.length)throw Error('Duplicate lesson skill');
 const tracks=[{id:'add',title:'たし算',icon:'＋'},{id:'mul',title:'かけ算',icon:'×'},{id:'div',title:'わり算',icon:'÷'},{id:'frac',title:'分数',icon:'½'}];
 function completedBefore(skill,g,m){if(skill.grade<g)return true;if(skill.grade>g)return false;const i=x=>x>=4?x-4:x+8;return i(skill.month)<i(m);}
 function startingIndex(track,grade,month){const list=skills.filter(s=>s.track===track);let idx=list.findIndex(s=>!completedBefore(s,grade,month));if(idx<0)return list.length-1;return Math.max(0,idx-1);}
